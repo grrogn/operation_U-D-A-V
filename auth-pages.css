@@ -90,6 +90,7 @@ button{background:none;border:0;padding:0}
 .auth-status.is-visible{display:block}
 .auth-status.is-error{background:#fbe5e5;border:1px solid #fc6262;color:#9d1f1f}
 .auth-status.is-success{background:#eaf6ff;border:1px solid #5ab6f9;color:#165b93}
+.auth-status.is-pending{background:#fff6d8;border:1px solid #e1bf63;color:#8c6a12}
 .auth-switch{margin:18px 0 0;color:var(--muted);font-size:13px;text-align:center}
 .auth-side-card{padding:28px}
 .auth-badge{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:7px 12px;border-radius:999px;background:rgba(25,221,196,.09);color:var(--accent-dark);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}

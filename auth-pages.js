@@ -107,7 +107,6 @@ function initAuthForms() {
 }
 
 function handleRegister(form) {
-  var users = getStoredUsers();
   var name = readValue(form, "name");
   var email = normalizeEmail(readValue(form, "email"));
   var password = readValue(form, "password");
@@ -134,24 +133,13 @@ function handleRegister(form) {
     setStatus(form, "error", "Please accept the terms to continue.");
     return;
   }
-  if (users.some(function (user) { return user.email === email; })) {
-    setStatus(form, "error", "This email is already registered.");
-    return;
-  }
 
-  users.push({
-    name: name,
-    email: email,
-    password: password,
-    createdAt: new Date().toISOString()
-  });
-  saveStoredUsers(users);
-  setStatus(form, "success", "Account created. Redirecting you to sign in...");
+  setStatus(
+    form,
+    "pending",
+    "Your account request has been received and is now under review. We will activate it after processing."
+  );
   form.reset();
-
-  window.setTimeout(function () {
-    window.location.href = "login.html?registered=1&email=" + encodeURIComponent(email);
-  }, 900);
 }
 
 function handleLogin(form) {
@@ -236,7 +224,13 @@ function setStatus(form, type, message) {
     return;
   }
   box.textContent = message;
-  box.className = "auth-status is-visible " + (type === "success" ? "is-success" : "is-error");
+  var statusClass = "is-error";
+  if (type === "success") {
+    statusClass = "is-success";
+  } else if (type === "pending") {
+    statusClass = "is-pending";
+  }
+  box.className = "auth-status is-visible " + statusClass;
 }
 
 function readValue(form, name) {
