@@ -179,7 +179,7 @@ function handleLogin(form) {
   }
 
   try {
-    localStorage.setItem("auth_demo_session", JSON.stringify({
+    localStorage.setItem("site_auth_session", JSON.stringify({
       email: user.email,
       name: user.name,
       remember: Boolean(remember && remember.checked),
@@ -254,7 +254,7 @@ function isValidEmail(value) {
 
 function getStoredUsers() {
   try {
-    var raw = localStorage.getItem("auth_demo_users");
+    var raw = localStorage.getItem("site_auth_users");
     var parsed = raw ? JSON.parse(raw) : [];
     return Array.isArray(parsed) ? parsed : [];
   } catch (error) {
@@ -263,5 +263,5 @@ function getStoredUsers() {
 }
 
 function saveStoredUsers(users) {
-  localStorage.setItem("auth_demo_users", JSON.stringify(users));
+  localStorage.setItem("site_auth_users", JSON.stringify(users));
 }
