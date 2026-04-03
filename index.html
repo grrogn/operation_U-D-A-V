@@ -494,6 +494,34 @@ display:none;
 .header-menu{
 float:left
 }
+.header-signin-link{
+position:absolute;
+top:0;
+right:0;
+display:block;
+width:96px;
+height:70px;
+background-color:rgba(255,255,255,0.05);
+color:#1f2024;
+font-size:13px;
+font-weight:600;
+line-height:70px;
+text-align:center;
+text-decoration:none;
+z-index:20;
+transition:background-color .17s ease,color .17s ease
+}
+.header-signin-link:link,
+.header-signin-link:visited,
+.header-signin-link:hover,
+.header-signin-link:active{
+color:#1f2024;
+text-decoration:none
+}
+.header-signin-link:hover{
+background-color:rgba(255,255,255,0.12);
+color:#1f2024
+}
 #main-menu .widget,#main-menu .widget > h3{
 display:none
 }
@@ -601,7 +629,6 @@ transition:all .17s ease
 .show-search,.hide-search{
 position:absolute;
 top:0;
-right:0;
 display:block;
 width:58px;
 height:70px;
@@ -614,6 +641,12 @@ font-weight:400;
 text-align:center;
 cursor:pointer;
 transition:color .17s ease
+}
+.show-search{
+right:96px
+}
+.hide-search{
+right:0
 }
 .show-search:hover,.hide-search:hover{
 color:#1f2024
@@ -629,9 +662,11 @@ font-family:FontAwesome
 #nav-search{
 display:none;
 position:absolute;
-left:0;
+right:96px;
 top:0;
-width:100%;
+left:0;
+width:auto;
+min-width:0;
 height:70px;
 z-index:99;
 background-color:#ffffff;
@@ -639,11 +674,12 @@ box-sizing:border-box;
 padding:0
 }
 #nav-search .search-form{
+position:relative;
 width:100%;
 height:70px;
 background-color:rgba(0,0,0,0);
 line-height:70px;
-overflow:hidden;
+overflow:visible;
 padding:0
 }
 #nav-search .search-input{
@@ -662,6 +698,50 @@ border:0
 #nav-search .search-input:focus{
 color:#1f2024;
 outline:none
+}
+.search-suggestions{
+display:none;
+position:absolute;
+top:62px;
+left:0;
+right:0;
+background-color:#ffffff;
+border:1px solid #eeeeee;
+box-shadow:0 16px 35px rgba(0,0,0,0.08);
+padding:8px 0;
+z-index:120
+}
+.search-suggestions.is-visible{
+display:block
+}
+.search-suggestion-item{
+display:block;
+padding:10px 18px;
+text-decoration:none;
+transition:background-color .17s ease
+}
+.search-suggestion-item:hover{
+background-color:#f8f8f8
+}
+.search-suggestion-title{
+display:block;
+color:#1f2024;
+font-size:13px;
+font-weight:600;
+line-height:1.5
+}
+.search-suggestion-meta{
+display:block;
+color:#7a7a7a;
+font-size:12px;
+line-height:1.5;
+margin-top:2px
+}
+.search-suggestion-empty{
+padding:10px 18px;
+color:#7a7a7a;
+font-size:13px;
+line-height:1.6
 }
 .mobile-menu-toggle{
 display:none;
@@ -2932,8 +3012,20 @@ margin:0
 .header-menu{
 display:none
 }
+.header-signin-link{
+display:none
+}
 .mobile-menu-wrap,.mobile-menu-toggle{
 display:block
+}
+.show-search{
+right:0
+}
+#nav-search{
+left:0;
+right:0;
+width:100%;
+min-width:0
 }
 #nav-search .search-input{
 padding:0 58px 0 20px
@@ -3632,11 +3724,13 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 </div></div>
 </div>
 <div id="nav-search">
-<form action="https://kate-soratemplates.blogspot.com/search" class="search-form" role="search">
-<input autocomplete="off" class="search-input" name="q" placeholder="Search the site" type="search" value="">
+<form action="#" class="search-form" data-post-search-form role="search">
+<input autocomplete="off" class="search-input" data-post-search-input name="q" placeholder="Search posts" type="search" value="">
+<div class="search-suggestions" data-post-search-results></div>
 <span class="hide-search"></span>
 </form>
 </div>
+<a class="header-signin-link" href="login.html">Sign in</a>
 <span class="show-search"></span>
 <span class="mobile-menu-toggle"></span>
 </div>
@@ -4110,6 +4204,7 @@ Footer Menu Widget
 //]]>
 </script>
 <!-- Site Functions JS -->
+<script src="post-search.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
   var body = document.body;

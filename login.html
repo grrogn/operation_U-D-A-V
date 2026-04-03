@@ -50,11 +50,13 @@
           </nav>
         </div>
         <div id="nav-search">
-          <form action="#" class="search-form" role="search">
-            <input autocomplete="off" class="search-input" name="q" placeholder="Search this site" type="search">
+          <form action="#" class="search-form" data-post-search-form role="search">
+            <input autocomplete="off" class="search-input" data-post-search-input name="q" placeholder="Search posts" type="search">
+            <div class="search-suggestions" data-post-search-results></div>
             <span class="hide-search"></span>
           </form>
         </div>
+        <a class="header-signin-link" href="login.html">Sign in</a>
         <span class="show-search"></span>
         <span class="mobile-menu-toggle"></span>
       </div>
@@ -142,6 +144,7 @@
   </div>
 
   <div class="back-top" title="Back to Top"></div>
+  <script src="post-search.js"></script>
   <script src="auth-pages.js"></script>
 </body>
 </html>
