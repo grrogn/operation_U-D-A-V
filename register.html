@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Poppins:400,600,700" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="auth-pages.css">
+</head>
+<body class="auth-page">
+  <div id="outer-wrapper">
+    <div id="header-wrap">
+      <div class="mobile-menu-wrap">
+        <div class="mobile-menu">
+          <ul id="main-menu-nav" role="menubar">
+            <li><a href="index.html" role="menuitem">Home</a></li>
+            <li><a href="about.html" role="menuitem">About</a></li>
+            <li><a href="contactus.html" role="menuitem">Contact Us</a></li>
+            <li class="has-sub">
+              <a href="#" role="menuitem">Account</a>
+              <ul class="sub-menu m-sub">
+                <li><a href="login.html" role="menuitem">Sign In</a></li>
+                <li><a href="register.html" role="menuitem">Create Account</a></li>
+              </ul>
+              <div class="submenu-toggle"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="header-logo">
+          <div class="main-logo">
+            <a class="header-image-wrapper" href="index.html">
+              <img alt="Kate" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhhTQYRE8H5fUkmMT17hRa2gfoFZIUWtJh08yFyhwrogJ1d4EgpgVu1fX4CCEAvKbBzcUDRigfteKq1sXYVa9oxLY8bLQ_UFDfoXpHcIth5VVIgsJrKuVGV3cn4T5MrXDmlYqyFDU3GNmMt/s1600/Kate-logo.png">
+            </a>
+          </div>
+        </div>
+        <div class="header-menu">
+          <nav id="main-menu">
+            <ul id="main-menu-nav" role="menubar">
+              <li><a href="index.html" role="menuitem">Home</a></li>
+              <li><a href="about.html" role="menuitem">About</a></li>
+              <li><a href="contactus.html" role="menuitem">Contact Us</a></li>
+              <li><a href="login.html" role="menuitem">Sign In</a></li>
+              <li><a class="auth-nav-link is-active" href="register.html" role="menuitem">Create Account</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div id="nav-search">
+          <form action="#" class="search-form" role="search">
+            <input autocomplete="off" class="search-input" name="q" placeholder="Search this site" type="search">
+            <span class="hide-search"></span>
+          </form>
+        </div>
+        <span class="show-search"></span>
+        <span class="mobile-menu-toggle"></span>
+      </div>
+    </div>
+
+    <div class="row" id="content-wrapper">
+      <div class="container">
+        <div id="main-wrapper">
+          <section class="auth-hero">
+            <span class="auth-kicker">New Account</span>
+            <h1>Create an account that matches the style of the whole site.</h1>
+            <p>This page keeps the same mood, spacing and colors while giving you a clean registration flow without social sign-in or third-party providers.</p>
+          </section>
+
+          <div class="auth-shell">
+            <section class="auth-card">
+              <div class="widget-title">
+                <h3>Create Account</h3>
+              </div>
+              <p class="auth-form-copy">Classic account creation only: name, email and password.</p>
+              <div class="contact-form-widget">
+                <form data-auth-form="register" novalidate>
+                  <div class="auth-status" aria-live="polite"></div>
+                  <div class="auth-field-row">
+                    <input class="contact-form-name" name="name" placeholder="Full name" type="text" autocomplete="name">
+                    <input class="contact-form-email" name="email" placeholder="Email address" type="email" autocomplete="email">
+                  </div>
+                  <div class="auth-field-row">
+                    <div class="auth-password-wrap">
+                      <input class="contact-form-email" id="register-password" name="password" placeholder="Create password" type="password" autocomplete="new-password">
+                      <button class="auth-password-toggle" type="button" data-password-toggle="#register-password" aria-label="Show password"></button>
+                    </div>
+                    <div class="auth-password-wrap">
+                      <input class="contact-form-email" id="register-confirm-password" name="confirm_password" placeholder="Confirm password" type="password" autocomplete="new-password">
+                      <button class="auth-password-toggle" type="button" data-password-toggle="#register-confirm-password" aria-label="Show password"></button>
+                    </div>
+                  </div>
+                  <div class="auth-form-meta">
+                    <label class="auth-check">
+                      <input type="checkbox" name="terms">
+                      <span>I agree to the basic site terms</span>
+                    </label>
+                    <a class="auth-inline-link" href="login.html">Already registered?</a>
+                  </div>
+                  <button class="contact-form-button-submit" type="submit">Create Account</button>
+                </form>
+                <p class="auth-switch">Already have an account? <a href="login.html">Sign in here</a>.</p>
+              </div>
+            </section>
+
+            <aside class="auth-side-card">
+              <span class="auth-badge">Theme Match</span>
+              <h2>Why this fits the project</h2>
+              <p>The page reuses the same visual language as the current layout, so it feels native instead of pasted in from another template.</p>
+              <ul class="auth-points">
+                <li>Matching header, footer and content width.</li>
+                <li>Theme-colored buttons and familiar input styling.</li>
+                <li>All behavior lives in a separate JavaScript file.</li>
+              </ul>
+              <div class="auth-mini-card">
+                <strong>Demo behavior</strong>
+                <p>After registration the account is saved in local browser storage and the user is redirected to the sign-in page with the email prefilled.</p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-wrapper">
+      <div class="primary-footer">
+        <div class="container row">
+          <div id="footer-about-area">
+            <div class="widget">
+              <a class="footer-logo" href="index.html">
+                <img alt="Kate" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhDG_g30ix5KPdrrpKrnQLcsu7ZleO6gvu2HoEyFZhaTK9qyPuVWhle65TOiVJWdX-8h-IiiA0usmMao8k9WPtLMjuU__kTY8wqEljVzAOA3pPBD_KntWv30BueePB6Ig7vEMgFoe5lIIbi/">
+              </a>
+              <p class="image-caption">A lightweight registration page that fits the project visually and stays simple enough to replace with real backend auth later.</p>
+            </div>
+          </div>
+        </div>
+        <div class="container row">
+          <div id="menu-footer">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contactus.html">Contact Us</a></li>
+              <li><a href="login.html">Sign In</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-top" title="Back to Top"></div>
+  <script src="auth-pages.js"></script>
+</body>
+</html>
