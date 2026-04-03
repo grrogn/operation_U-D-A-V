@@ -1,6 +1,6 @@
 ﻿<html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
-<title>Parse Application Logs with Python and Build a Daily Report</title>
+<title>Import CSV Files with Python and Catch Bad Rows Early</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <!-- Chrome, Firefox OS and Opera -->
 <meta content="#f7f7ff" name="theme-color">
@@ -8,18 +8,18 @@
 <meta content="#f7f7ff" name="msapplication-navbutton-color">
 <meta content="blogger" name="generator">
 <link href="https://kate-soratemplates.blogspot.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="post4.html" rel="canonical">
+<link href="post6.html" rel="canonical">
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
 <link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
 
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
-<link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg" rel="image_src">
-<meta content="post4.html" property="og:url">
-<meta content="Parse Application Logs with Python and Build a Daily Report" property="og:title">
-<meta content="A practical Python guide to parsing application logs, grouping failures and turning raw events into a readable daily report." property="og:description">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w1200-h630-p-k-no-nu/22.jpg" property="og:image">
+<link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/s16000/26.jpg" rel="image_src">
+<meta content="post6.html" property="og:url">
+<meta content="Import CSV Files with Python and Catch Bad Rows Early" property="og:title">
+<meta content="A practical CSV import article about validating headers, normalizing rows and turning broken data into useful feedback." property="og:description">
+<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/w1200-h630-p-k-no-nu/26.jpg" property="og:image">
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -3682,11 +3682,11 @@ Ad Code
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "post4.html"
+    "@id": "post6.html"
   },
-  "headline": "Parse Application Logs with Python and Build a Daily Report","description": "A practical Python guide to parsing application logs, grouping failures and turning raw events into a readable daily report.","datePublished": "2026-04-03T09:30:00+03:00",
-  "dateModified": "2026-04-03T09:30:00+03:00","image": {
-    "@type": "ImageObject","url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w1200-h630-p-k-no-nu/22.jpg",
+  "headline": "Import CSV Files with Python and Catch Bad Rows Early","description": "A practical CSV import article about validating headers, normalizing rows and turning broken data into useful feedback.","datePublished": "2026-04-04T14:20:00+03:00",
+  "dateModified": "2026-04-04T14:20:00+03:00","image": {
+    "@type": "ImageObject","url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/w1200-h630-p-k-no-nu/26.jpg",
     "height": 630,
     "width": 1200},"publisher": {
     "@type": "Organization",
@@ -3702,7 +3702,7 @@ Ad Code
     "name": "Kate Studio"
   }
 }</script>
-<nav id="breadcrumb"><a href="index.html">Home</a><em class="delimiter"></em><a class="b-label" href="index.html">Automation</a><em class="delimiter"></em><span class="current">Parse Application Logs with Python and Build a Daily Report</span></nav>
+<nav id="breadcrumb"><a href="index.html">Home</a><em class="delimiter"></em><a class="b-label" href="index.html">Data</a><em class="delimiter"></em><span class="current">Import CSV Files with Python and Catch Bad Rows Early</span></nav>
 <script type="application/ld+json">
               {
                 "@context": "http://schema.org",
@@ -3727,106 +3727,103 @@ Ad Code
                   "position": 3,
                   "item": {
                     "name": "Parse Application Logs with Python and Build a Daily Report",
-                    "@id": "post4.html"
+                    "@id": "post6.html"
                   }
                 }]
               }
             </script>
 <h1 class="post-title">
-Parse Application Logs with Python and Build a Daily Report
+Import CSV Files with Python and Catch Bad Rows Early
 </h1>
 <div class="post-meta">
 <span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2026-04-03T09:30:00+03:00">April 3, 2026</span>
+<span class="post-date published" datetime="2026-04-04T14:20:00+03:00">April 4, 2026</span>
 </div>
 <div class="post-body post-content" id="post-body">
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="Application log report cover" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg" title="Application log report cover"></td>
+<td style="text-align:center;"><img alt="CSV import cover" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/s16000/26.jpg" title="CSV import cover"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: dark dashboard with grouped error counts, timestamps and a small daily report panel.</td>
+<td class="tr-caption">Suggested cover: spreadsheet preview, highlighted bad rows and a small validation summary beside the import tool.</td>
 </tr>
 </tbody>
 </table>
-<p>Raw application logs are useful only until they become noisy. After that, every urgent fix starts with the same slow ritual: scroll through timestamps, spot a few repeated exceptions, and manually summarize what went wrong for the rest of the team.</p>
-<p>A short Python parser can turn that chaos into a daily report. Instead of reading thousands of lines one by one, you can convert each line into structured data, count the important failures, and produce a compact summary that points directly at the services that need attention.</p>
-<p>A few plain terms make the design easier to reason about. A <strong>regular expression</strong> describes the pattern of a log line. A <strong>dataclass</strong> is a compact way to store parsed fields like timestamp or service. A <strong>Counter</strong> tallies repeated values without extra bookkeeping code.</p>
-<table><thead><tr><th>Term</th><th>What it means in this script</th><th>Why it helps</th></tr></thead><tbody><tr><td>Regular expression</td><td>A pattern that matches one raw log line.</td><td>It extracts consistent fields without manual slicing.</td></tr><tr><td>Dataclass</td><td>A typed container for the parsed result.</td><td>It keeps later steps readable because every row has the same shape.</td></tr><tr><td>Counter</td><td>A dictionary specialized for counting.</td><td>It makes repeated errors and warning totals easy to summarize.</td></tr></tbody></table>
-<p>The first step is to define a parser that understands one line of your logs. A regular expression is often enough if the format is stable, and a small dataclass gives the rest of the code a clean object to work with.</p>
+<p>CSV imports look simple because the file format is plain text, but real files are rarely clean. Headers change, dates arrive in mixed formats, and one broken row can quietly poison a long batch job if the script never checks what it read.</p>
+<p>Python is a strong fit for this work because the standard library already includes a dependable CSV reader. The hard part is not opening the file. The hard part is defining what a valid row looks like and turning bad rows into feedback that a teammate can actually use.</p>
+<table><thead><tr><th>Column</th><th>Expected type</th><th>Example value</th><th>Why validate it</th></tr></thead><tbody><tr><td>invoice_id</td><td>Text</td><td><code>INV-1042</code></td><td>Missing IDs make reconciliation and support much harder.</td></tr><tr><td>amount</td><td>Decimal number</td><td><code>149.90</code></td><td>Currency values should not silently become malformed strings.</td></tr><tr><td>issued_at</td><td>Date</td><td><code>2026-04-04</code></td><td>Mixed formats create reporting mistakes later.</td></tr><tr><td>customer_email</td><td>Text</td><td><code>ops@example.com</code></td><td>Basic shape checks catch copy-paste errors early.</td></tr></tbody></table>
+<p>A useful import script usually begins with structural checks: can the file be opened, do the expected headers exist, and are the column names spelled exactly the way the business process expects? Those checks are boring, but they catch the easiest failures with the clearest messages.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">import csv
+
+REQUIRED_HEADERS = {&quot;invoice_id&quot;, &quot;amount&quot;, &quot;issued_at&quot;, &quot;customer_email&quot;}
+
+def read_rows(path: str) -&gt; list[dict[str, str]]:
+    with open(path, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames is None:
+            raise ValueError(&quot;CSV file has no header row&quot;)
+
+        missing = REQUIRED_HEADERS.difference(reader.fieldnames)
+        if missing:
+            raise ValueError(&quot;Missing columns: &quot; + &quot;, &quot;.join(sorted(missing)))
+
+        return list(reader)</pre>
+</div><p style="margin-top:-6px;margin-bottom:20px;color:#7b8794;font-size:13px;">Code note: header validation is worth doing before row parsing, because a structural error should stop the whole import immediately.</p>
+<p>Once the shape of the file is trusted, row normalization becomes the main job. This is where you trim whitespace, convert numbers, parse dates and attach row numbers to any errors so the feedback points to a fixable place in the source file.</p>
 <div class="is-dark">
 <pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">from dataclasses import dataclass
 from datetime import datetime
-import re
-
-LOG_PATTERN = re.compile(
-    r&quot;(?P&lt;ts&gt;[^ ]+) (?P&lt;level&gt;INFO|WARNING|ERROR) (?P&lt;service&gt;[a-z_]+) - (?P&lt;message&gt;.+)&quot;
-)
+from decimal import Decimal, InvalidOperation
 
 @dataclass(frozen=True)
-class LogEntry:
-    timestamp: datetime
-    level: str
-    service: str
-    message: str</pre>
-</div><p style="margin-top:-6px;margin-bottom:20px;color:#7b8794;font-size:13px;">Code note: parse only the fields you plan to use in the report, because every extra group adds more maintenance later.</p>
-<p>After the parser is in place, the report logic becomes straightforward. We only keep valid rows, then group by severity and service. This is where <strong>Counter</strong> and <strong>defaultdict</strong> do the heavy lifting without making the script feel complicated.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">from collections import Counter, defaultdict
+class InvoiceRow:
+    invoice_id: str
+    amount: Decimal
+    issued_at: datetime
+    customer_email: str
 
-def collect_stats(entries: list[LogEntry]) -&gt; dict[str, Counter]:
-    stats = defaultdict(Counter)
-    for entry in entries:
-        stats[entry.service][entry.level] += 1
-    return stats
-
-def top_errors(entries: list[LogEntry]) -&gt; list[tuple[str, int]]:
-    messages = [entry.message for entry in entries if entry.level == &quot;ERROR&quot;]
-    return Counter(messages).most_common(5)</pre>
+def normalize_row(row: dict[str, str], row_number: int) -&gt; InvoiceRow:
+    try:
+        return InvoiceRow(
+            invoice_id=row[&quot;invoice_id&quot;].strip(),
+            amount=Decimal(row[&quot;amount&quot;].strip()),
+            issued_at=datetime.strptime(row[&quot;issued_at&quot;].strip(), &quot;%Y-%m-%d&quot;),
+            customer_email=row[&quot;customer_email&quot;].strip().lower(),
+        )
+    except (KeyError, InvalidOperation, ValueError) as exc:
+        raise ValueError(f&quot;Row {row_number}: {exc}&quot;) from exc</pre>
 </div>
-<p>The final step is presentation. The easiest version is plain Markdown or HTML generated by the script itself. That keeps the pipeline simple and makes it easy to send the report to chat, email, or an internal dashboard later.</p>
-<table><thead><tr><th>Section</th><th>Purpose</th><th>Typical reader</th></tr></thead><tbody><tr><td>Service totals</td><td>Shows which service is noisiest today.</td><td>Developers and on-call engineers.</td></tr><tr><td>Top repeated errors</td><td>Highlights the messages worth investigating first.</td><td>Anyone triaging an incident or reviewing a failed deploy.</td></tr><tr><td>Warnings and info</td><td>Adds context without drowning the report in detail.</td><td>Teammates who need trend data, not raw logs.</td></tr></tbody></table>
-<div class="is-dark">
-<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">def render_report(stats: dict[str, Counter], errors: list[tuple[str, int]]) -&gt; str:
-    lines = [&quot;# Daily log report&quot;, &quot;&quot;]
-    for service, counter in sorted(stats.items()):
-        lines.append(f&quot;## {service}&quot;)
-        lines.append(f&quot;- errors: {counter[&#39;ERROR&#39;]}&quot;)
-        lines.append(f&quot;- warnings: {counter[&#39;WARNING&#39;]}&quot;)
-        lines.append(f&quot;- info: {counter[&#39;INFO&#39;]}&quot;)
-        lines.append(&quot;&quot;)
-
-    lines.append(&quot;## Top repeated errors&quot;)
-    lines.extend([f&quot;- {message} ({count})&quot; for message, count in errors])
-    return &quot;\n&quot;.join(lines)</pre>
-</div>
-<ul>
-<li>Discard malformed lines early so the report stays trustworthy.</li>
-<li>Separate parsing from aggregation to keep tests short and readable.</li>
-<li>Publish only the counts and messages that help someone act quickly.</li>
-</ul>
-<p>Python is especially good at this kind of utility work. A few standard-library tools turn raw logs into something a team can actually use in a standup or incident review.</p>
+<table><thead><tr><th>Failure type</th><th>What it usually means</th><th>Helpful message style</th></tr></thead><tbody><tr><td>Missing header</td><td>The export format changed or the wrong file was uploaded.</td><td>Stop the import and name the missing columns.</td></tr><tr><td>Invalid amount</td><td>A currency field contains text or unexpected symbols.</td><td>Include the row number and the bad cell value.</td></tr><tr><td>Invalid date</td><td>The file mixes formats like <code>04/04/2026</code> and <code>2026-04-04</code>.</td><td>Tell the user which format is expected.</td></tr><tr><td>Blank required field</td><td>The source system exported incomplete records.</td><td>Record the row and column so someone can repair the source data.</td></tr></tbody></table>
+<p>From there the import flow becomes very readable: read the file, validate the headers, normalize each row, separate valid records from errors, and only then write to the database or report file.</p>
+<ol>
+<li>Read and validate the header before you touch business logic.</li>
+<li>Normalize every cell into a predictable Python type.</li>
+<li>Collect row-level errors instead of crashing on the first bad record.</li>
+<li>Write successful rows only after you know which records passed validation.</li>
+</ol>
+<p>That extra structure makes CSV work much less stressful. Instead of telling a teammate that the import did not work, the script can say exactly which rows failed and why, which is what people usually need in practice.</p>
 </div>
 <div class="post-labels">
 <div class="label-head Label">
-<a class="label-link" href="index.html" rel="tag">Automation</a>
+<a class="label-link" href="index.html" rel="tag">Data</a>
 </div>
 </div>
 </div>
 <div class="post-footer">
 <ul class="post-nav">
 <li class="post-next">
-<a class="next-post-link" href="post3.html" id="Blog1_blog-pager-newer-link" rel="next">
+<a class="next-post-link" href="post7.html" id="Blog1_blog-pager-newer-link" rel="next">
 <div class="post-nav-inner"><span>Newer</span><p>
-Build a Tiny Python Task Runner for Repetitive Scripts
+Design a Small JSON Settings Loader with Defaults and Overrides
 </p></div>
 </a>
 </li>
 <li class="post-prev">
-<a class="prev-post-link" href="index.html" id="Blog1_blog-pager-older-link" rel="previous">
+<a class="prev-post-link" href="post5.html" id="Blog1_blog-pager-older-link" rel="previous">
 <div class="post-nav-inner"><span>Older</span><p>
-Back to the main feed
+Validate Environment Variables in Python Before the App Starts
 </p></div>
 </a>
 </li>

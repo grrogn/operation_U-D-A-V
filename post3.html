@@ -1,4 +1,4 @@
-<html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
+﻿<html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
 <title>Build a Tiny Python Task Runner for Repetitive Scripts</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
@@ -3360,10 +3360,13 @@ height:60px
     width:100%;
     overflow-x:auto;
     text-align:left;
-    margin:0;
+    margin:24px 0;
     border-collapse:collapse;
     border:1px solid #161619
-}
+ }
+ .post-body > table:first-child{
+    margin-top:0!important
+ }
  
  .post-body table td,.post-body table th{
     padding:7px 15px;
@@ -3375,6 +3378,9 @@ height:60px
     text-align:left;
     vertical-align:bottom
 }
+ table.tr-caption-container{
+    margin:24px auto!important
+ }
  table.tr-caption-container,table.tr-caption-container td,table.tr-caption-container th{
     line-height:1;
     padding:0;
@@ -3713,14 +3719,14 @@ Ad Code
                   "@type": "ListItem",
                   "position": 2,
                   "item": {
-                    "name": "Python",
+                    "name": "Automation",
                     "@id": "index.html"
                   }
                 },{
                   "@type": "ListItem",
                   "position": 3,
                   "item": {
-                    "name": "Build a Tiny Python Task Runner for Repetitive Scripts",
+                    "name": "Parse Application Logs with Python and Build a Daily Report",
                     "@id": "post3.html"
                   }
                 }]
@@ -3734,81 +3740,72 @@ Build a Tiny Python Task Runner for Repetitive Scripts
 <span class="post-date published" datetime="2026-04-04T10:00:00+03:00">April 4, 2026</span>
 </div>
 <div class="post-body post-content" id="post-body">
-<p>Small Python projects often collect a surprising amount of repeated terminal work. One person runs tests with one command, another person copies a long lint command from chat, and someone else keeps a private shell alias that nobody remembers two weeks later.</p>
-<p>A tiny task runner fixes that problem without forcing the project into a heavy build system. The goal is simple: keep common commands in one readable Python file, give them short names, and make the workflow easy to share with the next person who joins the repository.</p>
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="Python task runner placeholder" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/s16000/24.jpg" title="Python task runner placeholder"></td>
+<td style="text-align:center;"><img alt="Python task runner cover" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/s16000/24.jpg" title="Python task runner cover"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested image: editor and terminal showing a compact Python CLI that runs named automation tasks.</td>
+<td class="tr-caption">Suggested cover: editor and terminal showing a compact Python CLI with named automation tasks.</td>
 </tr>
 </tbody>
 </table>
+<p>Small Python projects often collect a surprising amount of repeated terminal work. One person runs tests with one command, another person copies a long lint command from chat, and someone else keeps a private shell alias that nobody remembers two weeks later.</p>
+<p>A tiny task runner fixes that problem without forcing the project into a heavy build system. The goal is simple: keep common commands in one readable Python file, give them short names, and make the workflow easy to share with the next person who joins the repository.</p>
+<p>Before writing the helper, it helps to name a few terms. <strong>argparse</strong> is the part of the standard library that turns command-line arguments into Python values. The <strong>current working directory</strong> is the folder where the command is executed. An <strong>exit code</strong> is the status number returned to the shell, and it tells CI or the next script whether the step passed or failed.</p>
+<table><thead><tr><th>Term</th><th>Plain description</th><th>Why it matters</th></tr></thead><tbody><tr><td>argparse</td><td>Reads values from the terminal like <code>lint</code> or <code>tests</code>.</td><td>It gives your script a predictable interface instead of manual string parsing.</td></tr><tr><td>Working directory</td><td>The folder used when the child command starts.</td><td>Relative paths only work if the runner starts in the right place.</td></tr><tr><td>Exit code</td><td>A small status number returned by a process.</td><td>Passing the real exit code through keeps local runs and CI behavior aligned.</td></tr></tbody></table>
 <p>The smallest useful version starts with a dictionary of commands. It does not need plugins, configuration files or background magic. It only needs a clear list of names and a small command-line interface built with <strong>argparse</strong>.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">pathlib</span> <span style="color:#f472b6;">import</span> Path
-<span style="color:#f472b6;">import</span> <span style="color:#93c5fd;">argparse</span>
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">from pathlib import Path
+import argparse
 
 ROOT = Path(__file__).resolve().parent
 
 TASKS = {
-    <span style="color:#86efac;">"lint"</span>: [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"ruff"</span>, <span style="color:#86efac;">"check"</span>, <span style="color:#86efac;">"."</span>],
-    <span style="color:#86efac;">"tests"</span>: [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"pytest"</span>, <span style="color:#86efac;">"-q"</span>],
-    <span style="color:#86efac;">"report"</span>: [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"scripts/build_report.py"</span>],
+    &quot;lint&quot;: [&quot;python&quot;, &quot;-m&quot;, &quot;ruff&quot;, &quot;check&quot;, &quot;.&quot;],
+    &quot;tests&quot;: [&quot;python&quot;, &quot;-m&quot;, &quot;pytest&quot;, &quot;-q&quot;],
+    &quot;report&quot;: [&quot;python&quot;, &quot;scripts/build_report.py&quot;],
 }
 
-parser = argparse.ArgumentParser(description=<span style="color:#86efac;">"Project helper"</span>)
-parser.add_argument(<span style="color:#86efac;">"task"</span>, choices=sorted(TASKS))
+parser = argparse.ArgumentParser(description=&quot;Project helper&quot;)
+parser.add_argument(&quot;task&quot;, choices=sorted(TASKS))
 args = parser.parse_args()</pre>
-</div>
+</div><p style="margin-top:-6px;margin-bottom:20px;color:#7b8794;font-size:13px;">Code note: the first version only maps memorable task names to the real commands the project already uses.</p>
 <p>That already improves the day-to-day experience. A teammate can now type one memorable command instead of searching for the exact test invocation or the correct path to a helper script hidden three folders deep.</p>
 <p>The execution layer should stay boring on purpose. Print the command, run it, and return the real exit code. That keeps the tool transparent, which matters more than cleverness when a build fails on a busy day.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">import</span> <span style="color:#93c5fd;">subprocess</span>
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">import subprocess
 
-<span style="color:#f472b6;">def</span> <span style="color:#f8fafc;">run_task</span>(name: <span style="color:#93c5fd;">str</span>) -&gt; <span style="color:#93c5fd;">int</span>:
+def run_task(name: str) -&gt; int:
     command = TASKS[name]
-    print(<span style="color:#86efac;">f"$ {' '.join(command)}"</span>)
+    print(&quot;Running:&quot;, &quot; &quot;.join(command))
     completed = subprocess.run(command, cwd=ROOT)
-    <span style="color:#f472b6;">return</span> completed.returncode
+    return completed.returncode
 
-<span style="color:#f472b6;">if</span> __name__ == <span style="color:#86efac;">"__main__"</span>:
-    <span style="color:#f472b6;">raise</span> SystemExit(run_task(args.task))</pre>
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(run_task(args.task))</pre>
 </div>
 <blockquote class="tr_bq">If a script is run more than twice a week, it is probably worth naming, documenting and versioning.</blockquote>
 <p>Once the runner proves useful, it helps to add a little metadata beside every task. A description field makes the tool feel more intentional and gives you enough structure to render a help screen, build documentation, or expose the same commands in a lightweight admin page later.</p>
-<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
-<tbody>
-<tr>
-<td style="text-align:center;"><img alt="Python automation placeholder" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg" title="Python automation placeholder"></td>
-</tr>
-<tr>
-<td class="tr-caption">Suggested image: a terminal output panel that shows task names, command execution and a generated HTML report.</td>
-</tr>
-</tbody>
-</table>
 <div class="is-dark">
-<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">dataclasses</span> <span style="color:#f472b6;">import</span> dataclass
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;">from dataclasses import dataclass
 
-@dataclass(frozen=<span style="color:#f59e0b;">True</span>)
-<span style="color:#f472b6;">class</span> <span style="color:#f8fafc;">Task</span>:
-    name: <span style="color:#93c5fd;">str</span>
-    description: <span style="color:#93c5fd;">str</span>
-    command: <span style="color:#93c5fd;">list</span>[<span style="color:#93c5fd;">str</span>]
+@dataclass(frozen=True)
+class Task:
+    name: str
+    description: str
+    command: list[str]
 
 TASKS = [
-    Task(<span style="color:#86efac;">"lint"</span>, <span style="color:#86efac;">"Check formatting and style"</span>, [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"ruff"</span>, <span style="color:#86efac;">"check"</span>, <span style="color:#86efac;">"."</span>]),
-    Task(<span style="color:#86efac;">"tests"</span>, <span style="color:#86efac;">"Run the fast test suite"</span>, [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"pytest"</span>, <span style="color:#86efac;">"-q"</span>]),
-    Task(<span style="color:#86efac;">"report"</span>, <span style="color:#86efac;">"Generate the daily HTML report"</span>, [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"scripts/build_report.py"</span>]),
+    Task(&quot;lint&quot;, &quot;Check formatting and style&quot;, [&quot;python&quot;, &quot;-m&quot;, &quot;ruff&quot;, &quot;check&quot;, &quot;.&quot;]),
+    Task(&quot;tests&quot;, &quot;Run the fast test suite&quot;, [&quot;python&quot;, &quot;-m&quot;, &quot;pytest&quot;, &quot;-q&quot;]),
+    Task(&quot;report&quot;, &quot;Generate the daily HTML report&quot;, [&quot;python&quot;, &quot;scripts/build_report.py&quot;]),
 ]</pre>
 </div>
-<p>For many internal tools, that is already enough. The runner becomes a shared entry point for small automation, and it creates a consistent place to improve later. You can add richer logging, a dry-run flag, or environment-aware commands when the project actually needs them.</p>
 <ul>
 <li>Keep task names short enough to remember from memory.</li>
-<li>Always print the command before you execute it.</li>
-<li>Return the real process exit code so CI and local scripts behave the same way.</li>
+<li>Always print the command before you execute it so failures are easy to read in logs.</li>
+<li>Return the real process exit code so CI, shell scripts and manual runs behave the same way.</li>
 </ul>
 <p>A tiny task runner will not replace a full release pipeline, but it solves a real coordination problem fast. That makes it one of the most useful small Python utilities a team can keep inside the repository.</p>
 </div>
@@ -3821,16 +3818,16 @@ TASKS = [
 <div class="post-footer">
 <ul class="post-nav">
 <li class="post-next">
-<a class="next-post-link" href="post4.html" id="Blog1_blog-pager-newer-link" rel="next">
+<a class="next-post-link" href="post5.html" id="Blog1_blog-pager-newer-link" rel="next">
 <div class="post-nav-inner"><span>Newer</span><p>
-Parse Application Logs with Python and Build a Daily Report
+Validate Environment Variables in Python Before the App Starts
 </p></div>
 </a>
 </li>
 <li class="post-prev">
-<a class="prev-post-link" href="index.html" id="Blog1_blog-pager-older-link" rel="previous">
+<a class="prev-post-link" href="post4.html" id="Blog1_blog-pager-older-link" rel="previous">
 <div class="post-nav-inner"><span>Older</span><p>
-Back to the main feed
+Parse Application Logs with Python and Build a Daily Report
 </p></div>
 </a>
 </li>
@@ -3843,13 +3840,13 @@ Back to the main feed
 <span>Posted by</span><a alt="Kate Studio" href="about.html">
 Kate Studio</a>
 </h3>
-<span class="author-description">Technical notes about Python workflows, automation patterns and maintainable utility scripts.</span>
+<span class="author-description">Short technical stories about automation, observability and everyday Python tooling.</span>
 </div>
 <div id="related-wrap">
 <div class="title-wrap">
 <h3>You may like these posts</h3>
 </div>
-<div class="related-ready"><ul class="related-posts"><li class="related-item item-0"><a class="post-image-link" href="post4.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w265-h132-p-k-no-nu/22.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post4.html">Parse Application Logs with Python and Build a Daily Report</a></h2></li><li class="related-item item-1"><a class="post-image-link" href="post1.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w265-h132-p-k-no-nu/24.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post1.html">Some amazing similarities between people around the world</a></h2></li><li class="related-item item-2"><a class="post-image-link" href="post2.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPHRkqM9AWWsFRykjHhkNZE0rlDjWt7DwTf6_uQJJSsmMm8le0hDtAnqLNNhh4tsWlSk7ZVAF5YdU6jWL9nLws9g-UWYiCExBw43eP44mAKlWje2I-grkPqgYW4wmzSLNtaXBryVOUZm23/w265-h132-p-k-no-nu/1.png=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post2.html">Little known facts about deer worth knowing</a></h2></li></ul></div>
+<div class="related-ready"><ul class="related-posts"><li class="related-item"><a class="post-image-link" href="post9.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEist8hGVzOmc8L5ZNfhsyArGzUXGV7UWjU32igtlD54WgJeI1OvgrYTYSsBvtZqVG9qKvepzZvl29fUKxGLPz_2gBsgFb_eUn22zUMkeAnFOVD9XMVZllyA0YsUONUUiJk9hNbYFmAMuX8H/w265-h132-p-k-no-nu/30.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post9.html">Write a Safe Retry Helper for Temporary API Failures</a></h2></li><li class="related-item"><a class="post-image-link" href="post8.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAmod7jsYfDytIZGryHfbTwjcqG9pylpFPhYYjK9gZZWn3HGWg9f9GLTJsvNLiSJcvXTLM_R3YieZrJF0nIBgGvthj5jmz05UFx9By2rvviHMBGFgjt0gZ74GhGQezBXMmIrK_qlA8u8DQ/w265-h132-p-k-no-nu/28.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post8.html">Archive Reports with pathlib and Keep Project Folders Tidy</a></h2></li><li class="related-item"><a class="post-image-link" href="post7.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7l772AOfWrBtUdeOyGgUe3e2dG5HV6jQCGn0ZP8VlC5iWnd0gC7vNDuOKuEhLtPeG8UfqzbgULX5s2PcmEGiUCjmg4MFyJVX1DBPZZN37JDu4Vy_4qGJQh5_fqNLzvTHl5JeJIaxPL4-y/w265-h132-p-k-no-nu/27.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post7.html">Design a Small JSON Settings Loader with Defaults and Overrides</a></h2></li></ul></div>
 </div>
 </div>
 </div>
@@ -4175,3 +4172,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   </script>
 </body></html>
+
