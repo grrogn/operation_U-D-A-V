@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   initBackTop();
 });
 
+var AUTH_DELAY_MS = 1200;
+
 function initNavigation() {
   var body = document.body;
   var searchWrap = document.getElementById("nav-search");
@@ -98,12 +100,64 @@ function initAuthForms() {
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       if (form.getAttribute("data-auth-form") === "register") {
-        handleRegister(form);
+        if (!runAuthDelay(form, "Sending...")) {
+          return;
+        }
+        window.setTimeout(function () {
+          handleRegister(form);
+          clearAuthDelay(form);
+        }, AUTH_DELAY_MS);
         return;
       }
-      handleLogin(form);
+      if (!runAuthDelay(form, "Checking...")) {
+        return;
+      }
+      window.setTimeout(function () {
+        handleLogin(form);
+        clearAuthDelay(form);
+      }, AUTH_DELAY_MS);
     });
   });
+}
+
+function runAuthDelay(form, buttonLabel) {
+  if (form.dataset.busy === "true") {
+    return false;
+  }
+  form.dataset.busy = "true";
+  var submitButton = form.querySelector('[type="submit"]');
+  if (submitButton) {
+    if (!submitButton.dataset.defaultLabel) {
+      submitButton.dataset.defaultLabel = submitButton.textContent;
+    }
+    submitButton.disabled = true;
+    submitButton.classList.add("is-loading");
+    submitButton.textContent = buttonLabel;
+  }
+  clearStatus(form);
+  return true;
+}
+
+function clearAuthDelay(form) {
+  delete form.dataset.busy;
+  var submitButton = form.querySelector('[type="submit"]');
+  if (!submitButton) {
+    return;
+  }
+  submitButton.disabled = false;
+  submitButton.classList.remove("is-loading");
+  if (submitButton.dataset.defaultLabel) {
+    submitButton.textContent = submitButton.dataset.defaultLabel;
+  }
+}
+
+function clearStatus(form) {
+  var box = form.querySelector(".auth-status");
+  if (!box) {
+    return;
+  }
+  box.textContent = "";
+  box.className = "auth-status";
 }
 
 function handleRegister(form) {
@@ -143,11 +197,8 @@ function handleRegister(form) {
 }
 
 function handleLogin(form) {
-  var users = getStoredUsers();
   var email = normalizeEmail(readValue(form, "email"));
   var password = readValue(form, "password");
-  var remember = form.querySelector('[name="remember"]');
-  var user = users.find(function (item) { return item.email === email; });
 
   if (!email || !password) {
     setStatus(form, "error", "Please enter your email and password.");
@@ -157,32 +208,11 @@ function handleLogin(form) {
     setStatus(form, "error", "Please enter a valid email address.");
     return;
   }
-  if (!user) {
-    setStatus(form, "error", "Account not found. Create one first.");
-    return;
-  }
-  if (user.password !== password) {
-    setStatus(form, "error", "Incorrect password. Please try again.");
-    return;
-  }
-
-  try {
-    localStorage.setItem("site_auth_session", JSON.stringify({
-      email: user.email,
-      name: user.name,
-      remember: Boolean(remember && remember.checked),
-      signedInAt: new Date().toISOString()
-    }));
-  } catch (error) {
-    setStatus(form, "error", "Unable to save the session in this browser.");
-    return;
-  }
-
-  setStatus(form, "success", "Signed in successfully. Redirecting...");
-  form.reset();
-  window.setTimeout(function () {
-    window.location.href = "index.html";
-  }, 900);
+  setStatus(
+    form,
+    "pending",
+    "Sign in is temporarily unavailable due to technical maintenance. Please try again a little later."
+  );
 }
 
 function prefillFromQuery() {
