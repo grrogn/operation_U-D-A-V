@@ -1,6 +1,6 @@
 <html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
-<title>Kate</title>
+<title>Parse Application Logs with Python and Build a Daily Report</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <!-- Chrome, Firefox OS and Opera -->
 <meta content="#f7f7ff" name="theme-color">
@@ -8,24 +8,18 @@
 <meta content="#f7f7ff" name="msapplication-navbutton-color">
 <meta content="blogger" name="generator">
 <link href="https://kate-soratemplates.blogspot.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="index.html" rel="canonical">
+<link href="post4.html" rel="canonical">
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
 <link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
-<link rel="me" href="https://www.blogger.com/profile/10687789128527805451">
+
+<link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
-<meta content="https://kate-soratemplates.blogspot.com/" property="og:url">
-<meta content="Kate" property="og:title">
-<meta content="" property="og:description">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-_G1Ij-F-4jJRxDggUc6_xQ6FfhKiTf_E7Pb8DVRCUDvIXaf-q2pXEPmGWUv8ygXx2eT3febv3YW-Fx6G8Ykrqv4T55sH4jVT-QjM_pn9j68YcJeI7zmfUOxMu4XSChvk2A112q8oeQ8P/w1200-h630-p-k-no-nu/21.jpg" property="og:image">
+<link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg" rel="image_src">
+<meta content="post4.html" property="og:url">
+<meta content="Parse Application Logs with Python and Build a Daily Report" property="og:title">
+<meta content="A practical Python guide to parsing application logs, grouping failures and turning raw events into a readable daily report." property="og:description">
 <meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w1200-h630-p-k-no-nu/22.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNPvfa9rUMTQZ27Gaeqlut9IKJYb-qLc5oa0G2RTvhLYFTR0N5_WnKDgvSa6rd5B2j5hNQeqdfN_rOVrzNnN3SMRPR4HVytGkTKGW66KOEAVULX29Oct3skrcsjMhO58qNGiRMnk70K22X/w1200-h630-p-k-no-nu/23.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w1200-h630-p-k-no-nu/24.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFlGGucEMB3QfUg0BHn06uuYJod39GGJYVzX5CWKmzcYU_MwGAxGozjw1usF6HQ9vPY9Unp0ndel-xSmP_vcGqCSvNi9Pw3UcgDyRrdI1uS9QLHWIeN_geXs40eabh1dBEmk3kGqXxfBal/w1200-h630-p-k-no-nu/25.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/w1200-h630-p-k-no-nu/26.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7l772AOfWrBtUdeOyGgUe3e2dG5HV6jQCGn0ZP8VlC5iWnd0gC7vNDuOKuEhLtPeG8UfqzbgULX5s2PcmEGiUCjmg4MFyJVX1DBPZZN37JDu4Vy_4qGJQh5_fqNLzvTHl5JeJIaxPL4-y/w1200-h630-p-k-no-nu/27.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAmod7jsYfDytIZGryHfbTwjcqG9pylpFPhYYjK9gZZWn3HGWg9f9GLTJsvNLiSJcvXTLM_R3YieZrJF0nIBgGvthj5jmz05UFx9By2rvviHMBGFgjt0gZ74GhGQezBXMmIrK_qlA8u8DQ/w1200-h630-p-k-no-nu/28.jpg" property="og:image">
-<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","name":"Kate","url":"https://kate-soratemplates.blogspot.com/","potentialAction":{"@type":"SearchAction","target":"https://kate-soratemplates.blogspot.com/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -3526,6 +3520,7 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 //]]>
 </script>
 <!-- Google Analytics -->
+<link href="https://www.blogger.com/dyn-css/authorization.css?targetBlogID=3131672942907611103&amp;zx=7fccd8f1-fd99-4c25-8ad4-e3767970de61" media="all" onload="if(media!='all')media='all'" rel="stylesheet"><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=3131672942907611103&amp;zx=7fccd8f1-fd99-4c25-8ad4-e3767970de61' rel='stylesheet'/></noscript>
 <meta name="google-adsense-platform-account" content="ca-host-pub-1556223355139109">
 <meta name="google-adsense-platform-domain" content="blogspot.com">
 
@@ -3540,7 +3535,7 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 
 
 <style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style></head>
-<body class="index home" style="transform: none;">
+<body class="item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
 <div class="sora-panel section" id="sora-panel" name="Site Options"><div class="widget LinkList" data-version="2" id="LinkList70">
@@ -3608,8 +3603,6 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <a class="header-image-wrapper" href="index.html">
 <img alt="Kate" data-height="50" data-width="176" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhhTQYRE8H5fUkmMT17hRa2gfoFZIUWtJh08yFyhwrogJ1d4EgpgVu1fX4CCEAvKbBzcUDRigfteKq1sXYVa9oxLY8bLQ_UFDfoXpHcIth5VVIgsJrKuVGV3cn4T5MrXDmlYqyFDU3GNmMt/s1600/Kate-logo.png">
 </a>
-<p>
-</p>
 </div>
 </div></div>
 </div>
@@ -3642,83 +3635,6 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 </div>
 </div>
 <div class="clearfix"></div>
-<!-- Featured Slider -->
-<div id="intro-wrap">
-<div class="section" id="main-intro" name="Main Intro"><div class="widget Image" data-version="2" id="Image1">
-<div class="widget-content">
-              <style type="text/css">
-              #intro-wrap{display:block}
-              #main-intro{background-image:url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWW0AX0o6a-5MmWzUzlhTFHgwyKGjzDDvRNzkOGG0tnK6fCJTZ38aEpq4h5b-wSCBkjBlKgBJ9lF1uvnMfFhHC1JK1csEQmpzyYLXJYEcv8WtCAyrUFufmCYHBEAPY7VfaMZv46QiGsW2-/s16000/mountain2.jpg)}
-              </style>
-              <div class="intro-content">
-<h3 class="intro-title">Thoughts, stories and ideas.</h3>
-<p class="intro-snippet">A clean and modern website for stories, travel notes and curated editorial content.</p>
-<div class="intro-action">
-                <a href="/">Read More</a>
-                  </div>
-</div>
-</div>
-</div></div>
-</div>
-<div class="clearfix"></div>
-<div class="row ad-wrapper">
-<div class="home-ad-top section" id="home-ad-top1" name="Home Ads Top Home"><div class="widget HTML" data-version="2" id="HTML21">
-<div class="widget-title">
-<h3 class="title">
-Ad Code
-</h3>
-</div>
-<div class="widget-content">
-</div>
-</div></div>
-</div>
-<div class="clearfix"></div>
-<!-- Featured Wrapper -->
-<div class="row" id="hot-wrapper">
-<div class="section" id="hot-section" name="Hot Posts"><div class="widget PopularPosts" data-version="2" id="PopularPosts2">
-<div class="widget-content">
-<ul class="hot-posts">
-<li class="hot-item item-0">
-<div class="hot-item-inner">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-<img alt="I like fishing because it is always the great way of relaxing" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-_G1Ij-F-4jJRxDggUc6_xQ6FfhKiTf_E7Pb8DVRCUDvIXaf-q2pXEPmGWUv8ygXx2eT3febv3YW-Fx6G8Ykrqv4T55sH4jVT-QjM_pn9j68YcJeI7zmfUOxMu4XSChvk2A112q8oeQ8P/w633-h473-p-k-no-nu/21.jpg=w72-h72-p-k-no-nu">
-</a><div class="post-info-wrap"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-</a><div class="post-info"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-<span class="post-tag">Beauty</span>
-</a><h2 class="post-title"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-</a><a href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">I like fishing because it is always the great way of relaxing</a>
-</h2>
-<div class="post-meta">
-<span class="post-author">Kate Studio</span><span class="post-date published" datetime="2016-03-18T01:04:00-07:00">March 18, 2016</span>
-</div>
-</div>
-</div>
-
-</div>
-</li>
-<li class="hot-item item-1">
-<div class="hot-item-inner">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-<img alt="My Memorable story of trip to grand canyon National Park" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w633-h473-p-k-no-nu/22.jpg=w72-h72-p-k-no-nu">
-</a><div class="post-info-wrap"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-</a><div class="post-info"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-<span class="post-tag">Fashion</span>
-</a><h2 class="post-title"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-</a><a href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">My Memorable story of trip to grand canyon National Park</a>
-</h2>
-<div class="post-meta">
-<span class="post-author">Kate Studio</span><span class="post-date published" datetime="2016-03-17T00:59:00-07:00">March 17, 2016</span>
-</div>
-</div>
-</div>
-
-</div>
-</li>
-</ul>
-</div>
-</div></div>
-</div>
-<div class="clearfix"></div>
 <div class="row ad-wrapper">
 <div class="home-ad-top section" id="home-ad-top2" name="Home Ads Top"><div class="widget HTML" data-version="2" id="HTML23">
 <div class="widget-title">
@@ -3727,7 +3643,19 @@ Ad Code
 </h3>
 </div>
 <div class="widget-content">
+<a class="sora-ads-full" href="javascript:;">Responsive Advertisement</a>
 <style>
+.sora-ads-full {
+  display: block;
+    background-color: #eee;
+    text-align: center;
+    font-size: 13px;
+    color: #aaaaaa;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 90px;
+    border: 1px solid #ccc;
+}
 </style>
 </div>
 </div></div>
@@ -3740,230 +3668,190 @@ Ad Code
 <div id="main-wrapper" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
 
 <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;"><div class="main section" id="main" name="Main Posts"><div class="widget Blog" data-version="2" id="Blog1">
-<div class="blog-posts hfeed container index-post-wrap">
-<div class="grid-posts">
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post3.html">
-<img alt="Build a Tiny Python Task Runner for Repetitive Scripts" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-_G1Ij-F-4jJRxDggUc6_xQ6FfhKiTf_E7Pb8DVRCUDvIXaf-q2pXEPmGWUv8ygXx2eT3febv3YW-Fx6G8Ykrqv4T55sH4jVT-QjM_pn9j68YcJeI7zmfUOxMu4XSChvk2A112q8oeQ8P/w427-h248-p-k-no-nu/21.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="post3.html">
-Python
-</a>
-<h2 class="post-title">
-<a href="post3.html">Build a Tiny Python Task Runner for Repetitive Scripts</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2026-04-04T10:00:00+03:00">April 4, 2026</span>
-</div>
-<p class="post-snippet">A practical Python walkthrough for turning repeated terminal commands into one clean task runner with argparse, subprocess and readable task definitions.</p>
-<a class="read-more" href="post3.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post4.html">
-<img alt="Parse Application Logs with Python and Build a Daily Report" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w427-h248-p-k-no-nu/22.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="post4.html">
-Automation
-</a>
-<h2 class="post-title">
-<a href="post4.html">Parse Application Logs with Python and Build a Daily Report</a>
-</h2>
-</div>
-<div class="index-post-footer">
+<div class="blog-posts hfeed container item-post-wrap">
+<div class="blog-post hentry item-post">
+<div class="post-item-inner">
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "post4.html"
+  },
+  "headline": "Parse Application Logs with Python and Build a Daily Report","description": "A practical Python guide to parsing application logs, grouping failures and turning raw events into a readable daily report.","datePublished": "2026-04-03T09:30:00+03:00",
+  "dateModified": "2026-04-03T09:30:00+03:00","image": {
+    "@type": "ImageObject","url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w1200-h630-p-k-no-nu/22.jpg",
+    "height": 630,
+    "width": 1200},"publisher": {
+    "@type": "Organization",
+    "name": "Kate Studio",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=h60",
+      "width": 206,
+      "height": 60
+    }
+  },"author": {
+    "@type": "Person",
+    "name": "Kate Studio"
+  }
+}</script>
+<nav id="breadcrumb"><a href="index.html">Home</a><em class="delimiter"></em><a class="b-label" href="index.html">Automation</a><em class="delimiter"></em><span class="current">Parse Application Logs with Python and Build a Daily Report</span></nav>
+<script type="application/ld+json">
+              {
+                "@context": "http://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "#Breadcrumb",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "name": "Home",
+                    "@id": "index.html"
+                  }
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "name": "Automation",
+                    "@id": "index.html"
+                  }
+                },{
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "name": "Parse Application Logs with Python and Build a Daily Report",
+                    "@id": "post4.html"
+                  }
+                }]
+              }
+            </script>
+<h1 class="post-title">
+Parse Application Logs with Python and Build a Daily Report
+</h1>
 <div class="post-meta">
 <span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
 <span class="post-date published" datetime="2026-04-03T09:30:00+03:00">April 3, 2026</span>
 </div>
-<p class="post-snippet">A clean Python pattern for parsing noisy application logs, grouping failures by service and turning raw events into a short daily report.</p>
-<a class="read-more" href="post4.html">Read more</a>
+<div class="post-body post-content" id="post-body">
+<p>Raw application logs are useful only until they become noisy. After that, every urgent fix starts with the same slow ritual: scroll through timestamps, spot a few repeated exceptions, and manually summarize what went wrong for the rest of the team.</p>
+<p>A short Python parser can turn that chaos into a daily report. Instead of reading thousands of lines one by one, you can convert each line into structured data, count the important failures, and produce a compact summary that points directly at the services that need attention.</p>
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
+<tbody>
+<tr>
+<td style="text-align:center;"><img alt="Log parsing placeholder" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg" title="Log parsing placeholder"></td>
+</tr>
+<tr>
+<td class="tr-caption">Suggested image: dark dashboard with log lines, grouped error counts and a simple daily report panel.</td>
+</tr>
+</tbody>
+</table>
+<p>The first step is to define a parser that understands one line of your logs. A regular expression is often enough if the format is stable, and a small dataclass gives the rest of the code a clean object to work with.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">dataclasses</span> <span style="color:#f472b6;">import</span> dataclass
+<span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">datetime</span> <span style="color:#f472b6;">import</span> datetime
+<span style="color:#f472b6;">import</span> <span style="color:#93c5fd;">re</span>
+
+LOG_PATTERN = re.compile(
+    <span style="color:#86efac;">r"(?P&lt;ts&gt;[^ ]+) (?P&lt;level&gt;INFO|WARNING|ERROR) (?P&lt;service&gt;[a-z_]+) - (?P&lt;message&gt;.+)"</span>
+)
+
+@dataclass(frozen=<span style="color:#f59e0b;">True</span>)
+<span style="color:#f472b6;">class</span> <span style="color:#f8fafc;">LogEntry</span>:
+    timestamp: datetime
+    level: <span style="color:#93c5fd;">str</span>
+    service: <span style="color:#93c5fd;">str</span>
+    message: <span style="color:#93c5fd;">str</span></pre>
+</div>
+<p>After the parser is in place, the report logic becomes straightforward. We only keep valid rows, then group by severity and service. This is where <strong>Counter</strong> and <strong>defaultdict</strong> do the heavy lifting without making the script feel complicated.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">collections</span> <span style="color:#f472b6;">import</span> Counter, defaultdict
+
+<span style="color:#f472b6;">def</span> <span style="color:#f8fafc;">collect_stats</span>(entries: <span style="color:#93c5fd;">list</span>[LogEntry]) -&gt; <span style="color:#93c5fd;">dict</span>[<span style="color:#93c5fd;">str</span>, Counter]:
+    stats = defaultdict(Counter)
+    <span style="color:#f472b6;">for</span> entry <span style="color:#f472b6;">in</span> entries:
+        stats[entry.service][entry.level] += <span style="color:#f59e0b;">1</span>
+    <span style="color:#f472b6;">return</span> stats
+
+<span style="color:#f472b6;">def</span> <span style="color:#f8fafc;">top_errors</span>(entries: <span style="color:#93c5fd;">list</span>[LogEntry]) -&gt; Counter:
+    messages = [entry.message <span style="color:#f472b6;">for</span> entry <span style="color:#f472b6;">in</span> entries <span style="color:#f472b6;">if</span> entry.level == <span style="color:#86efac;">"ERROR"</span>]
+    <span style="color:#f472b6;">return</span> Counter(messages).most_common(<span style="color:#f59e0b;">5</span>)</pre>
+</div>
+<blockquote class="tr_bq">A good operational report does not repeat every line. It reduces noise until the next action becomes obvious.</blockquote>
+<p>The final step is presentation. The easiest version is plain Markdown or HTML generated by the script itself. That keeps the pipeline simple and makes it easy to send the report to chat, email, or an internal dashboard later.</p>
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
+<tbody>
+<tr>
+<td style="text-align:center;"><img alt="Daily report placeholder" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEist8hGVzOmc8L5ZNfhsyArGzUXGV7UWjU32igtlD54WgJeI1OvgrYTYSsBvtZqVG9qKvepzZvl29fUKxGLPz_2gBsgFb_eUn22zUMkeAnFOVD9XMVZllyA0YsUONUUiJk9hNbYFmAMuX8H/s16000/30.jpg" title="Daily report placeholder"></td>
+</tr>
+<tr>
+<td class="tr-caption">Suggested image: compact operations report with service cards, error totals and a timeline of the busiest incidents.</td>
+</tr>
+</tbody>
+</table>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">def</span> <span style="color:#f8fafc;">render_report</span>(stats: <span style="color:#93c5fd;">dict</span>[<span style="color:#93c5fd;">str</span>, Counter], errors: <span style="color:#93c5fd;">list</span>[<span style="color:#93c5fd;">tuple</span>[<span style="color:#93c5fd;">str</span>, <span style="color:#93c5fd;">int</span>]]) -&gt; <span style="color:#93c5fd;">str</span>:
+    lines = [<span style="color:#86efac;">"# Daily log report"</span>, <span style="color:#86efac;">""</span>]
+    <span style="color:#f472b6;">for</span> service, counter <span style="color:#f472b6;">in</span> sorted(stats.items()):
+        lines.append(<span style="color:#86efac;">f"## {service}"</span>)
+        lines.append(<span style="color:#86efac;">f"- errors: {counter['ERROR']}"</span>)
+        lines.append(<span style="color:#86efac;">f"- warnings: {counter['WARNING']}"</span>)
+        lines.append(<span style="color:#86efac;">f"- info: {counter['INFO']}"</span>)
+        lines.append(<span style="color:#86efac;">""</span>)
+
+    lines.append(<span style="color:#86efac;">"## Top repeated errors"</span>)
+    lines.extend([<span style="color:#86efac;">f"- {message} ({count})"</span> <span style="color:#f472b6;">for</span> message, count <span style="color:#f472b6;">in</span> errors])
+    <span style="color:#f472b6;">return</span> <span style="color:#86efac;">"\\n"</span>.join(lines)</pre>
+</div>
+<p>This pattern scales well because every step stays separate: parse, normalize, aggregate, and render. If the log format changes later, the parser changes. If the report needs more insight, the rendering changes. The rest of the script can remain calm and predictable.</p>
+<ul>
+<li>Discard malformed lines early so the report stays trustworthy.</li>
+<li>Separate parsing from aggregation to keep tests short and readable.</li>
+<li>Publish only the counts and messages that help someone act quickly.</li>
+</ul>
+<p>Python is especially good at this kind of utility work. A few standard-library tools turn raw logs into something a team can actually use in a standup or incident review.</p>
+</div>
+<div class="post-labels">
+<div class="label-head Label">
+<a class="label-link" href="index.html" rel="tag">Automation</a>
 </div>
 </div>
 </div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/camping-in-abandoned-house-under-starry_17.html">
-<img alt="Camping in an abandoned house under the starry night at hill top" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNPvfa9rUMTQZ27Gaeqlut9IKJYb-qLc5oa0G2RTvhLYFTR0N5_WnKDgvSa6rd5B2j5hNQeqdfN_rOVrzNnN3SMRPR4HVytGkTKGW66KOEAVULX29Oct3skrcsjMhO58qNGiRMnk70K22X/w427-h248-p-k-no-nu/23.jpg=w72-h72-p-k-no-nu">
+<div class="post-footer">
+<ul class="post-nav">
+<li class="post-next">
+<a class="next-post-link" href="post3.html" id="Blog1_blog-pager-newer-link" rel="next">
+<div class="post-nav-inner"><span>Newer</span><p>
+Build a Tiny Python Task Runner for Repetitive Scripts
+</p></div>
 </a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Business?&amp;max-results=5">
-Business
+</li>
+<li class="post-prev">
+<a class="prev-post-link" href="index.html" id="Blog1_blog-pager-older-link" rel="previous">
+<div class="post-nav-inner"><span>Older</span><p>
+Back to the main feed
+</p></div>
 </a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/camping-in-abandoned-house-under-starry_17.html">Camping in an abandoned house under the starry night at hill top</a>
-</h2>
+</li>
+</ul>
+<div class="about-author">
+<div class="avatar-container">
+<img alt="Kate Studio" class="author-avatar" src="//blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGEyigbC_aEx_Xxmhi4rrzNna7RtI53QTClI6EOlp7qotFQfcEXdHXC__u4n5QGvhmWdA7IeGSqqufMF_Kn4X5lEtf4BR-LeEDn9ICx3S5qqo78-O9AQytTpyjxDS3IFU/w100/Sora+Blogging+Tips.jpg">
 </div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:57:00-07:00">March 17, 2016</span>
+<h3 class="author-name">
+<span>Posted by</span><a alt="Kate Studio" href="about.html">
+Kate Studio</a>
+</h3>
+<span class="author-description">Short technical stories about automation, observability and everyday Python tooling.</span>
 </div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/camping-in-abandoned-house-under-starry_17.html">Read more</a>
+<div id="related-wrap">
+<div class="title-wrap">
+<h3>You may like these posts</h3>
 </div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post1.html">
-<img alt="Some amazing similarities between people around the world" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w427-h248-p-k-no-nu/24.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Learn?&amp;max-results=5">
-Learn
-</a>
-<h2 class="post-title">
-<a href="post1.html">Some amazing similarities between people around the world</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:56:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="post1.html">Read more</a>
+<div class="related-ready"><ul class="related-posts"><li class="related-item item-0"><a class="post-image-link" href="post3.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w265-h132-p-k-no-nu/24.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post3.html">Build a Tiny Python Task Runner for Repetitive Scripts</a></h2></li><li class="related-item item-1"><a class="post-image-link" href="post1.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w265-h132-p-k-no-nu/24.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post1.html">Some amazing similarities between people around the world</a></h2></li><li class="related-item item-2"><a class="post-image-link" href="post2.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPHRkqM9AWWsFRykjHhkNZE0rlDjWt7DwTf6_uQJJSsmMm8le0hDtAnqLNNhh4tsWlSk7ZVAF5YdU6jWL9nLws9g-UWYiCExBw43eP44mAKlWje2I-grkPqgYW4wmzSLNtaXBryVOUZm23/w265-h132-p-k-no-nu/1.png=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post2.html">Little known facts about deer worth knowing</a></h2></li></ul></div>
 </div>
 </div>
 </div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/a-perfect-road-map-for-travelling-asian_17.html">
-<img alt="A perfect road map for travelling asian countries" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFlGGucEMB3QfUg0BHn06uuYJod39GGJYVzX5CWKmzcYU_MwGAxGozjw1usF6HQ9vPY9Unp0ndel-xSmP_vcGqCSvNi9Pw3UcgDyRrdI1uS9QLHWIeN_geXs40eabh1dBEmk3kGqXxfBal/w427-h248-p-k-no-nu/25.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Fashion?&amp;max-results=5">
-Fashion
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/a-perfect-road-map-for-travelling-asian_17.html">A perfect road map for travelling asian countries</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:52:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1400s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/a-perfect-road-map-for-travelling-asian_17.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/mind-refreshing-song-by-rabindranath_17.html">
-<img alt="Mind refreshing song by Rabindranath Tagore" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/w427-h248-p-k-no-nu/26.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Nature?&amp;max-results=5">
-Nature
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/mind-refreshing-song-by-rabindranath_17.html">Mind refreshing song by Rabindranath Tagore</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:47:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/mind-refreshing-song-by-rabindranath_17.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/listen-this-energetic-music-from-mix_17.html">
-<img alt="Listen This Energetic Music From Mix Cloud" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7l772AOfWrBtUdeOyGgUe3e2dG5HV6jQCGn0ZP8VlC5iWnd0gC7vNDuOKuEhLtPeG8UfqzbgULX5s2PcmEGiUCjmg4MFyJVX1DBPZZN37JDu4Vy_4qGJQh5_fqNLzvTHl5JeJIaxPL4-y/w427-h248-p-k-no-nu/27.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Fashion?&amp;max-results=5">
-Fashion
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/listen-this-energetic-music-from-mix_17.html">Listen This Energetic Music From Mix Cloud</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:46:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/listen-this-energetic-music-from-mix_17.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post2.html">
-<img alt="Little known facts about deer worth knowing" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAmod7jsYfDytIZGryHfbTwjcqG9pylpFPhYYjK9gZZWn3HGWg9f9GLTJsvNLiSJcvXTLM_R3YieZrJF0nIBgGvthj5jmz05UFx9By2rvviHMBGFgjt0gZ74GhGQezBXMmIrK_qlA8u8DQ/w427-h248-p-k-no-nu/28.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Fashion?&amp;max-results=5">
-Fashion
-</a>
-<h2 class="post-title">
-<a href="post2.html">Little known facts about deer worth knowing</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:42:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="post2.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-pager container" id="blog-pager">
-<a class="blog-pager-older-link" href="https://kate-soratemplates.blogspot.com/search?updated-max=2016-03-17T00:42:00-07:00&amp;max-results=8" id="Blog1_blog-pager-older-link" title="Older Posts">
-Load more posts
-</a>
 </div>
 </div></div></div></div>
 <!-- Sidebar Wrapper -->
@@ -4068,7 +3956,7 @@ Facebook
 </h3>
 </div>
 <div class="widget-content">
-<center><div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/soratemplates" data-width="360" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360"><span style="vertical-align: top; width: 0px; height: 0px; overflow: hidden;"><iframe name="f6af0e9310e7d02fe" width="360px" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v3.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dfef8ac52ad79049d3%26domain%3Dkate-soratemplates.blogspot.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fkate-soratemplates.blogspot.com%252Ff2259f4191fd9d0f6%26relation%3Dparent.parent&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360" style="border: none; visibility: visible; width: 0px; height: 0px;"></iframe></span></div></center>
+<center><div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/soratemplates" data-width="360" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360"><span style="vertical-align: top; width: 0px; height: 0px; overflow: hidden;"><iframe name="f0a22981111e55545" width="360px" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v3.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df6e4e3026c9a57f4a%26domain%3Dkate-soratemplates.blogspot.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fkate-soratemplates.blogspot.com%252Ffaf22209dd205b3b8%26relation%3Dparent.parent&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360" style="border: none; visibility: visible; width: 0px; height: 0px;"></iframe></span></div></center>
 </div>
 </div><div class="widget Label" data-version="2" id="Label3">
 <div class="widget-title">
@@ -4152,6 +4040,28 @@ Footer Menu Widget
 </div></div>
 </div>
 </div>
+</div>
+<!-- Hidden Widgets -->
+<div id="hidden-widgets-wrap" style="display:none">
+<div class="hidden-widgets section" id="hidden-widgets"><div class="widget ContactForm" data-version="2" id="ContactForm1">
+<div class="widget-title">
+<h3 class="title">
+Contact form
+</h3>
+</div>
+<div class="widget-content contact-form-widget">
+<div class="form">
+<form name="contact-form">
+<input ariby="Name" class="contact-form-name" id="ContactForm1_contact-form-name" name="name" placeholder="Name" size="30" type="text" value="">
+<input ariby="Email *" class="contact-form-email" id="ContactForm1_contact-form-email" name="email" placeholder="Email *" size="30" type="text" value="">
+<textarea ariby="Message *" class="contact-form-email-message" cols="25" id="ContactForm1_contact-form-email-message" name="email-message" placeholder="Message *" rows="5"></textarea>
+<input class="contact-form-button btn contact-form-button-submit" id="ContactForm1_contact-form-submit" type="button" value="Send">
+<p class="contact-form-error-message" id="ContactForm1_contact-form-error-message"></p>
+<p class="contact-form-success-message" id="ContactForm1_contact-form-success-message"></p>
+</form>
+</div>
+</div>
+</div></div>
 </div>
 <!-- Main Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>

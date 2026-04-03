@@ -1,6 +1,6 @@
 <html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
-<title>Kate</title>
+<title>Build a Tiny Python Task Runner for Repetitive Scripts</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <!-- Chrome, Firefox OS and Opera -->
 <meta content="#f7f7ff" name="theme-color">
@@ -8,24 +8,18 @@
 <meta content="#f7f7ff" name="msapplication-navbutton-color">
 <meta content="blogger" name="generator">
 <link href="https://kate-soratemplates.blogspot.com/favicon.ico" rel="icon" type="image/x-icon">
-<link href="index.html" rel="canonical">
+<link href="post3.html" rel="canonical">
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
 <link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
-<link rel="me" href="https://www.blogger.com/profile/10687789128527805451">
+
+<link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
-<meta content="https://kate-soratemplates.blogspot.com/" property="og:url">
-<meta content="Kate" property="og:title">
-<meta content="" property="og:description">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-_G1Ij-F-4jJRxDggUc6_xQ6FfhKiTf_E7Pb8DVRCUDvIXaf-q2pXEPmGWUv8ygXx2eT3febv3YW-Fx6G8Ykrqv4T55sH4jVT-QjM_pn9j68YcJeI7zmfUOxMu4XSChvk2A112q8oeQ8P/w1200-h630-p-k-no-nu/21.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w1200-h630-p-k-no-nu/22.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNPvfa9rUMTQZ27Gaeqlut9IKJYb-qLc5oa0G2RTvhLYFTR0N5_WnKDgvSa6rd5B2j5hNQeqdfN_rOVrzNnN3SMRPR4HVytGkTKGW66KOEAVULX29Oct3skrcsjMhO58qNGiRMnk70K22X/w1200-h630-p-k-no-nu/23.jpg" property="og:image">
+<link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/s16000/24.jpg" rel="image_src">
+<meta content="post3.html" property="og:url">
+<meta content="Build a Tiny Python Task Runner for Repetitive Scripts" property="og:title">
+<meta content="A practical Python article about building a compact task runner with argparse, subprocess and clean task definitions." property="og:description">
 <meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w1200-h630-p-k-no-nu/24.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFlGGucEMB3QfUg0BHn06uuYJod39GGJYVzX5CWKmzcYU_MwGAxGozjw1usF6HQ9vPY9Unp0ndel-xSmP_vcGqCSvNi9Pw3UcgDyRrdI1uS9QLHWIeN_geXs40eabh1dBEmk3kGqXxfBal/w1200-h630-p-k-no-nu/25.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/w1200-h630-p-k-no-nu/26.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7l772AOfWrBtUdeOyGgUe3e2dG5HV6jQCGn0ZP8VlC5iWnd0gC7vNDuOKuEhLtPeG8UfqzbgULX5s2PcmEGiUCjmg4MFyJVX1DBPZZN37JDu4Vy_4qGJQh5_fqNLzvTHl5JeJIaxPL4-y/w1200-h630-p-k-no-nu/27.jpg" property="og:image">
-<meta content="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAmod7jsYfDytIZGryHfbTwjcqG9pylpFPhYYjK9gZZWn3HGWg9f9GLTJsvNLiSJcvXTLM_R3YieZrJF0nIBgGvthj5jmz05UFx9By2rvviHMBGFgjt0gZ74GhGQezBXMmIrK_qlA8u8DQ/w1200-h630-p-k-no-nu/28.jpg" property="og:image">
-<script type="application/ld+json">{"@context":"http://schema.org","@type":"WebSite","name":"Kate","url":"https://kate-soratemplates.blogspot.com/","potentialAction":{"@type":"SearchAction","target":"https://kate-soratemplates.blogspot.com/search?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -3526,6 +3520,7 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 //]]>
 </script>
 <!-- Google Analytics -->
+<link href="https://www.blogger.com/dyn-css/authorization.css?targetBlogID=3131672942907611103&amp;zx=7fccd8f1-fd99-4c25-8ad4-e3767970de61" media="all" onload="if(media!='all')media='all'" rel="stylesheet"><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=3131672942907611103&amp;zx=7fccd8f1-fd99-4c25-8ad4-e3767970de61' rel='stylesheet'/></noscript>
 <meta name="google-adsense-platform-account" content="ca-host-pub-1556223355139109">
 <meta name="google-adsense-platform-domain" content="blogspot.com">
 
@@ -3540,7 +3535,7 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 
 
 <style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style></head>
-<body class="index home" style="transform: none;">
+<body class="item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
 <div class="sora-panel section" id="sora-panel" name="Site Options"><div class="widget LinkList" data-version="2" id="LinkList70">
@@ -3608,8 +3603,6 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <a class="header-image-wrapper" href="index.html">
 <img alt="Kate" data-height="50" data-width="176" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhhTQYRE8H5fUkmMT17hRa2gfoFZIUWtJh08yFyhwrogJ1d4EgpgVu1fX4CCEAvKbBzcUDRigfteKq1sXYVa9oxLY8bLQ_UFDfoXpHcIth5VVIgsJrKuVGV3cn4T5MrXDmlYqyFDU3GNmMt/s1600/Kate-logo.png">
 </a>
-<p>
-</p>
 </div>
 </div></div>
 </div>
@@ -3642,83 +3635,6 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 </div>
 </div>
 <div class="clearfix"></div>
-<!-- Featured Slider -->
-<div id="intro-wrap">
-<div class="section" id="main-intro" name="Main Intro"><div class="widget Image" data-version="2" id="Image1">
-<div class="widget-content">
-              <style type="text/css">
-              #intro-wrap{display:block}
-              #main-intro{background-image:url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWW0AX0o6a-5MmWzUzlhTFHgwyKGjzDDvRNzkOGG0tnK6fCJTZ38aEpq4h5b-wSCBkjBlKgBJ9lF1uvnMfFhHC1JK1csEQmpzyYLXJYEcv8WtCAyrUFufmCYHBEAPY7VfaMZv46QiGsW2-/s16000/mountain2.jpg)}
-              </style>
-              <div class="intro-content">
-<h3 class="intro-title">Thoughts, stories and ideas.</h3>
-<p class="intro-snippet">A clean and modern website for stories, travel notes and curated editorial content.</p>
-<div class="intro-action">
-                <a href="/">Read More</a>
-                  </div>
-</div>
-</div>
-</div></div>
-</div>
-<div class="clearfix"></div>
-<div class="row ad-wrapper">
-<div class="home-ad-top section" id="home-ad-top1" name="Home Ads Top Home"><div class="widget HTML" data-version="2" id="HTML21">
-<div class="widget-title">
-<h3 class="title">
-Ad Code
-</h3>
-</div>
-<div class="widget-content">
-</div>
-</div></div>
-</div>
-<div class="clearfix"></div>
-<!-- Featured Wrapper -->
-<div class="row" id="hot-wrapper">
-<div class="section" id="hot-section" name="Hot Posts"><div class="widget PopularPosts" data-version="2" id="PopularPosts2">
-<div class="widget-content">
-<ul class="hot-posts">
-<li class="hot-item item-0">
-<div class="hot-item-inner">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-<img alt="I like fishing because it is always the great way of relaxing" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-_G1Ij-F-4jJRxDggUc6_xQ6FfhKiTf_E7Pb8DVRCUDvIXaf-q2pXEPmGWUv8ygXx2eT3febv3YW-Fx6G8Ykrqv4T55sH4jVT-QjM_pn9j68YcJeI7zmfUOxMu4XSChvk2A112q8oeQ8P/w633-h473-p-k-no-nu/21.jpg=w72-h72-p-k-no-nu">
-</a><div class="post-info-wrap"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-</a><div class="post-info"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-<span class="post-tag">Beauty</span>
-</a><h2 class="post-title"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">
-</a><a href="https://kate-soratemplates.blogspot.com/2016/03/i-like-fishing-because-it-is-always_18.html">I like fishing because it is always the great way of relaxing</a>
-</h2>
-<div class="post-meta">
-<span class="post-author">Kate Studio</span><span class="post-date published" datetime="2016-03-18T01:04:00-07:00">March 18, 2016</span>
-</div>
-</div>
-</div>
-
-</div>
-</li>
-<li class="hot-item item-1">
-<div class="hot-item-inner">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-<img alt="My Memorable story of trip to grand canyon National Park" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w633-h473-p-k-no-nu/22.jpg=w72-h72-p-k-no-nu">
-</a><div class="post-info-wrap"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-</a><div class="post-info"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-<span class="post-tag">Fashion</span>
-</a><h2 class="post-title"><a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">
-</a><a href="https://kate-soratemplates.blogspot.com/2016/03/my-memorable-story-of-trip-to-grand_17.html">My Memorable story of trip to grand canyon National Park</a>
-</h2>
-<div class="post-meta">
-<span class="post-author">Kate Studio</span><span class="post-date published" datetime="2016-03-17T00:59:00-07:00">March 17, 2016</span>
-</div>
-</div>
-</div>
-
-</div>
-</li>
-</ul>
-</div>
-</div></div>
-</div>
-<div class="clearfix"></div>
 <div class="row ad-wrapper">
 <div class="home-ad-top section" id="home-ad-top2" name="Home Ads Top"><div class="widget HTML" data-version="2" id="HTML23">
 <div class="widget-title">
@@ -3727,7 +3643,19 @@ Ad Code
 </h3>
 </div>
 <div class="widget-content">
+<a class="sora-ads-full" href="javascript:;">Responsive Advertisement</a>
 <style>
+.sora-ads-full {
+  display: block;
+    background-color: #eee;
+    text-align: center;
+    font-size: 13px;
+    color: #aaaaaa;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 90px;
+    border: 1px solid #ccc;
+}
 </style>
 </div>
 </div></div>
@@ -3740,230 +3668,191 @@ Ad Code
 <div id="main-wrapper" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
 
 <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;"><div class="main section" id="main" name="Main Posts"><div class="widget Blog" data-version="2" id="Blog1">
-<div class="blog-posts hfeed container index-post-wrap">
-<div class="grid-posts">
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post3.html">
-<img alt="Build a Tiny Python Task Runner for Repetitive Scripts" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-_G1Ij-F-4jJRxDggUc6_xQ6FfhKiTf_E7Pb8DVRCUDvIXaf-q2pXEPmGWUv8ygXx2eT3febv3YW-Fx6G8Ykrqv4T55sH4jVT-QjM_pn9j68YcJeI7zmfUOxMu4XSChvk2A112q8oeQ8P/w427-h248-p-k-no-nu/21.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="post3.html">
-Python
-</a>
-<h2 class="post-title">
-<a href="post3.html">Build a Tiny Python Task Runner for Repetitive Scripts</a>
-</h2>
-</div>
-<div class="index-post-footer">
+<div class="blog-posts hfeed container item-post-wrap">
+<div class="blog-post hentry item-post">
+<div class="post-item-inner">
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "post3.html"
+  },
+  "headline": "Build a Tiny Python Task Runner for Repetitive Scripts","description": "A practical Python article about building a compact task runner with argparse, subprocess and clean task definitions.","datePublished": "2026-04-04T10:00:00+03:00",
+  "dateModified": "2026-04-04T10:00:00+03:00","image": {
+    "@type": "ImageObject","url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w1200-h630-p-k-no-nu/24.jpg",
+    "height": 630,
+    "width": 1200},"publisher": {
+    "@type": "Organization",
+    "name": "Kate Studio",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=h60",
+      "width": 206,
+      "height": 60
+    }
+  },"author": {
+    "@type": "Person",
+    "name": "Kate Studio"
+  }
+}</script>
+<nav id="breadcrumb"><a href="index.html">Home</a><em class="delimiter"></em><a class="b-label" href="index.html">Python</a><em class="delimiter"></em><span class="current">Build a Tiny Python Task Runner for Repetitive Scripts</span></nav>
+<script type="application/ld+json">
+              {
+                "@context": "http://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "#Breadcrumb",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "name": "Home",
+                    "@id": "index.html"
+                  }
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "name": "Python",
+                    "@id": "index.html"
+                  }
+                },{
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "name": "Build a Tiny Python Task Runner for Repetitive Scripts",
+                    "@id": "post3.html"
+                  }
+                }]
+              }
+            </script>
+<h1 class="post-title">
+Build a Tiny Python Task Runner for Repetitive Scripts
+</h1>
 <div class="post-meta">
 <span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
 <span class="post-date published" datetime="2026-04-04T10:00:00+03:00">April 4, 2026</span>
 </div>
-<p class="post-snippet">A practical Python walkthrough for turning repeated terminal commands into one clean task runner with argparse, subprocess and readable task definitions.</p>
-<a class="read-more" href="post3.html">Read more</a>
+<div class="post-body post-content" id="post-body">
+<p>Small Python projects often collect a surprising amount of repeated terminal work. One person runs tests with one command, another person copies a long lint command from chat, and someone else keeps a private shell alias that nobody remembers two weeks later.</p>
+<p>A tiny task runner fixes that problem without forcing the project into a heavy build system. The goal is simple: keep common commands in one readable Python file, give them short names, and make the workflow easy to share with the next person who joins the repository.</p>
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
+<tbody>
+<tr>
+<td style="text-align:center;"><img alt="Python task runner placeholder" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/s16000/24.jpg" title="Python task runner placeholder"></td>
+</tr>
+<tr>
+<td class="tr-caption">Suggested image: editor and terminal showing a compact Python CLI that runs named automation tasks.</td>
+</tr>
+</tbody>
+</table>
+<p>The smallest useful version starts with a dictionary of commands. It does not need plugins, configuration files or background magic. It only needs a clear list of names and a small command-line interface built with <strong>argparse</strong>.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">pathlib</span> <span style="color:#f472b6;">import</span> Path
+<span style="color:#f472b6;">import</span> <span style="color:#93c5fd;">argparse</span>
+
+ROOT = Path(__file__).resolve().parent
+
+TASKS = {
+    <span style="color:#86efac;">"lint"</span>: [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"ruff"</span>, <span style="color:#86efac;">"check"</span>, <span style="color:#86efac;">"."</span>],
+    <span style="color:#86efac;">"tests"</span>: [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"pytest"</span>, <span style="color:#86efac;">"-q"</span>],
+    <span style="color:#86efac;">"report"</span>: [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"scripts/build_report.py"</span>],
+}
+
+parser = argparse.ArgumentParser(description=<span style="color:#86efac;">"Project helper"</span>)
+parser.add_argument(<span style="color:#86efac;">"task"</span>, choices=sorted(TASKS))
+args = parser.parse_args()</pre>
+</div>
+<p>That already improves the day-to-day experience. A teammate can now type one memorable command instead of searching for the exact test invocation or the correct path to a helper script hidden three folders deep.</p>
+<p>The execution layer should stay boring on purpose. Print the command, run it, and return the real exit code. That keeps the tool transparent, which matters more than cleverness when a build fails on a busy day.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">import</span> <span style="color:#93c5fd;">subprocess</span>
+
+<span style="color:#f472b6;">def</span> <span style="color:#f8fafc;">run_task</span>(name: <span style="color:#93c5fd;">str</span>) -&gt; <span style="color:#93c5fd;">int</span>:
+    command = TASKS[name]
+    print(<span style="color:#86efac;">f"$ {' '.join(command)}"</span>)
+    completed = subprocess.run(command, cwd=ROOT)
+    <span style="color:#f472b6;">return</span> completed.returncode
+
+<span style="color:#f472b6;">if</span> __name__ == <span style="color:#86efac;">"__main__"</span>:
+    <span style="color:#f472b6;">raise</span> SystemExit(run_task(args.task))</pre>
+</div>
+<blockquote class="tr_bq">If a script is run more than twice a week, it is probably worth naming, documenting and versioning.</blockquote>
+<p>Once the runner proves useful, it helps to add a little metadata beside every task. A description field makes the tool feel more intentional and gives you enough structure to render a help screen, build documentation, or expose the same commands in a lightweight admin page later.</p>
+<table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
+<tbody>
+<tr>
+<td style="text-align:center;"><img alt="Python automation placeholder" border="0" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg" title="Python automation placeholder"></td>
+</tr>
+<tr>
+<td class="tr-caption">Suggested image: a terminal output panel that shows task names, command execution and a generated HTML report.</td>
+</tr>
+</tbody>
+</table>
+<div class="is-dark">
+<pre class="code-box" style="background:#0f172a;border-color:#0f172a;color:#e2e8f0;padding:22px;"><span style="color:#f472b6;">from</span> <span style="color:#93c5fd;">dataclasses</span> <span style="color:#f472b6;">import</span> dataclass
+
+@dataclass(frozen=<span style="color:#f59e0b;">True</span>)
+<span style="color:#f472b6;">class</span> <span style="color:#f8fafc;">Task</span>:
+    name: <span style="color:#93c5fd;">str</span>
+    description: <span style="color:#93c5fd;">str</span>
+    command: <span style="color:#93c5fd;">list</span>[<span style="color:#93c5fd;">str</span>]
+
+TASKS = [
+    Task(<span style="color:#86efac;">"lint"</span>, <span style="color:#86efac;">"Check formatting and style"</span>, [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"ruff"</span>, <span style="color:#86efac;">"check"</span>, <span style="color:#86efac;">"."</span>]),
+    Task(<span style="color:#86efac;">"tests"</span>, <span style="color:#86efac;">"Run the fast test suite"</span>, [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"-m"</span>, <span style="color:#86efac;">"pytest"</span>, <span style="color:#86efac;">"-q"</span>]),
+    Task(<span style="color:#86efac;">"report"</span>, <span style="color:#86efac;">"Generate the daily HTML report"</span>, [<span style="color:#86efac;">"python"</span>, <span style="color:#86efac;">"scripts/build_report.py"</span>]),
+]</pre>
+</div>
+<p>For many internal tools, that is already enough. The runner becomes a shared entry point for small automation, and it creates a consistent place to improve later. You can add richer logging, a dry-run flag, or environment-aware commands when the project actually needs them.</p>
+<ul>
+<li>Keep task names short enough to remember from memory.</li>
+<li>Always print the command before you execute it.</li>
+<li>Return the real process exit code so CI and local scripts behave the same way.</li>
+</ul>
+<p>A tiny task runner will not replace a full release pipeline, but it solves a real coordination problem fast. That makes it one of the most useful small Python utilities a team can keep inside the repository.</p>
+</div>
+<div class="post-labels">
+<div class="label-head Label">
+<a class="label-link" href="index.html" rel="tag">Python</a>
 </div>
 </div>
 </div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post4.html">
-<img alt="Parse Application Logs with Python and Build a Daily Report" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w427-h248-p-k-no-nu/22.jpg=w72-h72-p-k-no-nu">
+<div class="post-footer">
+<ul class="post-nav">
+<li class="post-next">
+<a class="next-post-link" href="post4.html" id="Blog1_blog-pager-newer-link" rel="next">
+<div class="post-nav-inner"><span>Newer</span><p>
+Parse Application Logs with Python and Build a Daily Report
+</p></div>
 </a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="post4.html">
-Automation
+</li>
+<li class="post-prev">
+<a class="prev-post-link" href="index.html" id="Blog1_blog-pager-older-link" rel="previous">
+<div class="post-nav-inner"><span>Older</span><p>
+Back to the main feed
+</p></div>
 </a>
-<h2 class="post-title">
-<a href="post4.html">Parse Application Logs with Python and Build a Daily Report</a>
-</h2>
+</li>
+</ul>
+<div class="about-author">
+<div class="avatar-container">
+<img alt="Kate Studio" class="author-avatar" src="//blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGEyigbC_aEx_Xxmhi4rrzNna7RtI53QTClI6EOlp7qotFQfcEXdHXC__u4n5QGvhmWdA7IeGSqqufMF_Kn4X5lEtf4BR-LeEDn9ICx3S5qqo78-O9AQytTpyjxDS3IFU/w100/Sora+Blogging+Tips.jpg">
 </div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2026-04-03T09:30:00+03:00">April 3, 2026</span>
+<h3 class="author-name">
+<span>Posted by</span><a alt="Kate Studio" href="about.html">
+Kate Studio</a>
+</h3>
+<span class="author-description">Technical notes about Python workflows, automation patterns and maintainable utility scripts.</span>
 </div>
-<p class="post-snippet">A clean Python pattern for parsing noisy application logs, grouping failures by service and turning raw events into a short daily report.</p>
-<a class="read-more" href="post4.html">Read more</a>
+<div id="related-wrap">
+<div class="title-wrap">
+<h3>You may like these posts</h3>
 </div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/camping-in-abandoned-house-under-starry_17.html">
-<img alt="Camping in an abandoned house under the starry night at hill top" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhNPvfa9rUMTQZ27Gaeqlut9IKJYb-qLc5oa0G2RTvhLYFTR0N5_WnKDgvSa6rd5B2j5hNQeqdfN_rOVrzNnN3SMRPR4HVytGkTKGW66KOEAVULX29Oct3skrcsjMhO58qNGiRMnk70K22X/w427-h248-p-k-no-nu/23.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Business?&amp;max-results=5">
-Business
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/camping-in-abandoned-house-under-starry_17.html">Camping in an abandoned house under the starry night at hill top</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:57:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/camping-in-abandoned-house-under-starry_17.html">Read more</a>
+<div class="related-ready"><ul class="related-posts"><li class="related-item item-0"><a class="post-image-link" href="post4.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/w265-h132-p-k-no-nu/22.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post4.html">Parse Application Logs with Python and Build a Daily Report</a></h2></li><li class="related-item item-1"><a class="post-image-link" href="post1.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w265-h132-p-k-no-nu/24.jpg=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post1.html">Some amazing similarities between people around the world</a></h2></li><li class="related-item item-2"><a class="post-image-link" href="post2.html"><img class="post-thumb lazy-yard" alt="" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhPHRkqM9AWWsFRykjHhkNZE0rlDjWt7DwTf6_uQJJSsmMm8le0hDtAnqLNNhh4tsWlSk7ZVAF5YdU6jWL9nLws9g-UWYiCExBw43eP44mAKlWje2I-grkPqgYW4wmzSLNtaXBryVOUZm23/w265-h132-p-k-no-nu/1.png=w72-h72-p-k-no-nu"></a><h2 class="post-title"><a href="post2.html">Little known facts about deer worth knowing</a></h2></li></ul></div>
 </div>
 </div>
 </div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post1.html">
-<img alt="Some amazing similarities between people around the world" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglgPjRB1gS2xRFl-Fqm9mIoU-jLVaFDGZ5ebg29lR3DlMtE1QJEAQqds0muoLu0dfS54IgOtjROWcJPk3YnrFF0nbnYQzidKtR7kwpoCOsv85Bmbknb89beH_gQjn6Ux68VoL2igBS80qZ/w427-h248-p-k-no-nu/24.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Learn?&amp;max-results=5">
-Learn
-</a>
-<h2 class="post-title">
-<a href="post1.html">Some amazing similarities between people around the world</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:56:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="post1.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/a-perfect-road-map-for-travelling-asian_17.html">
-<img alt="A perfect road map for travelling asian countries" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFlGGucEMB3QfUg0BHn06uuYJod39GGJYVzX5CWKmzcYU_MwGAxGozjw1usF6HQ9vPY9Unp0ndel-xSmP_vcGqCSvNi9Pw3UcgDyRrdI1uS9QLHWIeN_geXs40eabh1dBEmk3kGqXxfBal/w427-h248-p-k-no-nu/25.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Fashion?&amp;max-results=5">
-Fashion
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/a-perfect-road-map-for-travelling-asian_17.html">A perfect road map for travelling asian countries</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:52:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1400s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/a-perfect-road-map-for-travelling-asian_17.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/mind-refreshing-song-by-rabindranath_17.html">
-<img alt="Mind refreshing song by Rabindranath Tagore" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/w427-h248-p-k-no-nu/26.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Nature?&amp;max-results=5">
-Nature
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/mind-refreshing-song-by-rabindranath_17.html">Mind refreshing song by Rabindranath Tagore</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:47:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/mind-refreshing-song-by-rabindranath_17.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="https://kate-soratemplates.blogspot.com/2016/03/listen-this-energetic-music-from-mix_17.html">
-<img alt="Listen This Energetic Music From Mix Cloud" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7l772AOfWrBtUdeOyGgUe3e2dG5HV6jQCGn0ZP8VlC5iWnd0gC7vNDuOKuEhLtPeG8UfqzbgULX5s2PcmEGiUCjmg4MFyJVX1DBPZZN37JDu4Vy_4qGJQh5_fqNLzvTHl5JeJIaxPL4-y/w427-h248-p-k-no-nu/27.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Fashion?&amp;max-results=5">
-Fashion
-</a>
-<h2 class="post-title">
-<a href="https://kate-soratemplates.blogspot.com/2016/03/listen-this-energetic-music-from-mix_17.html">Listen This Energetic Music From Mix Cloud</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:46:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="https://kate-soratemplates.blogspot.com/2016/03/listen-this-energetic-music-from-mix_17.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-post hentry index-post">
-<div class="index-post-inside-wrap">
-<div class="post-image-wrap">
-<a class="post-image-link" href="post2.html">
-<img alt="Little known facts about deer worth knowing" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAmod7jsYfDytIZGryHfbTwjcqG9pylpFPhYYjK9gZZWn3HGWg9f9GLTJsvNLiSJcvXTLM_R3YieZrJF0nIBgGvthj5jmz05UFx9By2rvviHMBGFgjt0gZ74GhGQezBXMmIrK_qlA8u8DQ/w427-h248-p-k-no-nu/28.jpg=w72-h72-p-k-no-nu">
-</a>
-</div>
-<div class="post-info-wrap">
-<div class="post-info">
-<a class="post-tag" href="https://kate-soratemplates.blogspot.com/search/label/Fashion?&amp;max-results=5">
-Fashion
-</a>
-<h2 class="post-title">
-<a href="post2.html">Little known facts about deer worth knowing</a>
-</h2>
-</div>
-<div class="index-post-footer">
-<div class="post-meta">
-<span class="post-author"><a href="https://www.blogger.com/profile/10687789128527805451" target="_blank" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2016-03-17T00:42:00-07:00">March 17, 2016</span>
-</div>
-<p class="post-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting  industry. Lorem Ipsum has been the industry's standard dummy text ever  since the 1500s, when an unknown printer took a galley of type and  scrambled it to make a type specimen book Lorem Ipsum has been the industry's standard dummy text ever since the  1500s,…</p>
-<a class="read-more" href="post2.html">Read more</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="blog-pager container" id="blog-pager">
-<a class="blog-pager-older-link" href="https://kate-soratemplates.blogspot.com/search?updated-max=2016-03-17T00:42:00-07:00&amp;max-results=8" id="Blog1_blog-pager-older-link" title="Older Posts">
-Load more posts
-</a>
 </div>
 </div></div></div></div>
 <!-- Sidebar Wrapper -->
@@ -4068,7 +3957,7 @@ Facebook
 </h3>
 </div>
 <div class="widget-content">
-<center><div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/soratemplates" data-width="360" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360"><span style="vertical-align: top; width: 0px; height: 0px; overflow: hidden;"><iframe name="f6af0e9310e7d02fe" width="360px" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v3.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dfef8ac52ad79049d3%26domain%3Dkate-soratemplates.blogspot.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fkate-soratemplates.blogspot.com%252Ff2259f4191fd9d0f6%26relation%3Dparent.parent&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360" style="border: none; visibility: visible; width: 0px; height: 0px;"></iframe></span></div></center>
+<center><div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/soratemplates" data-width="360" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360"><span style="vertical-align: top; width: 0px; height: 0px; overflow: hidden;"><iframe name="f0a22981111e55545" width="360px" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v3.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df6e4e3026c9a57f4a%26domain%3Dkate-soratemplates.blogspot.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fkate-soratemplates.blogspot.com%252Ffaf22209dd205b3b8%26relation%3Dparent.parent&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360" style="border: none; visibility: visible; width: 0px; height: 0px;"></iframe></span></div></center>
 </div>
 </div><div class="widget Label" data-version="2" id="Label3">
 <div class="widget-title">
@@ -4152,6 +4041,28 @@ Footer Menu Widget
 </div></div>
 </div>
 </div>
+</div>
+<!-- Hidden Widgets -->
+<div id="hidden-widgets-wrap" style="display:none">
+<div class="hidden-widgets section" id="hidden-widgets"><div class="widget ContactForm" data-version="2" id="ContactForm1">
+<div class="widget-title">
+<h3 class="title">
+Contact form
+</h3>
+</div>
+<div class="widget-content contact-form-widget">
+<div class="form">
+<form name="contact-form">
+<input ariby="Name" class="contact-form-name" id="ContactForm1_contact-form-name" name="name" placeholder="Name" size="30" type="text" value="">
+<input ariby="Email *" class="contact-form-email" id="ContactForm1_contact-form-email" name="email" placeholder="Email *" size="30" type="text" value="">
+<textarea ariby="Message *" class="contact-form-email-message" cols="25" id="ContactForm1_contact-form-email-message" name="email-message" placeholder="Message *" rows="5"></textarea>
+<input class="contact-form-button btn contact-form-button-submit" id="ContactForm1_contact-form-submit" type="button" value="Send">
+<p class="contact-form-error-message" id="ContactForm1_contact-form-error-message"></p>
+<p class="contact-form-success-message" id="ContactForm1_contact-form-success-message"></p>
+</form>
+</div>
+</div>
+</div></div>
 </div>
 <!-- Main Scripts -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
