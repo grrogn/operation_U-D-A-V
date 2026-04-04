@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 | Kate</title>
+  <meta name="theme-color" content="#f7f7ff">
+  <meta name="msapplication-navbutton-color" content="#f7f7ff">
+  <link rel="canonical" href="404.html">
+  <link rel="icon" type="image/x-icon" href="https://kate-soratemplates.blogspot.com/favicon.ico">
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #19ddc4;
+      --bg: #f7f7ff;
+      --surface: #ffffff;
+      --surface-soft: #fbfbff;
+      --text: #1f2024;
+      --muted: #656565;
+      --muted-2: #7d8696;
+      --border: #ececf7;
+      --footer: #171921;
+      --footer-edge: #1f2024;
+      --shadow: 0 24px 64px rgba(31, 32, 36, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--muted);
+      font: 14px/1.7 'Open Sans', sans-serif;
+      word-wrap: break-word;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: var(--accent);
+    }
+
+    img {
+      border: 0;
+      display: block;
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 0;
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .row {
+      width: 1170px;
+      max-width: calc(100% - 40px);
+      margin: 0 auto;
+    }
+
+    .clearfix {
+      clear: both;
+    }
+
+    .section,
+    .widget,
+    .widget ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    #outer-wrapper {
+      background: var(--surface);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    #header-wrap {
+      position: relative;
+      width: 100%;
+      min-height: 70px;
+      background: var(--surface);
+      z-index: 1010;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid #eee;
+    }
+
+    #header-wrap .container {
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .header-logo {
+      float: left;
+      margin: 0 20px 0 0;
+    }
+
+    .main-logo {
+      position: relative;
+      float: left;
+      width: auto;
+      max-width: 250px;
+      max-height: 52px;
+      margin: 0;
+      padding: 9px 5px;
+      box-sizing: border-box;
+    }
+
+    .main-logo .header-image-wrapper {
+      display: block;
+    }
+
+    .main-logo img {
+      max-width: 100%;
+      max-height: 52px;
+      margin: 0;
+    }
+
+    .header-menu {
+      float: left;
+    }
+
+    #main-menu {
+      position: relative;
+      height: 70px;
+      z-index: 15;
+    }
+
+    #main-menu > ul {
+      margin: 0;
+    }
+
+    #main-menu ul > li {
+      float: left;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      transition: background 0.17s ease;
+    }
+
+    #main-menu ul > li > a {
+      position: relative;
+      display: inline-block;
+      margin: 0;
+      padding: 0 15px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 70px;
+      transition: color 0.17s ease;
+    }
+
+    #main-menu ul#main-menu-nav > li:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    #main-menu ul#main-menu-nav > li:hover > a {
+      color: var(--text);
+    }
+
+    #main-menu ul > li > ul {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      float: left;
+      width: 180px;
+      background: var(--text);
+      border: 1px solid var(--text);
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+      margin-top: 0;
+      padding: 0;
+      visibility: hidden;
+      opacity: 0;
+      z-index: 99999;
+    }
+
+    #main-menu ul > li > ul > li > ul {
+      position: absolute;
+      float: left;
+      top: 0;
+      left: 100%;
+      margin: -1px 0 0;
+    }
+
+    #main-menu ul > li > ul > li {
+      display: block;
+      float: none;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--text);
+    }
+
+    #main-menu ul > li > ul > li:last-child {
+      border-bottom: 0;
+    }
+
+    #main-menu ul > li > ul > li a {
+      display: block;
+      height: 36px;
+      margin: 0;
+      padding: 0 15px;
+      box-sizing: border-box;
+      color: #f2f2f2;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 36px;
+      transition: color 0.17s ease;
+    }
+
+    #main-menu ul > li > ul > li a:hover {
+      color: var(--accent);
+    }
+
+    #main-menu ul > li.has-sub > a::after {
+      content: '\f107';
+      float: right;
+      margin-left: 6px;
+      font: normal normal normal 12px/1 FontAwesome;
+    }
+
+    #main-menu ul > li > ul > li.has-sub > a::after {
+      content: '\f105';
+      float: right;
+      margin: 0;
+    }
+
+    #main-menu ul > li:hover > ul,
+    #main-menu ul > li:focus-within > ul {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #main-menu ul ul {
+      transition: all 0.17s ease;
+    }
+
+    .header-signin-link {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: block;
+      width: 96px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 70px;
+      text-align: center;
+      z-index: 20;
+      transition: background-color 0.17s ease, color 0.17s ease;
+    }
+
+    .header-signin-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+    }
+
+    .show-search,
+    .hide-search {
+      position: absolute;
+      top: 0;
+      display: block;
+      width: 58px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .show-search {
+      right: 96px;
+    }
+
+    .hide-search {
+      right: 0;
+    }
+
+    .show-search::before {
+      content: '\f002';
+      font-family: FontAwesome;
+    }
+
+    .hide-search::before {
+      content: '\f00d';
+      font-family: FontAwesome;
+    }
+
+    #nav-search {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 96px;
+      left: 0;
+      width: auto;
+      min-width: 0;
+      height: 70px;
+      background: var(--surface);
+      z-index: 99;
+    }
+
+    #nav-search .search-form {
+      position: relative;
+      width: 100%;
+      height: 70px;
+      line-height: 70px;
+      overflow: visible;
+    }
+
+    #nav-search .search-input {
+      width: 100%;
+      height: 70px;
+      margin: 0;
+      padding: 0 58px 0 0;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    #nav-search .search-input:focus {
+      outline: none;
+    }
+
+    .search-suggestions {
+      display: none;
+      position: absolute;
+      top: 62px;
+      left: 0;
+      right: 0;
+      background: var(--surface);
+      border: 1px solid #eeeeee;
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
+      padding: 8px 0;
+      z-index: 120;
+    }
+
+    .search-suggestions.is-visible {
+      display: block;
+    }
+
+    .search-suggestion-item {
+      display: block;
+      padding: 10px 18px;
+      transition: background-color 0.17s ease;
+    }
+
+    .search-suggestion-item:hover {
+      background: #f8f8f8;
+    }
+
+    .search-suggestion-title {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    .search-suggestion-meta {
+      display: block;
+      margin-top: 2px;
+      color: #7a7a7a;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .search-suggestion-empty {
+      padding: 10px 18px;
+      color: #7a7a7a;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 58px;
+      height: 70px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 70px;
+      text-align: center;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    .mobile-menu-toggle::before {
+      content: '\f0c9';
+      font-family: FontAwesome;
+    }
+
+    .nav-active .mobile-menu-toggle::before {
+      content: '\f00d';
+    }
+
+    .mobile-menu-wrap {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      background: var(--text);
+      visibility: hidden;
+      opacity: 0;
+      z-index: 1000;
+      transition: all 0.17s ease;
+    }
+
+    .nav-active .mobile-menu-wrap {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .mobile-menu {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .mobile-menu > ul {
+      margin: 0;
+    }
+
+    .mobile-menu ul li {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      float: left;
+      width: 100%;
+      font-size: 14px;
+      line-height: 38px;
+    }
+
+    .mobile-menu ul li a {
+      display: block;
+      padding: 0;
+      color: #f2f2f2;
+    }
+
+    .mobile-menu .m-sub {
+      display: none;
+      padding: 0;
+    }
+
+    .mobile-menu .show > .m-sub {
+      display: block;
+    }
+
+    .mobile-menu > ul > li {
+      font-weight: 600;
+    }
+
+    .mobile-menu > ul li ul {
+      overflow: hidden;
+    }
+
+    .mobile-menu .submenu-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      cursor: pointer;
+    }
+
+    .mobile-menu .submenu-toggle::before {
+      content: '\f105';
+      float: right;
+      width: 34px;
+      color: #f2f2f2;
+      font-family: FontAwesome;
+      font-size: 14px;
+      font-weight: 400;
+      text-align: center;
+      transition: all 0.17s ease;
+    }
+
+    .mobile-menu .show > .submenu-toggle::before {
+      transform: rotate(90deg);
+    }
+
+    #content-wrapper {
+      padding: 40px 0 60px;
+    }
+
+    #content-wrapper > .container {
+      width: 100%;
+    }
+
+    #main-wrapper {
+      width: 100%;
+    }
+
+    .errorWrap {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 80px 0 100px;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .errorWrap h3 {
+      font-size: 120px;
+      line-height: 1;
+      margin: 0 0 18px;
+    }
+
+    .errorWrap h4 {
+      font-size: 30px;
+      margin: 0 0 16px;
+    }
+
+    .errorWrap p {
+      max-width: 520px;
+      margin: 0 auto 10px;
+      color: var(--muted);
+    }
+
+    .errorWrap .error-actions {
+      margin-top: 24px;
+    }
+
+    .errorWrap a,
+    .errorWrap a:visited {
+      display: inline-block;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .errorWrap a i {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    .errorWrap a:hover {
+      text-decoration: underline;
+    }
+
+    .source-archive {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+    #footer-wrapper {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      background: var(--footer-edge);
+      padding: 0;
+      border-top: 2px solid #ebebf3;
+    }
+
+    #footer-wrapper .container {
+      overflow: hidden;
+      margin: 0 auto;
+      padding: 15px 0;
+    }
+
+    #footer-wrapper .primary-footer {
+      float: left;
+      width: 100%;
+      margin: 0;
+      background: var(--footer);
+    }
+
+    #footer-wrapper .primary-footer .container {
+      padding: 15px 0;
+    }
+
+    #footer-about-area {
+      position: relative;
+      float: left;
+      width: calc(100% - (300px + 25px));
+      padding: 0;
+      margin: 0;
+    }
+
+    #footer-about-area .widget {
+      position: relative;
+      float: left;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    #footer-about-area .footer-logo {
+      display: block;
+      float: left;
+      box-sizing: border-box;
+      padding: 0 25px 0 0;
+      margin: 0;
+    }
+
+    #footer-about-area .footer-logo img {
+      display: block;
+      max-height: 50px;
+      margin: 0;
+    }
+
+    #footer-about-area .image-caption {
+      font-size: 13px;
+      line-height: 1.6em;
+      margin: 0;
+    }
+
+    .foot-bar-social {
+      float: right;
+      width: 300px;
+      margin: 0;
+      position: relative;
+      box-sizing: border-box;
+    }
+
+    .foot-bar-social ul {
+      margin: 0;
+    }
+
+    .social a::before {
+      display: inline-block;
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    .social .facebook a::before { content: '\f09a'; }
+    .social .twitter a::before { content: '\f099'; }
+    .social .instagram a::before { content: '\f16d'; }
+    .social .youtube a::before { content: '\f16a'; }
+    .social .linkedin a::before { content: '\f0e1'; }
+
+    .social-color .facebook a { background-color: #3b5999; }
+    .social-color .twitter a { background-color: #00acee; }
+    .social-color .instagram a { background: linear-gradient(15deg, #ffb13d, #dd277b, #4d5ed4); }
+    .social-color .youtube a { background-color: #db4a39; }
+    .social-color .linkedin a { background-color: #0077b5; }
+
+    .foot-bar-social ul > li {
+      float: left;
+      margin: 0 0 0 10px;
+    }
+
+    .foot-bar-social ul > li > a {
+      display: block;
+      width: 32px;
+      height: 32px;
+      background-color: rgba(155, 155, 155, 0.1);
+      border: 0;
+      border-radius: 2px;
+      box-sizing: border-box;
+      color: #dbdbdb;
+      font-size: 14px;
+      line-height: 32px;
+      text-align: center;
+    }
+
+    #menu-footer {
+      float: right;
+      position: relative;
+      display: block;
+    }
+
+    #menu-footer .widget > .widget-title {
+      display: none;
+    }
+
+    #menu-footer ul {
+      margin: 0;
+    }
+
+    #menu-footer ul li {
+      display: inline-block;
+      height: 34px;
+      padding: 0;
+      margin: 0;
+    }
+
+    #menu-footer a {
+      display: block;
+      margin: 0 0 0 5px;
+      padding: 0 10px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 34px;
+      text-transform: uppercase;
+    }
+
+    #menu-footer ul li:last-child a {
+      padding-right: 0;
+    }
+
+    .back-top {
+      display: none;
+      position: fixed;
+      right: 15px;
+      bottom: 15px;
+      z-index: 1010;
+      width: 32px;
+      height: 32px;
+      border-radius: 3px;
+      cursor: pointer;
+      overflow: hidden;
+      color: #fff;
+      font-size: 13px;
+      line-height: 32px;
+      text-align: center;
+    }
+
+    .back-top::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      opacity: 0.5;
+      transition: opacity 0.17s ease;
+    }
+
+    .back-top::after {
+      content: '\f077';
+      position: relative;
+      font-family: FontAwesome;
+      opacity: 0.8;
+      transition: opacity 0.17s ease;
+    }
+
+    .back-top:hover::before,
+    .back-top:hover::after,
+    .nav-active .back-top::before,
+    .nav-active .back-top::after {
+      opacity: 1;
+    }
+
+    @media screen and (max-width: 1100px) {
+      .row {
+        width: 100%;
+        max-width: calc(100% - 40px);
+      }
+    }
+
+    @media screen and (max-width: 980px) {
+      #header-wrap .container {
+        padding-right: 58px;
+        padding-left: 58px;
+        justify-content: center;
+      }
+
+      .header-logo,
+      .main-logo {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        text-align: center;
+      }
+
+      .header-menu,
+      .header-signin-link {
+        display: none;
+      }
+
+      .mobile-menu-wrap,
+      .mobile-menu-toggle {
+        display: block;
+      }
+
+      .show-search {
+        right: 0;
+      }
+
+      #nav-search {
+        right: 0;
+        width: 100%;
+      }
+
+      #nav-search .search-input {
+        padding: 0 58px 0 20px;
+      }
+
+      .errorWrap {
+        padding: 60px 0 80px;
+      }
+    }
+
+    @media screen and (max-width: 880px) {
+      #footer-about-area {
+        width: 100%;
+        text-align: center;
+        padding: 0;
+      }
+
+      #footer-about-area .widget {
+        width: 100%;
+      }
+
+      #footer-about-area .footer-logo {
+        float: none;
+        display: inline-block;
+        padding: 0;
+      }
+
+      #footer-about-area .image-caption {
+        margin: 10px 0 0;
+      }
+
+      .foot-bar-social {
+        width: 100%;
+        padding: 25px 0 0;
+        text-align: center;
+      }
+
+      .foot-bar-social ul > li {
+        float: none;
+        display: inline-block;
+        margin: 0 5px;
+      }
+    }
+
+    @media screen and (max-width: 680px) {
+      .row {
+        max-width: calc(100% - 28px);
+      }
+
+      #content-wrapper {
+        padding: 36px 0 56px;
+      }
+
+      .errorWrap {
+        padding: 50px 0 72px;
+      }
+
+      .errorWrap h3 {
+        font-size: 88px;
+      }
+
+      .errorWrap h4 {
+        font-size: 24px;
+      }
+    }
+
+    @media screen and (max-width: 560px) {
+      .errorWrap h3 {
+        font-size: 72px;
+      }
+
+      #nav-search {
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+<body class="error_page error404">
+  <div id="outer-wrapper">
+    <div id="header-wrap">
+      <div class="mobile-menu-wrap">
+        <div class="mobile-menu">
+          <ul id="main-menu-nav" role="menubar">
+            <li><a href="index.html" role="menuitem">Home</a></li>
+            <li><a href="about.html" role="menuitem">About</a></li>
+            <li class="has-sub">
+              <a href="#" role="menuitem">Highlights</a>
+              <ul class="sub-menu m-sub">
+                <li><a href="post3.html" role="menuitem">Python Workflow</a></li>
+                <li><a href="post8.html" role="menuitem">Telemetry Views</a></li>
+                <li><a href="post9.html" role="menuitem">Single Entry File</a></li>
+              </ul>
+              <div class="submenu-toggle"></div>
+            </li>
+            <li><a href="contactus.html" role="menuitem">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="header-logo">
+          <div class="main-logo section" id="main-logo" name="Header Logo">
+            <div class="widget Header" id="Header1">
+              <div class="header-widget">
+                <a class="header-image-wrapper" href="index.html">
+                  <img alt="Kate" src="Kate-logo.png">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="header-menu">
+          <div class="main-menu section" id="main-menu" name="Main Menu">
+            <div class="widget LinkList show-menu" id="LinkList74">
+              <ul id="main-menu-nav" role="menubar">
+                <li><a href="index.html" role="menuitem">Home</a></li>
+                <li><a href="about.html" role="menuitem">About</a></li>
+                <li class="has-sub">
+                  <a href="#" role="menuitem">Highlights</a>
+                  <ul class="sub-menu m-sub">
+                    <li><a href="post3.html" role="menuitem">Python Workflow</a></li>
+                    <li><a href="post8.html" role="menuitem">Telemetry Views</a></li>
+                    <li><a href="post9.html" role="menuitem">Single Entry File</a></li>
+                  </ul>
+                </li>
+                <li><a href="contactus.html" role="menuitem">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="nav-search">
+          <form action="#" class="search-form" data-post-search-form role="search">
+            <input autocomplete="off" class="search-input" data-post-search-input name="q" placeholder="Search posts" type="search" value="">
+            <div class="search-suggestions" data-post-search-results></div>
+            <span class="hide-search"></span>
+          </form>
+        </div>
+        <a class="header-signin-link" href="login.html">Sign in</a>
+        <span class="show-search"></span>
+        <span class="mobile-menu-toggle"></span>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <main class="row" id="content-wrapper">
+      <div class="container">
+        <div id="main-wrapper">
+          <section class="errorWrap">
+            <h3>404</h3>
+            <h4>Page not found</h4>
+            <p>The page may have moved, been removed, or the address may be incorrect.</p>
+            <p>Use the menu above or go back to the homepage.</p>
+            <div class="error-actions">
+              <a href="index.html"><i class="fa fa-home"></i>Back Home</a>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <!-- Hidden source payloads for DOM inspection -->
+    <div class="source-archive" hidden aria-hidden="true">
+<pre data-source-file="2_mod.txt">import cv2
+import numpy as np
+from ultralytics import YOLO
+from PIL import Image, ImageDraw, ImageFont
+import psycopg2
+import datetime
+import streamlit as st
+import pandas as pd
+import psycopg2
+import plotly.express as px
+MODEL_NAME = (&quot;yolov8x.pt&quot;)
+db_config = {
+   &quot;dbname&quot;: &quot;NewDataHelp&quot;,
+   &quot;user&quot;: &quot;postgres&quot;,
+   &quot;password&quot;: &quot;admin&quot;,
+   &quot;host&quot;: &quot;localhost&quot;,
+   &quot;port&quot;: &quot;5432&quot;
+}
+# 1. ПОДКЛЮЧЕНИЕ К БД
+try:
+   conn = psycopg2.connect(**db_config)
+   cur = conn.cursor()
+   db_ok = True
+   print(&quot;БАЗА ПОДКЛЮЧЕНА&quot;)
+except Exception as e:
+   db_ok = False
+   print(f&quot;ОШИБКА БД: {e}&quot;)
+# 2. ИНИЦИАЛИЗАЦИЯ
+model = YOLO(MODEL_NAME)
+cap = cv2.VideoCapture(&quot;test.MP4&quot;)
+track_history = {}
+try:
+   font = ImageFont.truetype(&quot;arial.ttf&quot;, 20)
+except:
+   font = ImageFont.load_default()
+while cap.isOpened():
+   success, frame = cap.read()
+   if not success: break
+   results = model.track(frame, persist=True, classes=[2, 5, 7],
+                         conf=0.3, iou=0.5, imgsz=1280, verbose=False)
+   if results[0].boxes.id is not None:
+       boxes = results[0].boxes.xyxy.int().cpu().numpy()
+       ids = results[0].boxes.id.int().cpu().tolist()
+       clss = results[0].boxes.cls.int().cpu().tolist()
+       centers = results[0].boxes.xywh.cpu().numpy()
+       # Сначала рисуем рамки (OpenCV)
+       for box in boxes:
+           cv2.rectangle(frame, (box[0], box[1]), (box[2], box[3]), (255, 100, 0), 2)
+       # Переходим в PIL для качественного текста (ОДИН РАЗ на кадр)
+       img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+       draw = ImageDraw.Draw(img_pil)
+       for box, track_id, cls, center in zip(boxes, ids, clss, centers):
+           x1, y1 = box[0], box[1]
+           x_c, y_c = int(center[0]), int(center[1])
+           label = model.names[cls].upper()
+           time_str = datetime.datetime.now().strftime(&quot;%H:%M:%S&quot;)
+           # Расчет скорости (ваша логика)
+           speed = round(abs(y_c - track_history.get(track_id, y_c)) * 2.5, 1)
+           track_history[track_id] = y_c
+           # Формируем текст
+           display_text = f&quot; {label} ID:{track_id} | {time_str} | X:{x_c} Y:{y_c} | {speed} km/h &quot;
+           # Рисуем подложку и красивый текст
+           tw, th = draw.textbbox((0, 0), display_text, font=font)[2:]
+           draw.rectangle([x1, y1 - th - 10, x1 + tw, y1], fill=(255, 100, 0))
+           draw.text((x1, y1 - th - 7), display_text, font=font, fill=(255, 255, 255))
+           # ЗАПИСЬ В POSTGRES
+           if db_ok:
+               try:
+                   cur.execute(&quot;&quot;&quot;
+                       INSERT INTO mart.current_traffic
+                       (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                   &quot;&quot;&quot;, (&#39;Cam_01&#39;, label, int(track_id), float(x_c), float(y_c), float(speed), 1))
+                   conn.commit()
+               except:
+                   conn.rollback()
+       # Возвращаем кадр в OpenCV
+       frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+   # Вывод
+   cv2.imshow(&quot;Smart Traffic System&quot;, cv2.resize(frame, (1280, 720)))
+   if cv2.waitKey(1) &amp; 0xFF == ord(&quot;q&quot;):
+       break
+cap.release()
+if db_ok: cur.close(); conn.close()
+cv2.destroyAllWindows()
+</pre>
+<pre data-source-file="full.txt">import cv2
+from ultralytics import YOLO
+from PIL import Image, ImageDraw, ImageFont
+import psycopg2
+import datetime
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import threading
+import time
+import plotly.graph_objects as go
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import numpy as np
+# --- КОНФИГУРАЦИЯ ---
+MODEL_NAME = &quot;yolov8x.pt&quot;
+db_config = {
+    &quot;dbname&quot;: &quot;NewDataHelp&quot;,
+    &quot;user&quot;: &quot;postgres&quot;,
+    &quot;password&quot;: &quot;admin&quot;,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;port&quot;: &quot;5432&quot;
+}
+# --- СКРЫТЫЙ DAG (ЭТАПЫ ОБРАБОТКИ) ---
+def get_raw_frame(cap):
+    &quot;&quot;&quot;Extract: Чтение кадра&quot;&quot;&quot;
+    success, frame = cap.read()
+    if not success:
+        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        return None
+    return frame
+def process_and_draw(frame, model, track_history, font):
+    &quot;&quot;&quot;Transform: Анализ и отрисовка&quot;&quot;&quot;
+    results = model.track(frame, persist=True, classes=[2, 5, 7],
+                          conf=0.3, iou=0.5, imgsz=1280, verbose=False)
+    db_rows = []
+    if results[0].boxes.id is not None:
+        boxes = results[0].boxes.xyxy.int().cpu().numpy()
+        ids = results[0].boxes.id.int().cpu().tolist()
+        clss = results[0].boxes.cls.int().cpu().tolist()
+        centers = results[0].boxes.xywh.cpu().numpy()
+        img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_pil)
+        for box, track_id, cls, center in zip(boxes, ids, clss, centers):
+            x1, y1 = box[0], box[1]
+            x_c, y_c = int(center[0]), int(center[1])
+            label = model.names[cls].upper()
+            speed = round(abs(y_c - track_history.get(track_id, y_c)) * 2.5, 1)
+            track_history[track_id] = y_c
+            db_rows.append((&#39;Cam_01&#39;, label, int(track_id), float(x_c), float(y_c), float(speed)))
+            time_str = datetime.datetime.now().strftime(&quot;%H:%M:%S&quot;)
+            display_text = f&quot; {label} ID:{track_id} | {time_str} | {speed} km/h &quot;
+            tw, th = draw.textbbox((0, 0), display_text, font=font)[2:]
+            draw.rectangle([x1, y1 - th - 10, x1 + tw, y1], fill=(255, 100, 0))
+            draw.text((x1, y1 - th - 7), display_text, font=font, fill=(255, 255, 255))
+
+        frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+    return db_rows, frame
+def push_to_database(cur, conn, data_list):
+    &quot;&quot;&quot;Load: Сохранение данных&quot;&quot;&quot;
+    for row in data_list:
+        try:
+            cur.execute(&quot;&quot;&quot;
+                INSERT INTO mart.current_traffic 
+                (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+            &quot;&quot;&quot;, (row[0], row[1], row[2], row[3], row[4], row[5], 1))
+            conn.commit()
+        except:
+            conn.rollback()
+# --- ФОНОВЫЕ ПОТОКИ ---
+def run_streaming_pipeline():
+    while True:
+        try:
+            conn = psycopg2.connect(**db_config)
+            cur = conn.cursor()
+            cur.execute(&quot;&quot;&quot;
+                INSERT INTO mart.traffic_history (report_hour, camera_id, vehicle_type, avg_speed, intensity, density)
+                SELECT date_trunc(&#39;hour&#39;, last_update), camera_id, vehicle_type, AVG(avg_speed), COUNT(*), AVG(count)
+                FROM mart.current_traffic GROUP BY 1, 2, 3
+                ON CONFLICT (report_hour, camera_id, vehicle_type) 
+                DO UPDATE SET avg_speed = EXCLUDED.avg_speed, intensity = EXCLUDED.intensity, density = EXCLUDED.density;
+            &quot;&quot;&quot;)
+            conn.commit()
+            cur.close()
+            conn.close()
+            time.sleep(5)
+        except:
+            time.sleep(5)
+def process_video():
+    model = YOLO(MODEL_NAME)
+    cap = cv2.VideoCapture(&quot;test.MP4&quot;)
+    track_history = {}
+    try:
+        font = ImageFont.truetype(&quot;arial.ttf&quot;, 20)
+    except:
+        font = ImageFont.load_default()
+    while cap.isOpened():
+        conn = psycopg2.connect(**db_config)
+        cur = conn.cursor()
+        frame = get_raw_frame(cap)
+        if frame is not None:
+            db_data, frame = process_and_draw(frame, model, track_history, font)
+            #bad_speed = sum(1 for r in db_data if r[5] &lt; 0 or r[5] &gt; 200)  # скорость
+            # bad_type = sum(1 for r in db_data if r[1] not in [&#39;CAR&#39;, &#39;TRUCK&#39;, &#39;BUS&#39;])  # тип ТС
+            # bad_coord = sum(1 for r in db_data if r[3] &lt; 0 or r[4] &lt; 0)
+            #if bad_speed: cur.execute(&quot;INSERT INTO mart.quality_log (issue) VALUES (%s)&quot;, (bad_speed,)); conn.commit()
+            if db_data:
+                push_to_database(cur, conn, db_data)
+        cur.close()
+        conn.close()
+# Запуск
+if &#39;video_thread_started&#39; not in st.session_state:
+    threading.Thread(target=process_video, daemon=True).start()
+    threading.Thread(target=run_streaming_pipeline, daemon=True).start()
+    st.session_state.video_thread_started = True
+# --- ДАШБОРД ---
+st.set_page_config(page_title=&quot;ITS Analytics Hub&quot;, layout=&quot;wide&quot;)
+st.title(&quot;🚦 Аналитическая панель ITS&quot;)
+@st.cache_data(ttl=5)
+def load_data():
+    conn = psycopg2.connect(**db_config)
+    df = pd.read_sql(&quot;SELECT * FROM mart.traffic_history ORDER BY report_hour DESC LIMIT 1000&quot;, conn)
+    conn.close()
+    return df
+try:
+    df = load_data()
+    if df.empty:
+        st.info(&quot;Ожидание данных...&quot;)
+    else:
+        df[&#39;report_hour&#39;] = pd.to_datetime(df[&#39;report_hour&#39;])
+        st.sidebar.header(&quot;Фильтры&quot;)
+        selected_camera = st.sidebar.selectbox(&quot;Камера&quot;, df[&#39;camera_id&#39;].unique())
+        selected_types = st.sidebar.multiselect(&quot;Типы ТС&quot;, df[&#39;vehicle_type&#39;].unique(),
+                                                default=df[&#39;vehicle_type&#39;].unique())
+        df_filtered = df[(df[&#39;camera_id&#39;] == selected_camera) &amp; (df[&#39;vehicle_type&#39;].isin(selected_types))]
+        if not df_filtered.empty:
+            last = df_filtered.iloc[0]  # Исправлено: индекс для метрик
+            # 1. Метрики и Прогнозы
+            st.subheader(&quot;📊 Текущее состояние и прогноз&quot;)
+            c1, c2, c3, c4, c5 = st.columns(5)
+            c1.metric(&quot;Интенсивность&quot;, f&quot;{int(last[&#39;intensity&#39;])} ТС/ч&quot;)
+            c2.metric(&quot;Ср. Скорость&quot;, f&quot;{last[&#39;avg_speed&#39;]:.0f} км/ч&quot;)
+            c3.metric(&quot;Прогноз 30м&quot;, f&quot;{int(last[&#39;intensity&#39;] * 1.15)} ТС&quot;)
+            c4.metric(&quot;Прогноз 60м&quot;, f&quot;{int(last[&#39;intensity&#39;] * 1.25)} ТС&quot;)
+            c5.metric(&quot;Прогноз 120м&quot;, f&quot;{int(last[&#39;intensity&#39;] * 1.35)} ТС&quot;)
+            # 2. Аналитика
+            st.subheader(&quot;📉 Анализ трафика и структуры&quot;)
+            col1, col2 = st.columns(2)
+            hourly = df_filtered.groupby(df_filtered[&#39;report_hour&#39;].dt.hour)[&#39;intensity&#39;].mean().reset_index()
+            hourly.columns = [&#39;часы&#39;, &#39;Интенсивность&#39;]  # ✅ переименовала
+            col1.plotly_chart(px.line(hourly, x=&#39;часы&#39;, y=&#39;Интенсивность&#39;, title=&quot;Загруженность по часам&quot;),
+                              use_container_width=True)
+            peak_hours = hourly.nlargest(3, &#39;Интенсивность&#39;)[&#39;часы&#39;].tolist()  # ✅ используется &#39;Интенсивность&#39;
+            col1.info(f&quot;🚨 Часы пик: {&#39;, &#39;.join([f&#39;{h}:00&#39; for h in peak_hours])}&quot;)
+            structure = df_filtered.groupby(&#39;vehicle_type&#39;)[&#39;intensity&#39;].sum().reset_index()
+            col2.plotly_chart(
+                px.pie(structure, values=&#39;intensity&#39;, names=&#39;vehicle_type&#39;, title=&quot;Доли транспорта&quot;, hole=0.4),
+                use_container_width=True)
+            # 3. ЭФФЕКТИВНОСТЬ МОДЕЛИ
+            st.subheader(&quot;📈 Оценка эффективности модели прогнозирования&quot;)
+            # Используем ПОЛНЫЕ данные (загружаем через функцию, которая уже есть)
+            full_df = load_data()  # или заново через psycopg2 с новым именем
+            if len(full_df) &gt; 10:
+                full_df[&#39;hour&#39;] = pd.to_datetime(full_df[&#39;report_hour&#39;]).dt.hour
+                train = full_df.iloc[:int(len(full_df) * 0.8)]
+                test = full_df.iloc[int(len(full_df) * 0.8):]
+                model = GradientBoostingRegressor().fit(train[[&#39;hour&#39;]], train[&#39;intensity&#39;])
+                pred = model.predict(test[[&#39;hour&#39;]])
+                c1, c2 = st.columns(2)
+                c1.metric(&quot;MAE&quot;, f&quot;{mean_absolute_error(test[&#39;intensity&#39;], pred):.1f}&quot;)
+                c2.metric(&quot;RMSE&quot;, f&quot;{np.sqrt(mean_squared_error(test[&#39;intensity&#39;], pred)):.1f}&quot;)
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(y=test[&#39;intensity&#39;].values, name=&quot;Факт&quot;))
+                fig.add_trace(go.Scatter(y=pred, name=&quot;Прогноз&quot;, line=dict(dash=&#39;dash&#39;)))
+                fig.update_layout(
+                    title=&quot;Прогноз vs Факт на валидации&quot;,
+                    xaxis_title=&quot;Временные интервалы (порядок тестовых данных)&quot;,
+                    yaxis_title=&quot;Интенсивность движения (ТС/час)&quot;
+                )
+                st.plotly_chart(fig, use_container_width=True)
+            else:
+                st.info(f&quot;Нужно больше данных для обучения модели (сейчас {len(full_df)} записей)&quot;)
+            # 4. Рекомендации
+            st.subheader(&quot;💡 Рекомендации диспетчеру&quot;)
+            if last[&#39;intensity&#39;] &gt; 200:
+                st.warning(&quot;🚦 Высокая плотность! Снизить скорость до 40 км/ч&quot;)
+            if last[&#39;avg_speed&#39;] &lt; 30:
+                st.error(&quot;⚠️ Затор обнаружен! Активировать табло оповещения.&quot;)
+                st.sidebar.subheader(&quot;📊 Мониторинг&quot;)
+                conn = psycopg2.connect(**db_config)
+                cur = conn.cursor()
+                cur.execute(
+                    &quot;CREATE TABLE IF NOT EXISTS mart.quality_log (id SERIAL PRIMARY KEY, issue INT, ts TIMESTAMP DEFAULT NOW())&quot;)
+                cnt = pd.read_sql(&quot;SELECT COUNT(*) as c FROM mart.current_traffic&quot;, conn)[&#39;c&#39;].iloc[0]
+                st.sidebar.metric(&quot;Записей в потоке&quot;, cnt)
+                bad = \
+                pd.read_sql(&quot;SELECT COUNT(*) as c FROM mart.quality_log WHERE ts &gt; NOW() - INTERVAL &#39;1 hour&#39;&quot;, conn)[
+                    &#39;c&#39;].iloc[0]
+                st.sidebar.metric(&quot;Ошибок за час&quot;, bad)
+                conn.close()
+    time.sleep(5)
+    st.rerun()
+except Exception as e:
+    st.error(f&quot;Ошибка: {e}&quot;)
+</pre>
+<pre data-source-file="postgr.txt">-- Таблица 1: current_traffic (текущий трафик)
+CREATE TABLE IF NOT EXISTS mart.current_traffic (
+    id SERIAL PRIMARY KEY,
+    camera_id VARCHAR(50),
+    vehicle_type VARCHAR(50),
+    track_id INTEGER,
+    x_coord FLOAT,
+    y_coord FLOAT,
+    avg_speed FLOAT,
+    count INTEGER,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Таблица 2: traffic_history (история трафика для аналитики)
+CREATE TABLE IF NOT EXISTS mart.traffic_history (
+    id SERIAL PRIMARY KEY,
+    report_hour TIMESTAMP,
+    camera_id VARCHAR(50),
+    vehicle_type VARCHAR(50),
+    avg_speed FLOAT,
+    intensity INTEGER,
+    density FLOAT,
+    UNIQUE(report_hour, camera_id, vehicle_type)
+);
+
+-- Таблица 3: quality_log (логи качества данных)
+CREATE TABLE IF NOT EXISTS mart.quality_log (
+    id SERIAL PRIMARY KEY,
+    issue INTEGER,
+    ts TIMESTAMP DEFAULT NOW()
+);
+-- Создание схемы mart
+CREATE SCHEMA IF NOT EXISTS mart;
+
+-- Представление для текущей ситуации
+CREATE OR REPLACE VIEW mart.current_situation AS
+SELECT 
+    camera_id,
+    vehicle_type,
+    COUNT(DISTINCT track_id) as active_vehicles,
+    ROUND(AVG(avg_speed), 1) as avg_speed,
+    MAX(avg_speed) as max_speed,
+    MIN(avg_speed) as min_speed,
+    COUNT(*) as total_detections,
+    MAX(last_update) as last_update
+FROM mart.current_traffic
+WHERE last_update &gt;= NOW() - INTERVAL &#39;5 minutes&#39;
+GROUP BY camera_id, vehicle_type;
+
+-- Представление для часовой статистики
+CREATE OR REPLACE VIEW mart.hourly_stats AS
+SELECT 
+    DATE_TRUNC(&#39;hour&#39;, last_update) as hour,
+    camera_id,
+    vehicle_type,
+    COUNT(DISTINCT track_id) as unique_vehicles,
+    AVG(avg_speed) as avg_speed,
+    COUNT(*) as detections
+FROM mart.current_traffic
+WHERE last_update &gt;= NOW() - INTERVAL &#39;24 hours&#39;
+GROUP BY DATE_TRUNC(&#39;hour&#39;, last_update), camera_id, vehicle_type;
+</pre>
+<pre data-source-file="main.py">import cv2, time, json, pandas as pd
+from collections import defaultdict
+from ultralytics import YOLO
+import psycopg2
+import streamlit as st
+import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime, timedelta
+import threading
+import queue
+
+# ============================================================================
+# МОДУЛЬ Б: Анализ и обработка больших данных
+# Streamlit дашборд для визуализации
+# ============================================================================
+
+# Подключение к БД (PostgreSQL для хранения метрик)
+conn = psycopg2.connect(
+    dbname=&quot;CAR&quot;, user=&quot;postgres&quot;, password=&quot;admin&quot;,
+    host=&quot;localhost&quot;, port=&quot;5432&quot;
+)
+cur = conn.cursor()
+
+# Классы YOLO для распознавания типов ТС
+YOLO_CLASSES = {2: &#39;car&#39;, 3: &#39;motorcycle&#39;, 5: &#39;bus&#39;, 7: &#39;truck&#39;}
+
+# Очередь для передачи данных в Streamlit
+data_queue = queue.Queue()
+
+def get_vehicle_type_id(name):
+    &quot;&quot;&quot;Получение ID типа ТС из БД&quot;&quot;&quot;
+    cur.execute(&quot;SELECT id FROM vehicle_types WHERE name = %s&quot;, (name,))
+    r = cur.fetchone()
+    if r: return r[0]
+    cur.execute(&quot;INSERT INTO vehicle_types (name, category) VALUES (%s, %s) RETURNING id&quot;, (name, name))
+    conn.commit()
+    return cur.fetchone()[0]
+
+# ----------------------------------------------------------------------------
+# ПОТОКОВАЯ ОБРАБОТКА (запускается в отдельном потоке)
+# ----------------------------------------------------------------------------
+
+def run_stream_thread():
+    &quot;&quot;&quot;Потоковая обработка видеоданных с отправкой данных в очередь&quot;&quot;&quot;
+    model = YOLO(&quot;yolo12x.pt&quot;)
+    cap = cv2.VideoCapture(&quot;video.mp4&quot;)
+    tracks = {}
+    frame = 0
+    colors = {&#39;car&#39;: (0,255,0), &#39;truck&#39;: (0,0,255), &#39;bus&#39;: (255,0,0), &#39;motorcycle&#39;: (0,255,255)}
+    
+    while cap.isOpened():
+        ret, f = cap.read()
+        if not ret: break
+        
+        frame += 1
+        t = time.time()
+        res = model.track(f, persist=True, verbose=False)
+        
+        if res[0].boxes.id is not None:
+            stats = defaultdict(lambda: [0, 0])
+            
+            for box, tid, cls in zip(res[0].boxes.xyxy.cpu().numpy(), 
+                                      res[0].boxes.id.cpu().numpy(), 
+                                      res[0].boxes.cls.cpu().numpy()):
+                x1, y1, x2, y2 = map(int, box[:4])
+                cx, cy = (x1+x2)//2, (y1+y2)//2
+                name = YOLO_CLASSES.get(int(cls), &#39;unknown&#39;)
+                
+                if tid in tracks:
+                    spd = ((cx - tracks[tid][0])**2 + (cy - tracks[tid][1])**2)**0.5
+                    stats[name][1] += spd
+                
+                tracks[tid] = (cx, cy, name)
+                stats[name][0] += 1
+            
+            # Сохраняем в БД и отправляем в очередь для Streamlit
+            for name, (cnt, spd_sum) in stats.items():
+                avg_spd = spd_sum / (cnt + 1)
+                cur.execute(&quot;INSERT INTO stream_metrics (time, vehicle_type_id, vehicle_class, intensity, avg_speed) VALUES (to_timestamp(%s), %s, %s, %s, %s)&quot;, 
+                           (t, get_vehicle_type_id(name), name, cnt, avg_spd))
+                
+                # Отправляем данные в очередь
+                data_queue.put({
+                    &quot;time&quot;: t,
+                    &quot;datetime&quot;: datetime.now(),
+                    &quot;vehicle_type&quot;: name,
+                    &quot;intensity&quot;: cnt,
+                    &quot;avg_speed&quot;: avg_spd,
+                    &quot;frame&quot;: frame
+                })
+            
+            conn.commit()
+            
+            # Отрисовка и отображение (опционально, можно отключить для Streamlit)
+            for name, (cnt, spd_sum) in stats.items():
+                avg_spd = spd_sum / (cnt + 1)
+                y = 30
+                cv2.putText(f, f&quot;Frame: {frame}&quot;, (10, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1)
+                y += 25
+                cv2.putText(f, f&quot;{name}: {cnt} (spd:{avg_spd:.1f})&quot;, (10, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1)
+        
+        # Очистка старых треков
+        if frame % 150 == 0:
+            tracks = {k: v for k, v in tracks.items() if time.time() - t &lt; 5}
+    
+    cap.release()
+    cv2.destroyAllWindows()
+
+# ----------------------------------------------------------------------------
+# STREAMLIT ДАШБОРД
+# ----------------------------------------------------------------------------
+
+def create_dashboard():
+    &quot;&quot;&quot;Создание интерактивной аналитической панели&quot;&quot;&quot;
+    
+    st.set_page_config(
+        page_title=&quot;Traffic Analytics Dashboard&quot;,
+        page_icon=&quot;🖕&quot;,
+        layout=&quot;wide&quot;,
+        initial_sidebar_state=&quot;expanded&quot;
+    )
+    
+    # Заголовок
+    st.title(&quot;🚦 Аналитика транспортных потоков&quot;)
+    st.markdown(&quot;---&quot;)
+    
+    # Боковая панель с фильтрами
+    with st.sidebar:
+        st.header(&quot;📊 Настройки&quot;)
+        
+        # Выбор типа ТС
+        vehicle_types = [&#39;car&#39;, &#39;motorcycle&#39;, &#39;bus&#39;, &#39;truck&#39;, &#39;all&#39;]
+        selected_vehicles = st.multiselect(
+            &quot;Типы транспортных средств&quot;,
+            vehicle_types,
+            default=[&#39;car&#39;, &#39;bus&#39;, &#39;truck&#39;]
+        )
+        
+        # Временной диапазон
+        time_range = st.selectbox(
+            &quot;Временной диапазон&quot;,
+            [&quot;Последние 5 минут&quot;, &quot;Последние 15 минут&quot;, &quot;Последний час&quot;, &quot;Все данные&quot;],
+            index=1
+        )
+        
+        # Обновление в реальном времени
+        auto_refresh = st.checkbox(&quot;Автообновление&quot;, value=True)
+        refresh_rate = st.slider(&quot;Частота обновления (сек)&quot;, 1, 10, 3) if auto_refresh else 0
+        
+        st.markdown(&quot;---&quot;)
+        st.caption(&quot;Данные обновляются в реальном времени из видеопотока&quot;)
+    
+    # Основная область - метрики KPI
+    col1, col2, col3, col4 = st.columns(4)
+    
+    # Placeholder для метрик
+    kpi_placeholders = {
+        &quot;total&quot;: col1.empty(),
+        &quot;avg_speed&quot;: col2.empty(),
+        &quot;peak_hour&quot;: col3.empty(),
+        &quot;congestion&quot;: col4.empty()
+    }
+    
+    # Графики
+    col_chart1, col_chart2 = st.columns(2)
+    with col_chart1:
+        st.subheader(&quot;📈 Интенсивность потока по типам ТС&quot;)
+        intensity_chart = st.empty()
+    
+    with col_chart2:
+        st.subheader(&quot;📉 Средняя скорость по типам ТС&quot;)
+        speed_chart = st.empty()
+    
+    # Дополнительные графики
+    st.subheader(&quot;🔄 Тренды и распределение&quot;)
+    col3, col4 = st.columns(2)
+    with col3:
+        distribution_chart = st.empty()
+    with col4:
+        correlation_chart = st.empty()
+    
+    # Таблица с последними данными
+    st.subheader(&quot;📋 Последние события&quot;)
+    data_table = st.empty()
+    
+    # Функция обновления дашборда
+    def update_dashboard():
+        # Определяем временной интервал
+        if time_range == &quot;Последние 5 минут&quot;:
+            time_filter = datetime.now() - timedelta(minutes=5)
+        elif time_range == &quot;Последние 15 минут&quot;:
+            time_filter = datetime.now() - timedelta(minutes=15)
+        elif time_range == &quot;Последний час&quot;:
+            time_filter = datetime.now() - timedelta(hours=1)
+        else:
+            time_filter = datetime.now() - timedelta(days=365)
+        
+        # Загрузка данных из БД
+        query = &quot;&quot;&quot;
+            SELECT sm.time, vt.name as vehicle_type, sm.intensity, sm.avg_speed
+            FROM stream_metrics sm
+            JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id
+            WHERE sm.time &gt;= %s
+            ORDER BY sm.time DESC
+            LIMIT 1000
+        &quot;&quot;&quot;
+        df = pd.read_sql(query, conn, params=(time_filter,))
+        
+        if df.empty:
+            return
+        
+        df[&quot;time&quot;] = pd.to_datetime(df[&quot;time&quot;])
+        
+        # Фильтрация по типам ТС
+        if &#39;all&#39; not in selected_vehicles:
+            df = df[df[&quot;vehicle_type&quot;].isin(selected_vehicles)]
+        
+        # Расчет KPI
+        total_vehicles = df[&quot;intensity&quot;].sum()
+        avg_speed_all = df[&quot;avg_speed&quot;].mean()
+        
+        # Часовой пик
+        df[&quot;hour&quot;] = df[&quot;time&quot;].dt.hour
+        peak_hour = df.groupby(&quot;hour&quot;)[&quot;intensity&quot;].sum().idxmax()
+        
+        # Оценка загруженности
+        congestion_level = &quot;🟢 Низкая&quot; if total_vehicles &lt; 100 else &quot;🟡 Средняя&quot; if total_vehicles &lt; 300 else &quot;🔴 Высокая&quot;
+        
+        # Обновление KPI
+        kpi_placeholders[&quot;total&quot;].metric(&quot;🚗 Всего ТС&quot;, f&quot;{total_vehicles:,}&quot;)
+        kpi_placeholders[&quot;avg_speed&quot;].metric(&quot;⚡ Средняя скорость&quot;, f&quot;{avg_speed_all:.1f} px/сек&quot;)
+        kpi_placeholders[&quot;peak_hour&quot;].metric(&quot;⏰ Час пик&quot;, f&quot;{peak_hour}:00&quot;)
+        kpi_placeholders[&quot;congestion&quot;].metric(&quot;📊 Загруженность&quot;, congestion_level)
+        
+        # График интенсивности
+        if not df.empty:
+            intensity_agg = df.groupby([&quot;time&quot;, &quot;vehicle_type&quot;])[&quot;intensity&quot;].sum().reset_index()
+            fig_intensity = px.line(
+                intensity_agg, 
+                x=&quot;time&quot;, 
+                y=&quot;intensity&quot;, 
+                color=&quot;vehicle_type&quot;,
+                title=&quot;Интенсивность транспортного потока&quot;,
+                labels={&quot;intensity&quot;: &quot;Количество ТС&quot;, &quot;time&quot;: &quot;Время&quot;}
+            )
+            intensity_chart.plotly_chart(fig_intensity, use_container_width=True)
+            
+            # График скорости
+            speed_agg = df.groupby([&quot;time&quot;, &quot;vehicle_type&quot;])[&quot;avg_speed&quot;].mean().reset_index()
+            fig_speed = px.line(
+                speed_agg,
+                x=&quot;time&quot;,
+                y=&quot;avg_speed&quot;,
+                color=&quot;vehicle_type&quot;,
+                title=&quot;Средняя скорость&quot;,
+                labels={&quot;avg_speed&quot;: &quot;Скорость (px/сек)&quot;, &quot;time&quot;: &quot;Время&quot;}
+            )
+            speed_chart.plotly_chart(fig_speed, use_container_width=True)
+            
+            # Распределение по типам ТС (круговая диаграмма)
+            type_distribution = df.groupby(&quot;vehicle_type&quot;)[&quot;intensity&quot;].sum().reset_index()
+            fig_pie = px.pie(
+                type_distribution,
+                values=&quot;intensity&quot;,
+                names=&quot;vehicle_type&quot;,
+                title=&quot;Распределение по типам ТС&quot;
+            )
+            distribution_chart.plotly_chart(fig_pie, use_container_width=True)
+            
+            # Корреляция интенсивности и скорости
+            corr = df[[&quot;intensity&quot;, &quot;avg_speed&quot;]].corr().iloc[0, 1]
+            fig_corr = go.Figure()
+            fig_corr.add_trace(go.Scatter(
+                x=df[&quot;intensity&quot;],
+                y=df[&quot;avg_speed&quot;],
+                mode=&quot;markers&quot;,
+                marker=dict(size=8, color=df[&quot;intensity&quot;], colorscale=&quot;Viridis&quot;),
+                text=df[&quot;vehicle_type&quot;]
+            ))
+            fig_corr.update_layout(
+                title=f&quot;Корреляция: интенсивность vs скорость (r={corr:.3f})&quot;,
+                xaxis_title=&quot;Интенсивность&quot;,
+                yaxis_title=&quot;Средняя скорость&quot;
+            )
+            correlation_chart.plotly_chart(fig_corr, use_container_width=True)
+            
+            # Таблица последних данных
+            display_df = df.head(10)[[&quot;time&quot;, &quot;vehicle_type&quot;, &quot;intensity&quot;, &quot;avg_speed&quot;]]
+            display_df.columns = [&quot;Время&quot;, &quot;Тип ТС&quot;, &quot;Количество&quot;, &quot;Средняя скорость&quot;]
+            data_table.dataframe(display_df, use_container_width=True)
+    
+    # Цикл обновления
+    if auto_refresh:
+        placeholder = st.empty()
+        while True:
+            update_dashboard()
+            time.sleep(refresh_rate)
+    else:
+        update_dashboard()
+        st.button(&quot;🔄 Обновить&quot;, on_click=update_dashboard)
+
+# ----------------------------------------------------------------------------
+# ЗАПУСК ПОТОКОВОЙ ОБРАБОТКИ И STREAMLIT
+# ----------------------------------------------------------------------------
+
+def run_stream():
+    &quot;&quot;&quot;Запуск потоковой обработки в отдельном потоке&quot;&quot;&quot;
+    stream_thread = threading.Thread(target=run_stream_thread, daemon=True)
+    stream_thread.start()
+    
+    # Запуск Streamlit дашборда
+    create_dashboard()
+
+def run_batch():
+    &quot;&quot;&quot;Пакетная обработка&quot;&quot;&quot;
+    df = pd.read_sql(&quot;SELECT sm.time, vt.name, sm.intensity, sm.avg_speed FROM stream_metrics sm JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id ORDER BY sm.time&quot;, conn)
+    
+    if not df.empty:
+        df[&quot;time&quot;] = pd.to_datetime(df[&quot;time&quot;])
+        pivot = df.set_index(&quot;time&quot;).groupby(&quot;name&quot;).resample(&quot;1min&quot;).agg({
+            &quot;intensity&quot;: &quot;sum&quot;,
+            &quot;avg_speed&quot;: &quot;mean&quot;
+        }).reset_index().pivot_table(index=&quot;time&quot;, columns=&quot;name&quot;, values=&quot;intensity&quot;, fill_value=0)
+        
+        pivot.to_csv(&quot;dwh_metrics.csv&quot;)
+        print(pivot.head())
+    else:
+        print(&quot;No data&quot;)
+
+def cleanup():
+    &quot;&quot;&quot;Закрытие соединения с БД&quot;&quot;&quot;
+    cur.close()
+    conn.close()
+
+# ----------------------------------------------------------------------------
+# ТОЧКА ВХОДА
+# ----------------------------------------------------------------------------
+if __name__ == &quot;__main__&quot;:
+    try:
+        MODE = &quot;stream&quot;
+        if MODE == &quot;stream&quot;:
+            # Для запуска Streamlit используйте команду:
+            # streamlit run script_name.py
+            run_stream()
+        else:
+            run_batch()
+    except Exception as e:
+        print(f&quot;Error: {e}&quot;)
+    finally:
+        cleanup()</pre>
+    </div>
+
+    <div id="footer-wrapper">
+      <div class="primary-footer">
+        <div class="container row">
+          <div class="footer-about-area section" id="footer-about-area" name="About &amp; Logo Section"><div class="widget Image" id="Image150">
+            <a class="footer-logo custom-image" href="index.html">
+              <img alt="Kate" id="Image150_img" src="Kate-logo-White.png">
+            </a>
+            <p class="image-caption excerpt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+          </div></div>
+          <div class="foot-bar-social social social-color section" id="foot-bar-social" name="Social Footer"><div class="widget LinkList" id="LinkList78">
+            <div class="widget-content">
+              <ul>
+                <li class="facebook"><a href="https://www.facebook.com/katestudiopro/" target="_blank" title="facebook"></a></li>
+                <li class="twitter"><a href="https://twitter.com/katestudio" target="_blank" title="twitter"></a></li>
+                <li class="instagram"><a href="https://www.instagram.com/katestudio/" target="_blank" title="instagram"></a></li>
+                <li class="youtube"><a href="https://www.youtube.com/@ThePythonDude" target="_blank" title="youtube"></a></li>
+                <li class="linkedin"><a href="https://hr.linkedin.com/katestudio/" target="_blank" title="linkedin"></a></li>
+              </ul>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="container row">
+        <div class="menu-footer section" id="menu-footer" name="Footer Menu"><div class="widget LinkList" id="LinkList76">
+          <div class="widget-title">
+            <h3 class="title">
+              Footer Menu Widget
+            </h3>
+          </div>
+          <div class="widget-content">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about.html">About</a></li>
+              <li><a href="contactus.html">Contact Us</a></li>
+            </ul>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="post-search.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var body = document.body;
+      var searchWrap = document.getElementById('nav-search');
+      var showSearch = document.querySelector('.show-search');
+      var hideSearch = document.querySelector('.hide-search');
+      var mobileToggle = document.querySelector('.mobile-menu-toggle');
+      var mobileMenuWrap = document.querySelector('.mobile-menu-wrap');
+      var submenuToggles = document.querySelectorAll('.mobile-menu .submenu-toggle');
+      var backTop = document.querySelector('.back-top');
+
+      if (showSearch && searchWrap) {
+        showSearch.addEventListener('click', function (event) {
+          event.preventDefault();
+          searchWrap.style.display = 'block';
+          var input = searchWrap.querySelector('.search-input');
+          if (input) {
+            input.focus();
+          }
+        });
+      }
+
+      if (hideSearch && searchWrap) {
+        hideSearch.addEventListener('click', function (event) {
+          event.preventDefault();
+          searchWrap.style.display = '';
+        });
+      }
+
+      if (mobileToggle) {
+        mobileToggle.addEventListener('click', function (event) {
+          event.preventDefault();
+          body.classList.toggle('nav-active');
+        });
+      }
+
+      submenuToggles.forEach(function (toggle) {
+        toggle.addEventListener('click', function (event) {
+          event.preventDefault();
+          var item = toggle.parentElement;
+          if (item) {
+            item.classList.toggle('show');
+          }
+        });
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!body.classList.contains('nav-active')) {
+          return;
+        }
+
+        var clickedToggle = mobileToggle && mobileToggle.contains(event.target);
+        var clickedMenu = mobileMenuWrap && mobileMenuWrap.contains(event.target);
+
+        if (!clickedToggle && !clickedMenu) {
+          body.classList.remove('nav-active');
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          body.classList.remove('nav-active');
+          if (searchWrap) {
+            searchWrap.style.display = '';
+          }
+        }
+      });
+
+      if (backTop) {
+        var syncBackTop = function () {
+          backTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+        };
+
+        syncBackTop();
+        window.addEventListener('scroll', syncBackTop, { passive: true });
+        backTop.addEventListener('click', function (event) {
+          event.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    });
+  </script>
+  <div class="back-top" title="Back to Top"></div>
+</body>
+</html>

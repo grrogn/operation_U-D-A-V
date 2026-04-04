@@ -652,8 +652,8 @@ const configs = {
     description:
       "A practical Python article about preparing imports, shared handles and small module-level resources before a live analytics loop starts.",
     label: "Python",
-    date: "2026-04-04T10:00:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2024-06-11T10:00:00+03:00",
+    displayDate: "June 11, 2024",
     coverAlt: "Python analytics service starter",
     coverCaption:
       "Suggested cover: an editor pane with a Python module opening beside a calm operations dashboard.",
@@ -772,8 +772,8 @@ queue_channel_name = "dashboard-events"
     description:
       "A practical article about handling small PostgreSQL lookups and worker startup code before a computer-vision stream begins to flow.",
     label: "PostgreSQL",
-    date: "2026-04-04T11:15:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2024-08-23T11:15:00+03:00",
+    displayDate: "August 23, 2024",
     coverAlt: "PostgreSQL lookup before worker startup",
     coverCaption:
       "Suggested cover: a compact SQL panel beside a Python worker boot sequence and a small camera preview.",
@@ -877,8 +877,8 @@ boot_profile["worker_state"] = "warmed"
     description:
       "A practical article about taking raw YOLO detections, tracking them across frames and turning them into simple per-frame metrics.",
     label: "Computer Vision",
-    date: "2026-04-04T12:30:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2024-09-07T12:30:00+03:00",
+    displayDate: "September 7, 2024",
     coverAlt: "YOLO detections and frame buckets",
     coverCaption:
       "Suggested cover: bounding boxes, track ids and a side note showing per-frame counters.",
@@ -966,8 +966,8 @@ print(speed_from_points((10, 10), (15, 18)))
     description:
       "A practical article about writing live metrics to PostgreSQL, pushing them into a queue and preserving a lightweight debug overlay.",
     label: "Data Pipeline",
-    date: "2026-04-04T13:45:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2024-11-16T13:45:00+03:00",
+    displayDate: "November 16, 2024",
     coverAlt: "PostgreSQL metrics and debug overlay",
     coverCaption:
       "Suggested cover: a metric insert stream, a queue handoff diagram and a compact on-frame debug overlay.",
@@ -1081,8 +1081,8 @@ overlay_enabled = bool(overlay_enabled)
     description:
       "A practical article about laying out a Streamlit analytics page with filters, KPI slots and empty chart regions before the refresh logic arrives.",
     label: "Streamlit",
-    date: "2026-04-04T15:00:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2025-01-28T15:00:00+03:00",
+    displayDate: "January 28, 2025",
     coverAlt: "Streamlit analytics layout sketch",
     coverCaption:
       "Suggested cover: a Streamlit-style dashboard wireframe with filters, cards and chart placeholders.",
@@ -1175,8 +1175,8 @@ layout_revision = layout_revision.upper()
     description:
       "A practical article about querying recent telemetry, calculating KPIs and drawing Plotly views inside a simple refresh function.",
     label: "Analytics",
-    date: "2026-04-04T16:15:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2025-03-14T16:15:00+03:00",
+    displayDate: "March 14, 2025",
     coverAlt: "Telemetry query and Plotly views",
     coverCaption:
       "Suggested cover: time filters, KPI cards and line charts updating from a recent telemetry query.",
@@ -1272,8 +1272,8 @@ chart_theme_name = chart_theme_name.title()
     description:
       "A practical article about toggling between live processing, batch export and clean shutdown without changing the overall architecture of the file.",
     label: "Operations",
-    date: "2026-04-04T17:30:00+03:00",
-    displayDate: "April 4, 2026",
+    date: "2025-05-09T17:30:00+03:00",
+    displayDate: "May 9, 2025",
     coverAlt: "Live mode, batch mode and shutdown path",
     coverCaption:
       "Suggested cover: a Python entry file branching into live mode, batch export and a clean shutdown routine.",
