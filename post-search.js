@@ -25,37 +25,37 @@ document.addEventListener('DOMContentLoaded', function () {
       meta: 'post2.html'
     },
     {
-      title: 'Build a Tiny Python Task Runner for Repetitive Scripts',
+      title: 'Shape the Import Surface of a Python Analytics Service Before the Live Loop',
       url: 'post3.html',
       meta: 'post3.html'
     },
     {
-      title: 'Parse Application Logs with Python and Build a Daily Report',
+      title: 'Keep PostgreSQL Lookups Cheap While a Vision Worker Boots Up',
       url: 'post4.html',
       meta: 'post4.html'
     },
     {
-      title: 'Validate Environment Variables in Python Before the App Starts',
+      title: 'Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread',
       url: 'post5.html',
       meta: 'post5.html'
     },
     {
-      title: 'Import CSV Files with Python and Catch Bad Rows Early',
+      title: 'Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby',
       url: 'post6.html',
       meta: 'post6.html'
     },
     {
-      title: 'Design a Small JSON Settings Loader with Defaults and Overrides',
+      title: 'Sketch a Streamlit Analytics Page With Filters Before the Data Arrives',
       url: 'post7.html',
       meta: 'post7.html'
     },
     {
-      title: 'Archive Reports with pathlib and Keep Project Folders Tidy',
+      title: 'Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle',
       url: 'post8.html',
       meta: 'post8.html'
     },
     {
-      title: 'Write a Safe Retry Helper for Temporary API Failures',
+      title: 'Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File',
       url: 'post9.html',
       meta: 'post9.html'
     }
