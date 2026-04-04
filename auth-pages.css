@@ -44,7 +44,7 @@ button{background:none;border:0;padding:0}
 .show-search{right:96px}
 .hide-search{right:0}
 .mobile-menu-toggle{left:0;display:none}
-.show-search::before,.hide-search::before,.mobile-menu-toggle::before,.back-top::after,.auth-password-toggle::before,.auth-badge::before,.auth-points li::before{font-family:FontAwesome}
+.show-search::before,.hide-search::before,.mobile-menu-toggle::before,.back-top::after,.auth-password-toggle::before,.auth-badge::before,.auth-points li::before,.social a::before{font-family:FontAwesome}
 .show-search::before{content:"\f002"}
 .hide-search::before{content:"\f00d"}
 .mobile-menu-toggle::before{content:"\f0c9"}
@@ -120,11 +120,27 @@ button{background:none;border:0;padding:0}
 #footer-wrapper{overflow:hidden;background:var(--dark);border-top:2px solid var(--border)}
 #footer-wrapper .primary-footer{width:100%;background:var(--dark-soft)}
 #footer-wrapper .container{overflow:hidden;padding:10px 20px}
-#footer-about-area{width:calc(100% - 220px)}
-#footer-about-area .widget{float:left}
+#footer-about-area{float:left;width:calc(100% - 270px)}
+#footer-about-area .widget{float:left;width:100%}
 #footer-about-area .footer-logo{float:left;padding-right:25px}
 #footer-about-area .footer-logo img{max-height:50px}
-#footer-about-area .image-caption{margin:0;color:#d5d8df;font-size:13px}
+#footer-about-area .image-caption{display:flex;align-items:center;min-height:50px;margin:0;color:#d5d8df;font-size:13px;line-height:1.7}
+.foot-bar-social{float:right;padding:8px 0}
+.social a::before{display:block}
+.social .facebook a::before{content:"\f09a"}
+.social .twitter a::before{content:"\f099"}
+.social .instagram a::before{content:"\f16d"}
+.social .youtube a::before{content:"\f16a"}
+.social .linkedin a::before{content:"\f0e1"}
+.social ul li{float:left;margin:0 0 0 8px}
+.social ul li:first-child{margin-left:0}
+.social ul li a{display:block;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:14px;line-height:34px;text-align:center;transition:transform .17s ease,background-color .17s ease}
+.social ul li a:hover{transform:translateY(-2px)}
+.social-color .facebook a{background-color:#3b5999}
+.social-color .twitter a{background-color:#00acee}
+.social-color .instagram a{background:linear-gradient(15deg,#ffb13d,#dd277b,#4d5ed4)}
+.social-color .youtube a{background-color:#db4a39}
+.social-color .linkedin a{background-color:#0077b5}
 #menu-footer{float:right}
 #menu-footer ul li{display:inline-block}
 #menu-footer ul li a{display:block;margin:0 0 0 5px;padding:0 10px;line-height:34px;font-size:11px;font-weight:600;text-transform:uppercase;color:#fff}
@@ -149,7 +165,10 @@ button{background:none;border:0;padding:0}
   #footer-about-area{width:100%;text-align:center}
   #footer-about-area .widget{width:100%}
   #footer-about-area .footer-logo{float:none;display:inline-block;padding:0}
-  #footer-about-area .image-caption{margin:10px 0 0}
+  #footer-about-area .image-caption{display:block;min-height:0;margin:10px 0 0}
+  .foot-bar-social{width:100%;padding:14px 0 0;text-align:center}
+  .social ul{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap}
+  .social ul li{float:none}
   #menu-footer{width:100%;margin-top:10px;text-align:center}
 }
 @media screen and (max-width:680px){

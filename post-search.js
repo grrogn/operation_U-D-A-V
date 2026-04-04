@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  var routeTools = window.SITE_ROUTES || {};
   var searchWrap = document.getElementById('nav-search');
   if (!searchWrap) {
     return;
@@ -88,8 +89,18 @@ document.addEventListener('DOMContentLoaded', function () {
         "title": "Validate a Forecasting Loop and Surface Dispatcher Warnings Without Noise",
         "url": "post15.html",
         "meta": "post15.html"
-    }
-];
+      }
+  ];
+
+  posts = posts.map(function (post) {
+    var cleanPath = routeTools.getPostPath ? routeTools.getPostPath(post.url) : post.url;
+
+    return {
+      title: post.title,
+      url: cleanPath,
+      meta: cleanPath
+    };
+  });
 
   function escapeHtml(value) {
     return value.replace(/[&<>"']/g, function (char) {

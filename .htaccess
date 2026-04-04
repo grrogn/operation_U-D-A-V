@@ -1,0 +1,31 @@
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+RewriteRule ^index\.html$ / [R=301,L]
+RewriteRule ^about\.html$ /about/ [R=301,L]
+RewriteRule ^contactus\.html$ /contact/ [R=301,L]
+RewriteRule ^login\.html$ /login/ [R=301,L]
+RewriteRule ^register\.html$ /register/ [R=301,L]
+RewriteRule ^post1\.html$ /blogs/some-amazing-similarities-between-people-around-the-world/ [R=301,L]
+RewriteRule ^post2\.html$ /blogs/little-known-facts-about-deer-worth-knowing/ [R=301,L]
+RewriteRule ^post3\.html$ /blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/ [R=301,L]
+RewriteRule ^post4\.html$ /blogs/keep-postgresql-lookups-cheap-while-a-vision-worker-boots-up/ [R=301,L]
+RewriteRule ^post5\.html$ /blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/ [R=301,L]
+RewriteRule ^post6\.html$ /blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/ [R=301,L]
+RewriteRule ^post7\.html$ /blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/ [R=301,L]
+RewriteRule ^post8\.html$ /blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/ [R=301,L]
+RewriteRule ^post9\.html$ /blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/ [R=301,L]
+RewriteRule ^post10\.html$ /blogs/lay-out-a-traffic-intelligence-file-before-the-first-frame-arrives/ [R=301,L]
+RewriteRule ^post11\.html$ /blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/ [R=301,L]
+RewriteRule ^post12\.html$ /blogs/persist-live-detections-and-roll-them-into-an-hourly-mart/ [R=301,L]
+RewriteRule ^post13\.html$ /blogs/start-the-workers-once-and-cache-the-first-history-pull/ [R=301,L]
+RewriteRule ^post14\.html$ /blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/ [R=301,L]
+RewriteRule ^post15\.html$ /blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /404.html [L]
+</IfModule>

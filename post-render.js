@@ -1,4 +1,5 @@
 (function () {
+  var routeTools = window.SITE_ROUTES || {};
   var HEADER_LOGO_URL =
     'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhhTQYRE8H5fUkmMT17hRa2gfoFZIUWtJh08yFyhwrogJ1d4EgpgVu1fX4CCEAvKbBzcUDRigfteKq1sXYVa9oxLY8bLQ_UFDfoXpHcIth5VVIgsJrKuVGV3cn4T5MrXDmlYqyFDU3GNmMt/s1600/Kate-logo.png';
   var FOOTER_LOGO_URL =
@@ -72,12 +73,37 @@
   ].join('\n');
   var POPULAR_POSTS_PATTERN =
     /<div class="widget PopularPosts" data-version="2" id="PopularPosts1">[\s\S]*?<\/div>\s*<\/div>\s*<div class="widget HTML" data-version="2" id="HTML1">/;
+  var FOOTER_SOCIAL_WIDGET = [
+    '<div class="foot-bar-social social social-color section" id="foot-bar-social" name="Social Footer"><div class="widget LinkList" data-version="2" id="LinkList78">',
+    '<div class="widget-content">',
+    '<ul>',
+    '<li class="facebook"><a href="https://www.facebook.com/katestudiopro/" target="_blank" title="facebook"></a></li>',
+    '<li class="twitter"><a href="https://twitter.com/katestudio" target="_blank" title="twitter"></a></li>',
+    '<li class="instagram"><a href="https://www.instagram.com/katestudio/" target="_blank" title="instagram"></a></li>',
+    '<li class="youtube"><a href="https://www.youtube.com/@ThePythonDude" target="_blank" title="youtube"></a></li>',
+    '<li class="linkedin"><a href="https://hr.linkedin.com/katestudio/" target="_blank" title="linkedin"></a></li>',
+    '</ul>',
+    '</div>',
+    '</div></div>'
+  ].join('\n');
+  var FOOTER_SOCIAL_PATTERN =
+    /<div class="foot-bar-social social social-color section" id="foot-bar-social" name="Social Footer"><div class="widget LinkList" data-version="2" id="LinkList78">[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/;
+  var FOOTER_COPY_OLD =
+    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s.';
+  var FOOTER_COPY_NEW = 'Notes on software, systems and IT work.';
 
   function replaceAll(source, token, value) {
     return source.split(token).join(value);
   }
 
   function getCurrentFileName() {
+    if (routeTools.getLegacyPostIdFromPath) {
+      var routedPostId = routeTools.getLegacyPostIdFromPath(window.location.pathname || '');
+      if (routedPostId) {
+        return routedPostId;
+      }
+    }
+
     var pathname = window.location.pathname || '';
     var normalized = pathname.replace(/\\/g, '/');
     var fileName = normalized.split('/').pop();
@@ -94,10 +120,12 @@
     html = replaceAll(html, HEADER_LOGO_URL, HEADER_LOGO_LOCAL_URL);
     html = replaceAll(html, FOOTER_LOGO_URL, FOOTER_LOGO_LOCAL_URL);
     html = replaceAll(html, SIDEBAR_VIDEO_OLD_URL, SIDEBAR_VIDEO_LOCAL_URL);
+    html = replaceAll(html, FOOTER_COPY_OLD, FOOTER_COPY_NEW);
     html = html.replace(
       POPULAR_POSTS_PATTERN,
       POPULAR_POSTS_WIDGET + '\n</div><div class="widget HTML" data-version="2" id="HTML1">'
     );
+    html = html.replace(FOOTER_SOCIAL_PATTERN, FOOTER_SOCIAL_WIDGET);
     if (override) {
       html = replaceAll(html, override.publishedOld, override.publishedNew);
       html = replaceAll(html, override.modifiedOld, override.publishedNew);
@@ -111,6 +139,8 @@
     var posts = window.POSTS_DATA || {};
     var template = window.POST_TEMPLATE;
     var post = posts[fileName];
+    var cleanPath = routeTools.getPostPath ? routeTools.getPostPath(fileName) : fileName;
+    var absoluteCleanPath = routeTools.toAbsoluteUrl ? routeTools.toAbsoluteUrl(cleanPath) : cleanPath;
 
     if (!template || !post) {
       document.open();
@@ -122,16 +152,20 @@
     var html = template;
 
     html = replaceAll(html, '__PAGE_TITLE__', post.pageTitle);
-    html = replaceAll(html, '__CANONICAL__', post.canonical);
+    html = replaceAll(html, '__CANONICAL__', cleanPath || post.canonical);
     html = replaceAll(html, '__COMMENTS_FEED__', post.commentsFeed);
     html = replaceAll(html, '__IMAGE_SRC__', post.imageSrc);
-    html = replaceAll(html, '__OG_URL__', post.ogUrl);
+    html = replaceAll(html, '__OG_URL__', absoluteCleanPath || post.ogUrl);
     html = replaceAll(html, '__OG_TITLE__', post.ogTitle);
     html = replaceAll(html, '__OG_DESCRIPTION__', post.ogDescription);
     html = replaceAll(html, '__OG_IMAGE__', post.ogImage);
     html = replaceAll(html, '__ARTICLE_HTML__', post.articleHtml);
     html = replaceAll(html, '`n', '\n');
+    html = replaceAll(html, '<script src="post-search.js"></script>', '<script src="site-routes.js"></script>\n<script src="post-search.js"></script>');
     html = normalizeTemplateAssets(html, fileName);
+    if (routeTools.rewriteHtmlReferences) {
+      html = routeTools.rewriteHtmlReferences(html);
+    }
     html = replaceAll(html, '</body>', '<script src="post-code-theme.js"></script></body>');
 
     document.open();

@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Poppins:400,600,700" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="auth-pages.css">
+  <script src="site-routes.js"></script>
+</head>
+<body class="auth-page">
+  <div id="outer-wrapper">
+    <div id="header-wrap">
+      <div class="mobile-menu-wrap">
+        <div class="mobile-menu">
+          <ul id="main-menu-nav" role="menubar">
+            <li><a href="index.html" role="menuitem">Home</a></li>
+            <li><a href="about.html" role="menuitem">About</a></li>
+            <li><a href="contactus.html" role="menuitem">Contact Us</a></li>
+            <li class="has-sub">
+              <a href="#" role="menuitem">Account</a>
+              <ul class="sub-menu m-sub">
+                <li><a href="login.html" role="menuitem">Sign In</a></li>
+                <li><a href="register.html" role="menuitem">Create Account</a></li>
+              </ul>
+              <div class="submenu-toggle"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="container row">
+        <div class="header-logo">
+          <div class="main-logo">
+            <a class="header-image-wrapper" href="index.html">
+              <img alt="Kate" src="Kate-logo.png">
+            </a>
+          </div>
+        </div>
+        <div class="header-menu">
+          <nav id="main-menu">
+            <ul id="main-menu-nav" role="menubar">
+              <li><a href="index.html" role="menuitem">Home</a></li>
+              <li><a href="about.html" role="menuitem">About</a></li>
+              <li><a href="contactus.html" role="menuitem">Contact Us</a></li>
+              <li><a href="login.html" role="menuitem">Sign In</a></li>
+              <li><a class="auth-nav-link is-active" href="register.html" role="menuitem">Create Account</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div id="nav-search">
+          <form action="#" class="search-form" data-post-search-form role="search">
+            <input autocomplete="off" class="search-input" data-post-search-input name="q" placeholder="Search posts" type="search">
+            <div class="search-suggestions" data-post-search-results></div>
+            <span class="hide-search"></span>
+          </form>
+        </div>
+        <a class="header-signin-link" href="login.html">Sign in</a>
+        <span class="show-search"></span>
+        <span class="mobile-menu-toggle"></span>
+      </div>
+    </div>
+
+    <div class="row" id="content-wrapper">
+      <div class="container">
+        <div id="main-wrapper">
+          <section class="auth-hero">
+            <span class="auth-kicker">New Account</span>
+            <h1>Create an account that matches the style of the whole site.</h1>
+            <p>This page keeps the same mood, spacing and colors while giving you a clean registration flow without social sign-in or third-party providers.</p>
+          </section>
+
+          <div class="auth-shell">
+            <section class="auth-card">
+              <div class="widget-title">
+                <h3>Create Account</h3>
+              </div>
+              <p class="auth-form-copy">Classic account creation only: name, email and password.</p>
+              <div class="contact-form-widget">
+                <form data-auth-form="register" novalidate>
+                  <div class="auth-status" aria-live="polite"></div>
+                  <div class="auth-field-row">
+                    <input class="contact-form-name" name="name" placeholder="Full name" type="text" autocomplete="name">
+                    <input class="contact-form-email" name="email" placeholder="Email address" type="email" autocomplete="email">
+                  </div>
+                  <div class="auth-field-row">
+                    <div class="auth-password-wrap">
+                      <input class="contact-form-email" id="register-password" name="password" placeholder="Create password" type="password" autocomplete="new-password">
+                      <button class="auth-password-toggle" type="button" data-password-toggle="#register-password" aria-label="Show password"></button>
+                    </div>
+                    <div class="auth-password-wrap">
+                      <input class="contact-form-email" id="register-confirm-password" name="confirm_password" placeholder="Confirm password" type="password" autocomplete="new-password">
+                      <button class="auth-password-toggle" type="button" data-password-toggle="#register-confirm-password" aria-label="Show password"></button>
+                    </div>
+                  </div>
+                  <div class="auth-form-meta">
+                    <label class="auth-check">
+                      <input type="checkbox" name="terms">
+                      <span>I agree to the basic site terms</span>
+                    </label>
+                    <a class="auth-inline-link" href="login.html">Already registered?</a>
+                  </div>
+                  <button class="contact-form-button-submit" type="submit">Create Account</button>
+                </form>
+                <p class="auth-switch">Already have an account? <a href="login.html">Sign in here</a>.</p>
+              </div>
+            </section>
+
+            <aside class="auth-side-card">
+              <span class="auth-badge">Member Perks</span>
+              <h2>Why create an account</h2>
+              <p>A simple account makes the experience feel more complete and opens the door for personal features inside the site.</p>
+              <ul class="auth-points">
+                <li>Quick sign-in with your own email and password whenever you return.</li>
+                <li>A personal base for future favorites, bookmarks and private content.</li>
+                <li>More trust and realism for the whole project presentation.</li>
+              </ul>
+              <div class="auth-mini-card">
+                <strong>Good foundation</strong>
+                <p>Once a real backend is added, this registration page can easily grow into a full user system with profiles, notifications and personal settings.</p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-wrapper">
+      <div class="primary-footer">
+        <div class="container row">
+          <div class="footer-about-area section" id="footer-about-area" name="About &amp; Logo Section">
+            <div class="widget Image" data-version="2" id="Image150">
+              <a class="footer-logo custom-image" href="index.html">
+                <img alt="Kate" src="Kate-logo-White.png">
+              </a>
+              <p class="image-caption excerpt">Notes on software, systems and IT work.</p>
+            </div>
+          </div>
+          <div class="foot-bar-social social social-color section" id="foot-bar-social" name="Social Footer">
+            <div class="widget LinkList" data-version="2" id="LinkList78">
+              <div class="widget-content">
+                <ul>
+                  <li class="facebook"><a href="https://www.facebook.com/katestudiopro/" target="_blank" title="facebook"></a></li>
+                  <li class="twitter"><a href="https://twitter.com/katestudio" target="_blank" title="twitter"></a></li>
+                  <li class="instagram"><a href="https://www.instagram.com/katestudio/" target="_blank" title="instagram"></a></li>
+                  <li class="youtube"><a href="https://www.youtube.com/@ThePythonDude" target="_blank" title="youtube"></a></li>
+                  <li class="linkedin"><a href="https://hr.linkedin.com/katestudio/" target="_blank" title="linkedin"></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container row">
+          <div class="menu-footer section" id="menu-footer" name="Footer Menu">
+            <div class="widget LinkList" data-version="2" id="LinkList76">
+              <div class="widget-title">
+                <h3 class="title">Footer Menu Widget</h3>
+              </div>
+              <div class="widget-content">
+                <ul>
+                  <li><a href="/">Home</a></li>
+                  <li><a href="about.html">About</a></li>
+                  <li><a href="contactus.html">Contact Us</a></li>
+                  <li><a href="login.html">Sign In</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="back-top" title="Back to Top"></div>
+  <script src="post-search.js"></script>
+  <script src="auth-pages.js"></script>
+</body>
+</html>
+
