@@ -1,7 +1,7 @@
 ﻿<html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
   <base href="/">
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
-<title>About</title>
+<title>About the Project</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <!-- Chrome, Firefox OS and Opera -->
 <meta content="#f7f7ff" name="theme-color">
@@ -16,8 +16,8 @@
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
 <meta content="https://kate-soratemplates.blogspot.com/p/about.html" property="og:url">
-<meta content="About" property="og:title">
-<meta content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever sinc..." property="og:description">
+<meta content="About the Project" property="og:title">
+<meta content="Victor Cramer shares how a childhood love of programming turned into a small technical site he built with his brother." property="og:description">
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -3630,7 +3630,25 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 </script>
 
 
-<style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style></head>
+<style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style>
+<style id="site-footer-layout-overrides">
+#footer-wrapper .primary-footer .container{display:flex;align-items:center;justify-content:space-between;gap:25px}
+#footer-about-area{float:none;width:auto;flex:1 1 auto;padding:0}
+#footer-about-area .widget{float:none;display:flex;align-items:center;gap:20px;width:100%}
+#footer-about-area .footer-logo{float:none;display:block;padding:0;margin:0;flex:0 0 auto}
+#footer-about-area .Image .image-caption,#footer-about-area .image-caption{display:block;flex:1 1 auto;min-height:0;margin:0}
+.foot-bar-social{float:none;width:auto;flex:0 0 auto}
+.foot-bar-social .widget-content{display:flex;justify-content:flex-end}
+@media screen and (max-width:980px){
+  #footer-wrapper .primary-footer .container{display:block}
+  #footer-about-area{width:100%;text-align:center}
+  #footer-about-area .widget{display:block}
+  #footer-about-area .footer-logo{display:inline-block}
+  #footer-about-area .Image .image-caption,#footer-about-area .image-caption{text-align:center;margin-top:10px}
+  .foot-bar-social{width:100%;margin-top:18px}
+  .foot-bar-social .widget-content{justify-content:center}
+}
+</style></head>
 <body class="static_page item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
@@ -3679,15 +3697,8 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <div class="mobile-menu-wrap">
 <div class="mobile-menu"><ul id="main-menu-nav" role="menubar">
 <li><a href="/" role="menuitem">Home</a></li>
-<li class="has-sub"><a href="#" role="menuitem">Features</a><ul class="sub-menu m-sub"><li class="has-sub"><a href="#" role="menuitem">Multi DropDown</a><ul class="sub-menu2 m-sub"><li><a href="#" role="menuitem">DropDown 1</a></li><li><a href="#" role="menuitem">DropDown 2</a></li><li><a href="#" role="menuitem">DropDown 3</a></li></ul><div class="submenu-toggle"></div></li><li><a href="https://kate-soratemplates.blogspot.com/p/post-format-and-page-markup.html" role="menuitem">ShortCodes</a></li><li><a href="https://www.sorabloggingtips.com/2017/01/how-to-add-sitemap-widget-in-blogspot-blogs.html" role="menuitem">SiteMap</a></li><li><a href="https://kate-soratemplates.blogspot.com/soratemplates" role="menuitem">Error Page</a></li></ul><div class="submenu-toggle"></div></li>
-
-
-
-
-
-
-
-<li class="has-sub"><a href="#" role="menuitem">Resources</a><ul class="sub-menu m-sub"><li><a href="https://www.sorabloggingtips.com/2021/06/how-to-setup-kate-blogger-template.html" role="menuitem">Guides</a></li><li><a href="https://youtu.be/zY-AWccU-ww" role="menuitem">Video Guide</a></li></ul><div class="submenu-toggle"></div></li>
+<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="post3.html" role="menuitem">Python Workflow</a></li><li><a href="post8.html" role="menuitem">Telemetry Views</a></li><li><a href="post9.html" role="menuitem">Single Entry File</a></li></ul><div class="submenu-toggle"></div></li>
+<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="about.html" role="menuitem">About</a></li><li><a href="contactus.html" role="menuitem">Contact Us</a></li><li><a href="login.html" role="menuitem">Sign In</a></li></ul><div class="submenu-toggle"></div></li>
 
 
 </ul></div>
@@ -3706,15 +3717,8 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <div class="main-menu section" id="main-menu" name="Main Menu"><div class="widget LinkList show-menu" data-version="2" id="LinkList74">
 <ul id="main-menu-nav" role="menubar">
 <li><a href="/" role="menuitem">Home</a></li>
-<li class="has-sub"><a href="#" role="menuitem">Features</a><ul class="sub-menu m-sub"><li class="has-sub"><a href="#" role="menuitem">Multi DropDown</a><ul class="sub-menu2 m-sub"><li><a href="#" role="menuitem">DropDown 1</a></li><li><a href="#" role="menuitem">DropDown 2</a></li><li><a href="#" role="menuitem">DropDown 3</a></li></ul></li><li><a href="https://kate-soratemplates.blogspot.com/p/post-format-and-page-markup.html" role="menuitem">ShortCodes</a></li><li><a href="https://www.sorabloggingtips.com/2017/01/how-to-add-sitemap-widget-in-blogspot-blogs.html" role="menuitem">SiteMap</a></li><li><a href="https://kate-soratemplates.blogspot.com/soratemplates" role="menuitem">Error Page</a></li></ul></li>
-
-
-
-
-
-
-
-<li class="has-sub"><a href="#" role="menuitem">Resources</a><ul class="sub-menu m-sub"><li><a href="https://www.sorabloggingtips.com/2021/06/how-to-setup-kate-blogger-template.html" role="menuitem">Guides</a></li><li><a href="https://youtu.be/zY-AWccU-ww" role="menuitem">Video Guide</a></li></ul></li>
+<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="post3.html" role="menuitem">Python Workflow</a></li><li><a href="post8.html" role="menuitem">Telemetry Views</a></li><li><a href="post9.html" role="menuitem">Single Entry File</a></li></ul></li>
+<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="about.html" role="menuitem">About</a></li><li><a href="contactus.html" role="menuitem">Contact Us</a></li><li><a href="login.html" role="menuitem">Sign In</a></li></ul></li>
 
 
 </ul>
@@ -3751,13 +3755,13 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
     "@type": "WebPage",
     "@id": "https://kate-soratemplates.blogspot.com/p/about.html"
   },
-  "headline": "About","description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\u0026#39;s standard dummy text ever ...","datePublished": "2021-07-01T22:30:00-07:00",
+  "headline": "About the Project","description": "Victor Cramer shares how a childhood love of programming turned into a small technical site he built with his brother.","datePublished": "2021-07-01T22:30:00-07:00",
   "dateModified": "2021-07-01T22:30:40-07:00","image": {
     "@type": "ImageObject","url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=w1200",
     "height": 348,
     "width": 1200},"publisher": {
     "@type": "Organization",
-    "name": "Blogger",
+    "name": "Victor Cramer",
     "logo": {
       "@type": "ImageObject",
       "url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=h60",
@@ -3766,14 +3770,18 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
     }
   },"author": {
     "@type": "Person",
-    "name": "Kate Studio"
+    "name": "Victor Cramer"
   }
 }</script>
 <h1 class="post-title">
-About
+About the Project
 </h1>
 <div class="post-body post-content" id="post-body">
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.<br><br>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).<br><br>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.<br><br>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.<br><br>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+<p>I'm Victor Cramer, and this site started the same way a lot of my favorite things start: with curiosity, late evenings, and more tabs open than I wanted to admit.</p>
+<p>When I was a kid I loved programming because it felt like building little hidden mechanisms. I could change one line, run it again, and suddenly the machine answered back in a different way. That was enough to hook me for good.</p>
+<p>Years later my brother and I wanted one quiet place for technical notes that did not feel like a noisy feed or a polished corporate blog, so we built this site ourselves. It slowly turned into a home for backend experiments, automation ideas, telemetry views, and small pieces of code worth keeping around.</p>
+<p>I try to write the way I actually talk when I explain a project to someone next to me: simple, direct, and practical. If a post leaves behind one useful pattern, one cleaner snippet, or one calmer way to structure a page, then it did its job.</p>
+<p>So that is really the story of the project. I am still the same person who liked programming in childhood because it made the computer feel alive, and this site is the grown-up version of that feeling, just shared a little more openly.</p>
 </div>
 </div>
 </div>
@@ -4097,4 +4105,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   </script>
 </body></html>
+
 

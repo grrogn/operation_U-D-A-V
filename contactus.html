@@ -3629,7 +3629,25 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 </script>
 
 
-<style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style></head>
+<style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style>
+<style id="site-footer-layout-overrides">
+#footer-wrapper .primary-footer .container{display:flex;align-items:center;justify-content:space-between;gap:25px}
+#footer-about-area{float:none;width:auto;flex:1 1 auto;padding:0}
+#footer-about-area .widget{float:none;display:flex;align-items:center;gap:20px;width:100%}
+#footer-about-area .footer-logo{float:none;display:block;padding:0;margin:0;flex:0 0 auto}
+#footer-about-area .Image .image-caption,#footer-about-area .image-caption{display:block;flex:1 1 auto;min-height:0;margin:0}
+.foot-bar-social{float:none;width:auto;flex:0 0 auto}
+.foot-bar-social .widget-content{display:flex;justify-content:flex-end}
+@media screen and (max-width:980px){
+  #footer-wrapper .primary-footer .container{display:block}
+  #footer-about-area{width:100%;text-align:center}
+  #footer-about-area .widget{display:block}
+  #footer-about-area .footer-logo{display:inline-block}
+  #footer-about-area .Image .image-caption,#footer-about-area .image-caption{text-align:center;margin-top:10px}
+  .foot-bar-social{width:100%;margin-top:18px}
+  .foot-bar-social .widget-content{justify-content:center}
+}
+</style></head>
 <body class="static_page item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
@@ -3678,15 +3696,8 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <div class="mobile-menu-wrap">
 <div class="mobile-menu"><ul id="main-menu-nav" role="menubar">
 <li><a href="/" role="menuitem">Home</a></li>
-<li class="has-sub"><a href="#" role="menuitem">Features</a><ul class="sub-menu m-sub"><li class="has-sub"><a href="#" role="menuitem">Multi DropDown</a><ul class="sub-menu2 m-sub"><li><a href="#" role="menuitem">DropDown 1</a></li><li><a href="#" role="menuitem">DropDown 2</a></li><li><a href="#" role="menuitem">DropDown 3</a></li></ul><div class="submenu-toggle"></div></li><li><a href="https://kate-soratemplates.blogspot.com/p/post-format-and-page-markup.html" role="menuitem">ShortCodes</a></li><li><a href="https://www.sorabloggingtips.com/2017/01/how-to-add-sitemap-widget-in-blogspot-blogs.html" role="menuitem">SiteMap</a></li><li><a href="https://kate-soratemplates.blogspot.com/soratemplates" role="menuitem">Error Page</a></li></ul><div class="submenu-toggle"></div></li>
-
-
-
-
-
-
-
-<li class="has-sub"><a href="#" role="menuitem">Resources</a><ul class="sub-menu m-sub"><li><a href="https://www.sorabloggingtips.com/2021/06/how-to-setup-kate-blogger-template.html" role="menuitem">Guides</a></li><li><a href="https://youtu.be/zY-AWccU-ww" role="menuitem">Video Guide</a></li></ul><div class="submenu-toggle"></div></li>
+<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="post3.html" role="menuitem">Python Workflow</a></li><li><a href="post8.html" role="menuitem">Telemetry Views</a></li><li><a href="post9.html" role="menuitem">Single Entry File</a></li></ul><div class="submenu-toggle"></div></li>
+<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="about.html" role="menuitem">About</a></li><li><a href="contactus.html" role="menuitem">Contact Us</a></li><li><a href="login.html" role="menuitem">Sign In</a></li></ul><div class="submenu-toggle"></div></li>
 
 
 </ul></div>
@@ -3705,15 +3716,8 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <div class="main-menu section" id="main-menu" name="Main Menu"><div class="widget LinkList show-menu" data-version="2" id="LinkList74">
 <ul id="main-menu-nav" role="menubar">
 <li><a href="/" role="menuitem">Home</a></li>
-<li class="has-sub"><a href="#" role="menuitem">Features</a><ul class="sub-menu m-sub"><li class="has-sub"><a href="#" role="menuitem">Multi DropDown</a><ul class="sub-menu2 m-sub"><li><a href="#" role="menuitem">DropDown 1</a></li><li><a href="#" role="menuitem">DropDown 2</a></li><li><a href="#" role="menuitem">DropDown 3</a></li></ul></li><li><a href="https://kate-soratemplates.blogspot.com/p/post-format-and-page-markup.html" role="menuitem">ShortCodes</a></li><li><a href="https://www.sorabloggingtips.com/2017/01/how-to-add-sitemap-widget-in-blogspot-blogs.html" role="menuitem">SiteMap</a></li><li><a href="https://kate-soratemplates.blogspot.com/soratemplates" role="menuitem">Error Page</a></li></ul></li>
-
-
-
-
-
-
-
-<li class="has-sub"><a href="#" role="menuitem">Resources</a><ul class="sub-menu m-sub"><li><a href="https://www.sorabloggingtips.com/2021/06/how-to-setup-kate-blogger-template.html" role="menuitem">Guides</a></li><li><a href="https://youtu.be/zY-AWccU-ww" role="menuitem">Video Guide</a></li></ul></li>
+<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="post3.html" role="menuitem">Python Workflow</a></li><li><a href="post8.html" role="menuitem">Telemetry Views</a></li><li><a href="post9.html" role="menuitem">Single Entry File</a></li></ul></li>
+<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="about.html" role="menuitem">About</a></li><li><a href="contactus.html" role="menuitem">Contact Us</a></li><li><a href="login.html" role="menuitem">Sign In</a></li></ul></li>
 
 
 </ul>

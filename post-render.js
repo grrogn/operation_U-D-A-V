@@ -91,9 +91,45 @@
   var FOOTER_COPY_OLD =
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s.';
   var FOOTER_COPY_NEW = 'Notes on software, systems and IT work.';
+  var HEADER_MOBILE_MENU_PATTERN =
+    /<div class="mobile-menu"><ul id="main-menu-nav" role="menubar">[\s\S]*?<\/ul><\/div>/;
+  var HEADER_DESKTOP_MENU_PATTERN =
+    /<div class="main-menu section" id="main-menu" name="Main Menu"><div class="widget LinkList show-menu" data-version="2" id="LinkList74">[\s\S]*?<\/div><\/div>/;
+  var HEADER_MOBILE_MENU = [
+    '<div class="mobile-menu"><ul id="main-menu-nav" role="menubar">',
+    '<li><a href="index.html" role="menuitem">Home</a></li>',
+    '<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="post3.html" role="menuitem">Python Workflow</a></li><li><a href="post8.html" role="menuitem">Telemetry Views</a></li><li><a href="post9.html" role="menuitem">Single Entry File</a></li></ul><div class="submenu-toggle"></div></li>',
+    '<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="about.html" role="menuitem">About</a></li><li><a href="contactus.html" role="menuitem">Contact Us</a></li><li><a href="login.html" role="menuitem">Sign In</a></li></ul><div class="submenu-toggle"></div></li>',
+    '</ul></div>'
+  ].join('\n');
+  var HEADER_DESKTOP_MENU = [
+    '<div class="main-menu section" id="main-menu" name="Main Menu"><div class="widget LinkList show-menu" data-version="2" id="LinkList74">',
+    '<ul id="main-menu-nav" role="menubar">',
+    '<li><a href="index.html" role="menuitem">Home</a></li>',
+    '<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="post3.html" role="menuitem">Python Workflow</a></li><li><a href="post8.html" role="menuitem">Telemetry Views</a></li><li><a href="post9.html" role="menuitem">Single Entry File</a></li></ul></li>',
+    '<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="about.html" role="menuitem">About</a></li><li><a href="contactus.html" role="menuitem">Contact Us</a></li><li><a href="login.html" role="menuitem">Sign In</a></li></ul></li>',
+    '</ul>',
+    '</div></div>'
+  ].join('\n');
   var POST_TEMPLATE_OVERRIDES = [
     '<style id="post-template-overrides">',
-    '#content-wrapper{margin:0 auto 0;}',
+    '#content-wrapper{margin:32px auto 0;}',
+    '#footer-wrapper .primary-footer .container{display:flex;align-items:center;justify-content:space-between;gap:25px;}',
+    '#footer-about-area{float:none;width:auto;flex:1 1 auto;padding:0;}',
+    '#footer-about-area .widget{float:none;display:flex;align-items:center;gap:20px;width:100%;}',
+    '#footer-about-area .footer-logo{float:none;display:block;padding:0;margin:0;flex:0 0 auto;}',
+    '#footer-about-area .Image .image-caption,#footer-about-area .image-caption{display:block;flex:1 1 auto;min-height:0;margin:0;}',
+    '.foot-bar-social{float:none;width:auto;flex:0 0 auto;}',
+    '.foot-bar-social .widget-content{display:flex;justify-content:flex-end;}',
+    '@media screen and (max-width:980px){',
+    '#footer-wrapper .primary-footer .container{display:block;}',
+    '#footer-about-area{width:100%;text-align:center;}',
+    '#footer-about-area .widget{display:block;}',
+    '#footer-about-area .footer-logo{display:inline-block;}',
+    '#footer-about-area .Image .image-caption,#footer-about-area .image-caption{text-align:center;margin-top:10px;}',
+    '.foot-bar-social{width:100%;margin-top:18px;}',
+    '.foot-bar-social .widget-content{justify-content:center;}',
+    '}',
     '</style>'
   ].join('\n');
 
@@ -126,6 +162,8 @@
     html = replaceAll(html, FOOTER_LOGO_URL, FOOTER_LOGO_LOCAL_URL);
     html = replaceAll(html, SIDEBAR_VIDEO_OLD_URL, SIDEBAR_VIDEO_LOCAL_URL);
     html = replaceAll(html, FOOTER_COPY_OLD, FOOTER_COPY_NEW);
+    html = html.replace(HEADER_MOBILE_MENU_PATTERN, HEADER_MOBILE_MENU);
+    html = html.replace(HEADER_DESKTOP_MENU_PATTERN, HEADER_DESKTOP_MENU);
     html = replaceAll(html, '</head>', POST_TEMPLATE_OVERRIDES + '\n</head>');
     html = html.replace(
       POPULAR_POSTS_PATTERN,

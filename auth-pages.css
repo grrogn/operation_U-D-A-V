@@ -120,12 +120,14 @@ button{background:none;border:0;padding:0}
 #footer-wrapper{overflow:hidden;background:var(--dark);border-top:2px solid var(--border)}
 #footer-wrapper .primary-footer{width:100%;background:var(--dark-soft)}
 #footer-wrapper .container{overflow:hidden;padding:10px 20px}
-#footer-about-area{float:left;width:calc(100% - 270px)}
-#footer-about-area .widget{float:left;width:100%}
-#footer-about-area .footer-logo{float:left;padding-right:25px}
+#footer-wrapper .primary-footer .container{display:flex;align-items:center;justify-content:space-between;gap:25px}
+#footer-about-area{float:none;width:auto;flex:1 1 auto}
+#footer-about-area .widget{float:none;display:flex;align-items:center;gap:20px;width:100%}
+#footer-about-area .footer-logo{float:none;display:block;padding-right:0}
 #footer-about-area .footer-logo img{max-height:50px}
-#footer-about-area .image-caption{display:flex;align-items:center;min-height:50px;margin:0;color:#d5d8df;font-size:13px;line-height:1.7}
-.foot-bar-social{float:right;padding:8px 0}
+#footer-about-area .image-caption{display:block;flex:1 1 auto;min-height:0;margin:0;color:#d5d8df;font-size:13px;line-height:1.7}
+.foot-bar-social{float:none;padding:8px 0;flex:0 0 auto}
+.foot-bar-social .widget-content{display:flex;justify-content:flex-end}
 .social a::before{display:block}
 .social .facebook a::before{content:"\f09a"}
 .social .twitter a::before{content:"\f099"}
@@ -162,11 +164,13 @@ button{background:none;border:0;padding:0}
   .auth-shell{grid-template-columns:1fr}
 }
 @media screen and (max-width:880px){
+  #footer-wrapper .primary-footer .container{display:block}
   #footer-about-area{width:100%;text-align:center}
-  #footer-about-area .widget{width:100%}
+  #footer-about-area .widget{display:block;width:100%}
   #footer-about-area .footer-logo{float:none;display:inline-block;padding:0}
-  #footer-about-area .image-caption{display:block;min-height:0;margin:10px 0 0}
+  #footer-about-area .image-caption{display:block;min-height:0;margin:10px 0 0;text-align:center}
   .foot-bar-social{width:100%;padding:14px 0 0;text-align:center}
+  .foot-bar-social .widget-content{justify-content:center}
   .social ul{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap}
   .social ul li{float:none}
   #menu-footer{width:100%;margin-top:10px;text-align:center}
