@@ -34,8 +34,13 @@
       min-height: 100%;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
+      min-height: 100vh;
       background: var(--bg);
       color: var(--muted);
       font: 14px/1.7 'Open Sans', sans-serif;
@@ -100,6 +105,9 @@
     }
 
     #outer-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       background: var(--surface);
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
@@ -516,6 +524,7 @@
     }
 
     #content-wrapper {
+      flex: 1 0 auto;
       padding: 40px 0 60px;
     }
 
@@ -580,6 +589,7 @@
     #footer-wrapper {
       display: block;
       width: 100%;
+      margin-top: auto;
       overflow: hidden;
       background: var(--footer-edge);
       padding: 0;
@@ -614,6 +624,7 @@
     #footer-about-area .widget {
       position: relative;
       float: left;
+      width: 100%;
       box-sizing: border-box;
       margin: 0;
     }
@@ -1681,7 +1692,7 @@ if __name__ == &quot;__main__&quot;:
             <a class="footer-logo custom-image" href="index.html">
               <img alt="Kate" id="Image150_img" src="Kate-logo-White.png">
             </a>
-            <p class="image-caption excerpt">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's.</p>
+            <p class="image-caption excerpt">Notes on software, systems and IT work.</p>
           </div></div>
           <div class="foot-bar-social social social-color section" id="foot-bar-social" name="Social Footer"><div class="widget LinkList" id="LinkList78">
             <div class="widget-content">
