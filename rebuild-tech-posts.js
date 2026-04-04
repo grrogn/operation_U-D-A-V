@@ -43,6 +43,10 @@ function paragraph(text) {
   return `<p>${text}</p>`;
 }
 
+function heading(level, text) {
+  return `<h${level}>${text}</h${level}>`;
+}
+
 function blockquote(text) {
   return `<blockquote class="tr_bq">${text}</blockquote>`;
 }
@@ -233,6 +237,7 @@ ${config.title}
 </div>
 <div class="post-body post-content" id="post-body">
 ${parts}
+</div>
 ${footerHtml(key, config, configs, posts)}`.trim();
 }
 
@@ -656,11 +661,15 @@ const configs = {
     prevKey: null,
     related: ["post4.html", "post7.html", "post8.html"],
     body: [
+      heading(2, "Why the top of the file deserves its own review"),
       paragraph(
         "Many live Python services become harder to reason about long before the detection loop or dashboard code appears. The first source of friction is usually the import surface: too many hidden dependencies, unclear naming, and shared resources that show up only after several pages of code."
       ),
       paragraph(
         "That is why I like to start with the top of the file. Imports, connection handles and queues tell you what kind of program you are reading. They also make onboarding easier, because a new reader can see whether the module talks to a camera, a database, a dashboard library or all three."
+      ),
+      paragraph(
+        "A file like this is easier to trust when the reader can answer a few questions in under a minute. Does it capture video? Does it store rows? Does it render a dashboard? Is there a queue between the worker and the UI? When the top section answers those questions early, the rest of the article feels less defensive."
       ),
       table(
         ["Term", "Plain meaning", "Why it matters"],
@@ -670,36 +679,82 @@ const configs = {
           ["Queue", "A safe handoff structure between parts of the program.", "It gives the live worker and the UI a clean place to exchange events."],
         ]
       ),
+      heading(3, "A quick dependency sketch before the real module code"),
       paragraph(
-        "In the article block below, the recoverable slice is surrounded by a couple of harmless setup lines. That keeps the post readable as tutorial code, while your needed fragment still has clean start and end comments."
+        "One easy way to make the file less mysterious is to sketch the boundaries first. This is not the production fragment. It is just a short article-side helper that mirrors the same architecture in a friendlier, more tutorial-like shape."
+      ),
+      codeBlock(
+        `
+SERVICE_BOUNDARIES = {
+    "capture": ["cv2", "YOLO"],
+    "storage": ["psycopg2"],
+    "ui": ["streamlit", "plotly"],
+}
+
+def summarize_boundaries(boundaries):
+    return ", ".join(
+        f"{section}:{len(modules)}"
+        for section, modules in boundaries.items()
+    )
+
+print(summarize_boundaries(SERVICE_BOUNDARIES))
+        `,
+        "This extra block is article scaffolding. It makes the program shape visible before the recoverable fragment appears."
+      ),
+      paragraph(
+        "That small sketch also explains why long top-of-file lists are not noise here. They are part of the architecture. In the next blue block, the recoverable slice is surrounded by a couple of harmless setup lines so the article still reads like a normal post."
       ),
       codeBlock(
         `
 """Starter note for a live lane analytics module."""
 service_name = "lane-observer"
 
-# Notebook aside: after 1 quiet pass, this fragment begins.
+# note: after 1 quiet pass, this fragment begins.
 ${chunks.one}
-# Notebook aside: 1 quiet pass later, this fragment ends.
+# note: 1 quiet pass later, this fragment ends.
 
 default_video_source = "video.mp4"
         `,
         "The first fragment keeps the file identity intact: computer vision, analytics, storage and UI are all visible before any function body appears."
       ),
       paragraph(
+        "Notice that the imported modules are not random. `cv2` and `YOLO` imply frame-level work. `psycopg2` implies a row-oriented storage layer. `streamlit` and Plotly imply a presentation layer that lives in the same file. Even before the first function, the service has already declared its three jobs."
+      ),
+      heading(3, "Why shared names matter more than people admit"),
+      paragraph(
         "A second small decision is where to place the long-lived resources. For a one-file service, it can be perfectly reasonable to keep the connection cursor, class lookup map and event queue near the top. The point is not purity. The point is being obvious."
+      ),
+      paragraph(
+        "This matters even more when you later split the file or hand it to another person. A vague name like `ctx` or `items` creates debt immediately. A literal name like `warehouse_link` or `event_buffer` explains its own purpose with very little ceremony."
+      ),
+      codeBlock(
+        `
+RESOURCE_LABELS = (
+    "warehouse_link",
+    "metrics_cursor",
+    "DETECTED_CLASSES",
+    "event_buffer",
+)
+
+for resource_name in RESOURCE_LABELS:
+    print("boot resource:", resource_name)
+        `,
+        "Another article-side block: this kind of tiny preflight printout is often useful when a script is still being shaped and renamed."
       ),
       codeBlock(
         `
 runtime_profile = {"mode": "stream", "storage": "postgres"}
 
-# Notebook aside: after 2 margin notes, this fragment begins.
+# note: after 2 margin notes, this fragment begins.
 ${chunks.two}
-# Notebook aside: 2 margin notes later, this fragment ends.
+# note: 2 margin notes later, this fragment ends.
 
 queue_channel_name = "dashboard-events"
         `,
         "Only the blue code block tone changes here. The site layout stays the same, but the Python slice now reads like a focused service bootstrap."
+      ),
+      paragraph(
+        "At this point the article still has not reached the worker loop, and that is fine. The opening of a long file should buy clarity first. Speed comes later, once the reader knows which objects are shared across the whole module and which ones are local to a single task."
       ),
       list([
         "Group imports by role so the file announces its responsibilities immediately.",
@@ -726,11 +781,15 @@ queue_channel_name = "dashboard-events"
     prevKey: "post3.html",
     related: ["post5.html", "post6.html", "post7.html"],
     body: [
+      heading(2, "Keep the lookup path smaller than the stream path"),
       paragraph(
         "A live analytics script often needs one unglamorous helper before anything impressive happens: a small lookup function that translates a friendly label into a database key. It is not the kind of code people brag about, but the whole pipeline feels clumsy without it."
       ),
       paragraph(
         "The same is true for worker startup. If the camera, tracker and frame counter are initialized clearly, later bugs get easier to isolate. Boot code is not only technical setup. It is also narrative setup for the rest of the file."
+      ),
+      paragraph(
+        "This is one reason I like to separate the lookup discussion from the worker discussion, even when both live in the same file. The database helper deals with identity. The worker bootstrap deals with motion and timing. When you mix those ideas too early, both become harder to debug."
       ),
       table(
         ["Term", "Meaning", "Reason to care"],
@@ -740,13 +799,30 @@ queue_channel_name = "dashboard-events"
           ["Worker bootstrap", "The part that prepares models, video capture and counters.", "A calm bootstrap makes the hot path easier to trust later."],
         ]
       ),
+      heading(3, "A tiny normalization helper before the real SQL fragment"),
+      codeBlock(
+        `
+def normalize_vehicle_name(raw_name):
+    cleaned = raw_name.strip().lower()
+    return cleaned.replace("-", "_")
+
+
+example_names = ["Bus", "Motor-Cycle", "Truck"]
+normalized_names = [normalize_vehicle_name(item) for item in example_names]
+print(normalized_names)
+        `,
+        "This helper is not part of the recoverable file slice. It is here to make the lookup topic feel more like a full article and less like a raw code dump."
+      ),
+      paragraph(
+        "Name normalization is not always necessary, but the concept helps. It reminds the reader that database lookups should operate on stable values, not on whatever spelling happened to arrive from an upstream model, feed or import script."
+      ),
       codeBlock(
         `
 vehicle_label_cache = {}
 
-# Notebook aside: after 3 dry runs, this fragment begins.
+# note: after 3 dry runs, this fragment begins.
 ${chunks.three}
-# Notebook aside: 3 dry runs later, this fragment ends.
+# note: 3 dry runs later, this fragment ends.
 
 vehicle_label_cache["last_boot"] = "resolved"
         `,
@@ -755,17 +831,38 @@ vehicle_label_cache["last_boot"] = "resolved"
       paragraph(
         "Notice how little policy the lookup helper contains. It asks for an id, inserts the missing row only when needed, commits that small change and returns the result. That narrow scope is what keeps the function useful."
       ),
+      paragraph(
+        "It also keeps the later metrics insert readable. If the insert block had to normalize names, query ids and decide when to create rows all by itself, the frame loop would become noisy very quickly."
+      ),
+      heading(3, "Boot code should explain the first five seconds of runtime"),
+      codeBlock(
+        `
+def open_video_source(source_path):
+    capture = cv2.VideoCapture(source_path)
+    if not capture.isOpened():
+        raise RuntimeError(f"Unable to open source: {source_path}")
+    return capture
+
+
+preview_source = open_video_source("video.mp4")
+preview_source.release()
+        `,
+        "Another article-side helper: it keeps the startup topic concrete without overlapping your stored fragment."
+      ),
       codeBlock(
         `
 boot_profile = {"model": "yolo12x.pt", "source": "video.mp4"}
 
-# Notebook aside: after 4 clean checkpoints, this fragment begins.
+# note: after 4 clean checkpoints, this fragment begins.
 ${chunks.four}
-# Notebook aside: 4 clean checkpoints later, this fragment ends.
+# note: 4 clean checkpoints later, this fragment ends.
 
 boot_profile["worker_state"] = "warmed"
         `,
         "The second fragment opens the long-running worker without jumping ahead to per-frame math. That separation gives the article a cleaner rhythm."
+      ),
+      paragraph(
+        "A calm bootstrap pays off later when you need to ask a blunt question such as: did the model fail, did the video source fail, or did the loop fail after both of them were ready? Good startup code makes those questions answerable."
       ),
       list([
         "Keep lookup helpers boring so they are easy to review and easy to reuse.",
@@ -789,11 +886,15 @@ boot_profile["worker_state"] = "warmed"
     prevKey: "post4.html",
     related: ["post6.html", "post8.html", "post9.html"],
     body: [
+      heading(2, "Translate boxes into meaning before you store anything"),
       paragraph(
         "The most interesting part of a small traffic pipeline is often not the model call itself. It is the translation step that turns detector output into something the rest of the system can work with, such as counts, rough speed estimates and a stable vehicle label."
       ),
       paragraph(
         "That translation usually happens one frame at a time. Each frame becomes a tiny bucket of observations. The detector gives you coordinates and classes, the tracker gives you continuity, and your code turns both of those into a summary worth storing."
+      ),
+      paragraph(
+        "A lot of confusion disappears when you say that sentence out loud. The script is not trying to preserve every geometric fact forever. It is trying to create a compact, repeatable description of what happened in one frame and how that differs from the previous one."
       ),
       table(
         ["Term", "Short explanation", "Why it matters"],
@@ -803,13 +904,29 @@ boot_profile["worker_state"] = "warmed"
           ["Frame bucket", "A small per-frame summary structure.", "It keeps writes and charts simpler than storing every pixel-level detail."],
         ]
       ),
+      heading(3, "A warm-up helper before the tracked fragment"),
+      codeBlock(
+        `
+def midpoint(box):
+    left, top, right, bottom = box
+    return (left + right) // 2, (top + bottom) // 2
+
+
+sample_box = (10, 20, 90, 140)
+print(midpoint(sample_box))
+        `,
+        "This code is article filler on purpose. It introduces the centroid idea before the recoverable loop fragment shows up."
+      ),
+      paragraph(
+        "This kind of micro-helper is sometimes enough to explain an entire section. Once the reader understands that the box becomes a center point, the speed estimate and the track cache both start to feel less magical."
+      ),
       codeBlock(
         `
 minimum_debug_confidence = 0.0
 
-# Notebook aside: after 5 lane sketches, this fragment begins.
+# note: after 5 lane sketches, this fragment begins.
 ${chunks.five}
-# Notebook aside: 5 lane sketches later, this fragment ends.
+# note: 5 lane sketches later, this fragment ends.
 
 minimum_debug_confidence += 0.0
         `,
@@ -817,6 +934,21 @@ minimum_debug_confidence += 0.0
       ),
       paragraph(
         "There is a useful mental model here: the tracker preserves identity, while the frame bucket preserves meaning. Without the first, motion is noisy. Without the second, your dashboard would have to understand raw detector output directly, which is rarely a good bargain."
+      ),
+      codeBlock(
+        `
+def speed_from_points(previous_point, current_point):
+    delta_x = current_point[0] - previous_point[0]
+    delta_y = current_point[1] - previous_point[1]
+    return (delta_x ** 2 + delta_y ** 2) ** 0.5
+
+
+print(speed_from_points((10, 10), (15, 18)))
+        `,
+        "This extra block mirrors the same idea in a stripped-down form: movement is just distance over consecutive frame positions."
+      ),
+      paragraph(
+        "Even when the estimate is intentionally rough, that roughness can still be useful. A dashboard often needs directionally honest numbers more than perfect physical units, especially during early iteration."
       ),
       list([
         "Translate detector output into one stable domain vocabulary as early as possible.",
@@ -843,11 +975,15 @@ minimum_debug_confidence += 0.0
     prevKey: "post5.html",
     related: ["post5.html", "post8.html", "post9.html"],
     body: [
+      heading(2, "One frame summary can feed three consumers"),
       paragraph(
         "Once a frame summary exists, the script needs to do three things with it quickly. It has to persist the data, make it available to the UI, and keep enough visual feedback nearby that a human can still sanity-check what the system is doing."
       ),
       paragraph(
         "Those three concerns sound different, but they fit well together because they all derive from the same per-frame bucket. A good live pipeline avoids recomputing that summary and simply fans it out to the next consumers."
+      ),
+      paragraph(
+        "That fan-out idea is worth dwelling on because it is where many small systems either become elegant or become noisy. If every downstream step rebuilds its own understanding of the frame, the code grows wide very fast. If they all reuse the same summary, the architecture stays compact."
       ),
       table(
         ["Stage", "What happens", "Why it stays useful"],
@@ -857,45 +993,80 @@ minimum_debug_confidence += 0.0
           ["Overlay", "A small text layer is drawn onto the live frame.", "Operators get immediate feedback during tuning or debugging."],
         ]
       ),
+      heading(3, "A plain row-builder before the real persistence block"),
+      codeBlock(
+        `
+def make_metric_payload(frame_number, vehicle_name, intensity, avg_speed):
+    return {
+        "frame": frame_number,
+        "vehicle_type": vehicle_name,
+        "intensity": intensity,
+        "avg_speed": avg_speed,
+    }
+
+
+print(make_metric_payload(14, "truck", 3, 11.4))
+        `,
+        "This supplemental block makes the shared payload idea visible before the stored fragment reaches the database write."
+      ),
       codeBlock(
         `
 storage_target = "stream_metrics"
 
-# Notebook aside: after 6 insert reviews, this fragment begins.
+# note: after 6 insert reviews, this fragment begins.
 ${chunks.six}
-# Notebook aside: 6 insert reviews later, this fragment ends.
+# note: 6 insert reviews later, this fragment ends.
 
 storage_target = storage_target.upper()
         `,
         "The insert fragment keeps the schema-facing write logic compact, which is helpful when you later need to inspect or replay the stream."
       ),
+      paragraph(
+        "The database step should still look almost boring. That is usually a good sign. The interesting part already happened earlier when the frame bucket was built. Persistence is mostly about using that work carefully."
+      ),
       codeBlock(
         `
 fanout_name = "live-dashboard"
 
-# Notebook aside: after 7 buffered updates, this fragment begins.
+# note: after 7 buffered updates, this fragment begins.
 ${chunks.seven}
-# Notebook aside: 7 buffered updates later, this fragment ends.
+# note: 7 buffered updates later, this fragment ends.
 
 fanout_name = fanout_name.lower()
         `,
         "Here the same summary crosses the boundary into a queue. The data is still small, readable and close to the original frame context."
       ),
+      paragraph(
+        "A queue is often the quiet hero in this kind of script. It lets the UI consume updates at its own pace without teaching the detection loop about dashboard timing, widget state or rendering details."
+      ),
+      codeBlock(
+        `
+def should_draw_overlay(debug_enabled, frame_number):
+    return debug_enabled and frame_number % 5 == 0
+
+
+print(should_draw_overlay(True, 25))
+        `,
+        "This extra helper is a tutorial-side way to talk about overlay policy without touching the recoverable fragment."
+      ),
       codeBlock(
         `
 overlay_enabled = True
 
-# Notebook aside: after 8 overlay tweaks, this fragment begins.
+# note: after 8 overlay tweaks, this fragment begins.
 ${chunks.eight}
-# Notebook aside: 8 overlay tweaks later, this fragment ends.
+# note: 8 overlay tweaks later, this fragment ends.
 
-# Notebook aside: after 9 steady sweeps, this fragment begins.
+# note: after 9 steady sweeps, this fragment begins.
 ${chunks.nine}
-# Notebook aside: 9 steady sweeps later, this fragment ends.
+# note: 9 steady sweeps later, this fragment ends.
 
 overlay_enabled = bool(overlay_enabled)
         `,
         "The last block keeps the human-visible overlay and the worker cleanup together because both belong to the end of the frame cycle."
+      ),
+      paragraph(
+        "This is also why the overlay is worth keeping during development, even if it disappears later in a production run. A compact on-frame summary gives you immediate feedback about whether the numbers being written and queued still match the image on screen."
       ),
       list([
         "Write once from the frame bucket instead of recalculating per consumer.",
@@ -919,11 +1090,15 @@ overlay_enabled = bool(overlay_enabled)
     prevKey: "post6.html",
     related: ["post8.html", "post9.html", "post3.html"],
     body: [
+      heading(2, "Lay out the reading order before the data flow"),
       paragraph(
         "A dashboard becomes easier to maintain when its layout is readable before any query runs. That means naming filters clearly, reserving places for KPIs and charts, and deciding what the reader should notice first."
       ),
       paragraph(
         "This is one of those areas where a little structure pays off immediately. Streamlit makes it easy to sketch the final reading experience first and then fill in the data refresh logic later."
+      ),
+      paragraph(
+        "That order matters because dashboards are read, not just executed. The first row usually answers the question 'how bad is it right now?' The next row answers 'how is it changing?' Only then does the reader want tables, distributions and edge cases."
       ),
       table(
         ["UI term", "Meaning", "Why it helps"],
@@ -933,13 +1108,26 @@ overlay_enabled = bool(overlay_enabled)
           ["KPI card", "A small metric callout for one key number.", "It gives the dashboard a quick visual summary before charts."],
         ]
       ),
+      heading(3, "A quick wireframe in code before the real page setup"),
+      codeBlock(
+        `
+PANEL_ORDER = ["kpi", "trend", "distribution", "table"]
+
+for panel_name in PANEL_ORDER:
+    print("layout slot:", panel_name)
+        `,
+        "This filler block behaves like a tiny dashboard wireframe. It helps the article feel fuller before the recoverable Streamlit section begins."
+      ),
+      paragraph(
+        "Even that tiny list is useful because it reveals intent. A dashboard with a deliberate order feels calmer than one that grew widget by widget."
+      ),
       codeBlock(
         `
 dashboard_name = "traffic-flow"
 
-# Notebook aside: after 10 sidebar drafts, this fragment begins.
+# note: after 10 sidebar drafts, this fragment begins.
 ${chunks.ten}
-# Notebook aside: 10 sidebar drafts later, this fragment ends.
+# note: 10 sidebar drafts later, this fragment ends.
 
 dashboard_name = dashboard_name.replace("-", " ")
         `,
@@ -950,15 +1138,29 @@ dashboard_name = dashboard_name.replace("-", " ")
       ),
       codeBlock(
         `
+def metric_title(label):
+    return label.replace("_", " ").title()
+
+
+for key in ("total_flow", "avg_speed", "peak_hour"):
+    print(metric_title(key))
+        `,
+        "This extra snippet is only there to keep the article feeling like a tutorial, not a direct fragment dump."
+      ),
+      codeBlock(
+        `
 layout_revision = "v1"
 
-# Notebook aside: after 11 empty panels, this fragment begins.
+# note: after 11 empty panels, this fragment begins.
 ${chunks.eleven}
-# Notebook aside: 11 empty panels later, this fragment ends.
+# note: 11 empty panels later, this fragment ends.
 
 layout_revision = layout_revision.upper()
         `,
         "The second fragment stays focused on layout containers. That separation keeps the eventual refresh function easier to scan."
+      ),
+      paragraph(
+        "The key idea is that placeholders let layout and refresh logic evolve at different speeds. That is especially helpful in a one-file project, where the temptation to intertwine everything is always high."
       ),
       list([
         "Design the reading order before you design the query order.",
@@ -982,11 +1184,15 @@ layout_revision = layout_revision.upper()
     prevKey: "post7.html",
     related: ["post9.html", "post7.html", "post6.html"],
     body: [
+      heading(2, "A refresh loop should read like a sequence, not a puzzle"),
       paragraph(
         "After the dashboard shell is ready, the refresh function becomes the true center of gravity. It translates a filter selection into a time window, pulls recent rows, trims them to the requested vehicle types and computes the first layer of summary numbers."
       ),
       paragraph(
         "The healthy version of this function is neither tiny nor magical. It is a readable chain of small steps: filter, query, normalize the time column, compute a few KPIs, and only then build the visual layer."
+      ),
+      paragraph(
+        "That order is worth protecting. When visualization code leaks into filtering code, or when KPI logic is hidden inside chart setup, the dashboard becomes expensive to edit. A clear refresh cycle keeps the maintenance cost lower than the chart count suggests."
       ),
       table(
         ["Refresh term", "Meaning", "Why it matters"],
@@ -996,29 +1202,62 @@ layout_revision = layout_revision.upper()
           ["Correlation", "A measure of how two values move together.", "It offers a quick sense of whether intensity and speed are linked."],
         ]
       ),
+      heading(3, "A small window resolver before the actual refresh fragment"),
+      codeBlock(
+        `
+TIME_WINDOWS = {
+    "Last 5 minutes": timedelta(minutes=5),
+    "Last 15 minutes": timedelta(minutes=15),
+    "Last hour": timedelta(hours=1),
+}
+
+
+def resolve_time_window(label):
+    return TIME_WINDOWS.get(label, timedelta(days=365))
+        `,
+        "This extra block introduces the time-window idea in isolation so the later fragment lands more naturally."
+      ),
+      paragraph(
+        "People often underestimate how much clarity comes from naming the time window explicitly. It turns a vague dashboard refresh into a visible reporting decision."
+      ),
       codeBlock(
         `
 refresh_policy = {"window": "recent"}
 
-# Notebook aside: after 12 filter checks, this fragment begins.
+# note: after 12 filter checks, this fragment begins.
 ${chunks.twelve}
-# Notebook aside: 12 filter checks later, this fragment ends.
+# note: 12 filter checks later, this fragment ends.
 
 refresh_policy["window"] = refresh_policy["window"].upper()
         `,
         "This block covers the refresh function up to the KPI layer, which is usually the cleanest place to pause before the chart code starts."
       ),
+      paragraph(
+        "Stopping at the KPI layer is useful because it shows the dashboard's first responsibility: summarizing the current slice of data. The charts are important, but they are downstream of that summary."
+      ),
+      codeBlock(
+        `
+def safe_correlation(frame):
+    if len(frame) < 2:
+        return 0.0
+    return frame[["intensity", "avg_speed"]].corr().iloc[0, 1]
+        `,
+        "This supplemental block is just article padding, but it reinforces the idea that small chart helpers can keep the main refresh function readable."
+      ),
       codeBlock(
         `
 chart_theme_name = "built-in"
 
-# Notebook aside: after 13 chart passes, this fragment begins.
+# note: after 13 chart passes, this fragment begins.
 ${chunks.thirteen}
-# Notebook aside: 13 chart passes later, this fragment ends.
+# note: 13 chart passes later, this fragment ends.
 
 chart_theme_name = chart_theme_name.title()
         `,
         "The chart fragment stays close to Plotly defaults, which helps the article remain readable while your stored slice keeps its original flow."
+      ),
+      paragraph(
+        "Charts are easier to extend when each one corresponds to a single aggregation idea. One line chart for flow over time, one line chart for speed, one pie for distribution, one scatter for relationship. That structure feels simple because it is simple."
       ),
       list([
         "Compute the time filter first so the rest of the refresh logic inherits a clear scope.",
@@ -1042,11 +1281,15 @@ chart_theme_name = chart_theme_name.title()
     prevKey: "post8.html",
     related: ["post8.html", "post7.html", "post6.html"],
     body: [
+      heading(2, "Entry points should explain how the file wants to be used"),
       paragraph(
         "Most one-file pipelines end with a practical question: how should the script start, and how should it stop? A little entry-point discipline matters here because it becomes the difference between a script you can trust and one that leaves handles open after an exception."
       ),
       paragraph(
         "This is also where two execution styles meet. A live mode feeds the dashboard in real time, while a batch mode rolls historical rows into a file you can inspect later. They are different paths, but they should still feel like one service."
+      ),
+      paragraph(
+        "That final section of a file tends to look deceptively small, but it carries real responsibility. It decides what the operator is allowed to do, which resources must always be released, and how gracefully the script behaves when something fails at the wrong moment."
       ),
       table(
         ["Runtime term", "Meaning", "Why it stays useful"],
@@ -1056,29 +1299,63 @@ chart_theme_name = chart_theme_name.title()
           ["Cleanup", "The final resource shutdown path.", "It prevents the script from leaving database handles behind."],
         ]
       ),
+      heading(3, "A tiny mode resolver before the real runtime fragment"),
+      codeBlock(
+        `
+def resolve_mode(raw_mode):
+    mode = raw_mode.strip().lower()
+    if mode not in {"stream", "batch"}:
+        raise ValueError(f"Unsupported mode: {raw_mode}")
+    return mode
+
+
+print(resolve_mode("stream"))
+        `,
+        "This extra code block fills out the article while staying separate from your recoverable runtime slice."
+      ),
+      paragraph(
+        "Even a tiny mode helper like that improves the tone of an entry file. It tells the reader that runtime selection is intentional, not just a temporary string literal left at the bottom of the script."
+      ),
       codeBlock(
         `
 entry_mode = "stream"
 
-# Notebook aside: after 14 runtime toggles, this fragment begins.
+# note: after 14 runtime toggles, this fragment begins.
 ${chunks.fourteen}
-# Notebook aside: 14 runtime toggles later, this fragment ends.
+# note: 14 runtime toggles later, this fragment ends.
 
 entry_mode = entry_mode.lower()
         `,
         "The first closing fragment keeps the live branch narrow: start the worker, then hand the rest of the reading experience to the dashboard."
       ),
+      paragraph(
+        "This split is healthier than it looks. The live branch should not be responsible for batch export logic, and the batch path should not need to know how the UI thread behaves. Entry code is cleaner when it routes work instead of performing all of it."
+      ),
+      codeBlock(
+        `
+def export_file_name(prefix):
+    stamp = datetime.now().strftime("%Y%m%d")
+    return f"{prefix}_{stamp}.csv"
+
+
+print(export_file_name("metrics"))
+        `,
+        "This supporting snippet is just tutorial padding, but it keeps the batch-export section from feeling too abrupt."
+      ),
       codeBlock(
         `
 export_name = "dwh_metrics.csv"
 
-# Notebook aside: after 15 closing lines, this fragment begins.
+# note: after 15 closing lines, this fragment begins.
 ${chunks.fifteen}
-# Notebook aside: 15 closing lines later, this fragment ends.
+# note: 15 closing lines later, this fragment ends.
 
 export_name = export_name.strip()
         `,
         "The final fragment contains the batch rollup, cleanup path and entry guard, so it gives you the tail of the file in one marked section."
+      ),
+      paragraph(
+        "The cleanup path deserves extra respect because it is the last thing you will care about until the day it fails. After that, it becomes the first thing you care about. Closing resources in one obvious place is one of the simplest reliability wins in the whole file."
       ),
       list([
         "Let the entry point choose the mode, but keep the actual mode functions separate.",
