@@ -319,19 +319,19 @@
     var style = document.createElement("style");
     style.id = "post-code-theme-styles";
     style.textContent = [
-      ".code-box{font-family:Consolas,'Courier New',monospace;tab-size:4;-moz-tab-size:4;white-space:pre-wrap;overflow:auto;}",
-      ".code-box .code-token{color:#d7ebff;}",
-      ".code-box .token-comment{color:#6fa8d8;font-style:italic;}",
-      ".code-box .token-keyword{color:#49a6ff;font-weight:600;}",
-      ".code-box .token-string{color:#a8d6ff;}",
-      ".code-box .token-number{color:#79c6ff;}",
-      ".code-box .token-function{color:#7fd7ff;}",
-      ".code-box .token-class-name{color:#9ed8ff;font-weight:600;}",
-      ".code-box .token-builtin{color:#73b8ff;}",
-      ".code-box .token-constant{color:#b7deff;}",
-      ".code-box .token-decorator{color:#5eb8ff;}",
-      ".code-box .token-operator{color:#90b7dc;}",
-      ".code-box .token-identifier{color:#d7ebff;}",
+      ".code-box{font-family:Consolas,'Courier New',monospace;tab-size:4;-moz-tab-size:4;white-space:pre-wrap;overflow:auto;--code-base:#d7ebff;--code-comment:#6fa8d8;--code-keyword:#49a6ff;--code-string:#a8d6ff;--code-number:#79c6ff;--code-function:#7fd7ff;--code-class:#9ed8ff;--code-builtin:#73b8ff;--code-constant:#b7deff;--code-decorator:#5eb8ff;--code-operator:#90b7dc;--code-identifier:#d7ebff;}",
+      ".code-box .code-token{color:var(--code-base);}",
+      ".code-box .token-comment{color:var(--code-comment);font-style:italic;}",
+      ".code-box .token-keyword{color:var(--code-keyword);font-weight:600;}",
+      ".code-box .token-string{color:var(--code-string);}",
+      ".code-box .token-number{color:var(--code-number);}",
+      ".code-box .token-function{color:var(--code-function);}",
+      ".code-box .token-class-name{color:var(--code-class);font-weight:600;}",
+      ".code-box .token-builtin{color:var(--code-builtin);}",
+      ".code-box .token-constant{color:var(--code-constant);}",
+      ".code-box .token-decorator{color:var(--code-decorator);}",
+      ".code-box .token-operator{color:var(--code-operator);}",
+      ".code-box .token-identifier{color:var(--code-identifier);}",
     ].join("");
     document.head.appendChild(style);
   }

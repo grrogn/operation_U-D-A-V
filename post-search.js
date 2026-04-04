@@ -15,51 +15,81 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var posts = [
     {
-      title: 'Some amazing similarities between people around the world',
-      url: 'post1.html',
-      meta: 'post1.html'
+        "title": "Some amazing similarities between people around the world",
+        "url": "post1.html",
+        "meta": "post1.html"
     },
     {
-      title: 'Little known facts about deer worth knowing',
-      url: 'post2.html',
-      meta: 'post2.html'
+        "title": "Little known facts about deer worth knowing",
+        "url": "post2.html",
+        "meta": "post2.html"
     },
     {
-      title: 'Shape the Import Surface of a Python Analytics Service Before the Live Loop',
-      url: 'post3.html',
-      meta: 'post3.html'
+        "title": "Shape the Import Surface of a Python Analytics Service Before the Live Loop",
+        "url": "post3.html",
+        "meta": "post3.html"
     },
     {
-      title: 'Keep PostgreSQL Lookups Cheap While a Vision Worker Boots Up',
-      url: 'post4.html',
-      meta: 'post4.html'
+        "title": "Keep PostgreSQL Lookups Cheap While a Vision Worker Boots Up",
+        "url": "post4.html",
+        "meta": "post4.html"
     },
     {
-      title: 'Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread',
-      url: 'post5.html',
-      meta: 'post5.html'
+        "title": "Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread",
+        "url": "post5.html",
+        "meta": "post5.html"
     },
     {
-      title: 'Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby',
-      url: 'post6.html',
-      meta: 'post6.html'
+        "title": "Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby",
+        "url": "post6.html",
+        "meta": "post6.html"
     },
     {
-      title: 'Sketch a Streamlit Analytics Page With Filters Before the Data Arrives',
-      url: 'post7.html',
-      meta: 'post7.html'
+        "title": "Sketch a Streamlit Analytics Page With Filters Before the Data Arrives",
+        "url": "post7.html",
+        "meta": "post7.html"
     },
     {
-      title: 'Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle',
-      url: 'post8.html',
-      meta: 'post8.html'
+        "title": "Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle",
+        "url": "post8.html",
+        "meta": "post8.html"
     },
     {
-      title: 'Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File',
-      url: 'post9.html',
-      meta: 'post9.html'
+        "title": "Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File",
+        "url": "post9.html",
+        "meta": "post9.html"
+    },
+    {
+        "title": "Lay Out a Traffic Intelligence File Before the First Frame Arrives",
+        "url": "post10.html",
+        "meta": "post10.html"
+    },
+    {
+        "title": "Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL",
+        "url": "post11.html",
+        "meta": "post11.html"
+    },
+    {
+        "title": "Persist Live Detections and Roll Them Into an Hourly Mart",
+        "url": "post12.html",
+        "meta": "post12.html"
+    },
+    {
+        "title": "Start the Workers Once and Cache the First History Pull",
+        "url": "post13.html",
+        "meta": "post13.html"
+    },
+    {
+        "title": "Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue",
+        "url": "post14.html",
+        "meta": "post14.html"
+    },
+    {
+        "title": "Validate a Forecasting Loop and Surface Dispatcher Warnings Without Noise",
+        "url": "post15.html",
+        "meta": "post15.html"
     }
-  ];
+];
 
   function escapeHtml(value) {
     return value.replace(/[&<>"']/g, function (char) {

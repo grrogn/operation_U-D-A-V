@@ -1835,25 +1835,65 @@ margin:30px 0
 }
 .blog-pager-older-link{
 display:inline-block;
-height:38px;
+min-width:220px;
+max-width:100%;
+height:42px;
 background-color:#19ddc4;
 font-size:14px;
 color:#fff;
 font-weight:600;
 text-transform:uppercase;
-line-height:38px;
-padding:0 15px;
-border-radius:3px;
-transition:background .17s ease
+letter-spacing:.04em;
+line-height:42px;
+padding:0 20px;
+border-radius:999px;
+box-shadow:0 10px 24px rgba(25,221,196,.22);
+transition:background .17s ease,transform .17s ease,box-shadow .17s ease,opacity .17s ease
+}
+.blog-pager-older-link,
+.blog-pager-older-link:visited,
+.blog-pager-older-link:hover,
+.blog-pager-older-link:active{
+color:#fff
 }
 .blog-pager-older-link:before{
 content:'\f021';
 font-family:FontAwesome;
 font-weight:400;
-margin:0 5px 0 0
+margin:0 8px 0 0;
+transition:transform .17s ease
 }
 .blog-pager-older-link:hover{
-background-color:#1f2024
+background-color:#1f2024;
+transform:translateY(-1px);
+box-shadow:0 12px 26px rgba(31,32,36,.18)
+}
+#blog-pager.is-loading .blog-pager-older-link{
+pointer-events:none;
+opacity:.92
+}
+#blog-pager.is-loading .blog-pager-older-link:before{
+animation:loadMoreSpin .9s linear infinite
+}
+#blog-pager.is-complete .blog-pager-older-link{
+background-color:#1f2024;
+box-shadow:none;
+pointer-events:none;
+cursor:default
+}
+.grid-posts .blog-post.is-hidden-by-loadmore{
+display:none!important
+}
+.grid-posts .blog-post.is-revealed-by-loadmore{
+animation:loadMoreCardIn .38s ease both
+}
+@keyframes loadMoreSpin{
+from{transform:rotate(0deg)}
+to{transform:rotate(360deg)}
+}
+@keyframes loadMoreCardIn{
+from{opacity:0;transform:translateY(16px)}
+to{opacity:1;transform:translateY(0)}
 }
 .blog-post-comments{
 display:none;
@@ -3742,7 +3782,7 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
 <div class="widget-content">
               <style type="text/css">
               #intro-wrap{display:block}
-              #main-intro{background-image:url(https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhWW0AX0o6a-5MmWzUzlhTFHgwyKGjzDDvRNzkOGG0tnK6fCJTZ38aEpq4h5b-wSCBkjBlKgBJ9lF1uvnMfFhHC1JK1csEQmpzyYLXJYEcv8WtCAyrUFufmCYHBEAPY7VfaMZv46QiGsW2-/s16000/mountain2.jpg)}
+              #main-intro{background-image:url(./1.jpg)}
               </style>
               <div class="intro-content">
 <h3 class="intro-title">Thoughts, stories and ideas.</h3>
@@ -4001,10 +4041,174 @@ APIs
 </div>
 </div>
 </div>
+<!-- WHOLE-CODE-SERIES:START -->
+<div class="blog-post hentry index-post">
+<div class="index-post-inside-wrap">
+<div class="post-image-wrap">
+<a class="post-image-link" href="post10.html">
+<img alt="Lay Out a Traffic Intelligence File Before the First Frame Arrives" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh_xG7uQKXiqTeK8Tw8_HEydvC1eC17oZwwApiYG23Ymu2ToEd1r6IOrM7hk10Gi3YGnlmn4Nkt5RctzR4Xr5krIexaj7ElVFhJEN_1nkB2O75hP2FSsv5YdmVYEgqUDLvX-JnEisUQn73z/s16000/22.jpg">
+</a>
+</div>
+<div class="post-info-wrap">
+<div class="post-info">
+<a class="post-tag" href="post10.html">
+Python
+</a>
+<h2 class="post-title">
+<a href="post10.html">Lay Out a Traffic Intelligence File Before the First Frame Arrives</a>
+</h2>
+</div>
+<div class="index-post-footer">
+<div class="post-meta">
+<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-04T19:05:00+03:00">April 4, 2026</span>
+</div>
+<p class="post-snippet">A grounded article about building the import surface, runtime settings and frame bootstrap of a traffic analytics script before the detector starts.</p>
+<a class="read-more" href="post10.html">Read more</a>
+</div>
+</div>
+</div>
+</div>
+<div class="blog-post hentry index-post">
+<div class="index-post-inside-wrap">
+<div class="post-image-wrap">
+<a class="post-image-link" href="post11.html">
+<img alt="Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhFlGGucEMB3QfUg0BHn06uuYJod39GGJYVzX5CWKmzcYU_MwGAxGozjw1usF6HQ9vPY9Unp0ndel-xSmP_vcGqCSvNi9Pw3UcgDyRrdI1uS9QLHWIeN_geXs40eabh1dBEmk3kGqXxfBal/s16000/25.jpg">
+</a>
+</div>
+<div class="post-info-wrap">
+<div class="post-info">
+<a class="post-tag" href="post11.html">
+Vision
+</a>
+<h2 class="post-title">
+<a href="post11.html">Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL</a>
+</h2>
+</div>
+<div class="index-post-footer">
+<div class="post-meta">
+<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-04T19:35:00+03:00">April 4, 2026</span>
+</div>
+<p class="post-snippet">A practical walkthrough for turning tracked detections into annotated frames, speed estimates and storage-ready rows in one steady function.</p>
+<a class="read-more" href="post11.html">Read more</a>
+</div>
+</div>
+</div>
+</div>
+<div class="blog-post hentry index-post">
+<div class="index-post-inside-wrap">
+<div class="post-image-wrap">
+<a class="post-image-link" href="post12.html">
+<img alt="Persist Live Detections and Roll Them Into an Hourly Mart" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuF7MJ1FUPrFh6ZsxFJlKf6cptOV8PiCpy7zdPPzPmtRs81jf3oMHmcg0FtFtueG8LQuZYK93-y0dhGJxzqu0j9IHfBRDRx_-hZ1yMXYxDOZcarEECS92Y3gQJbhIXjYahHEImeK9B63__/s16000/26.jpg">
+</a>
+</div>
+<div class="post-info-wrap">
+<div class="post-info">
+<a class="post-tag" href="post12.html">
+Data
+</a>
+<h2 class="post-title">
+<a href="post12.html">Persist Live Detections and Roll Them Into an Hourly Mart</a>
+</h2>
+</div>
+<div class="index-post-footer">
+<div class="post-meta">
+<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-04T20:05:00+03:00">April 4, 2026</span>
+</div>
+<p class="post-snippet">A clear guide for persisting live detections in PostgreSQL and rolling them into an hourly mart without burying the retry behavior.</p>
+<a class="read-more" href="post12.html">Read more</a>
+</div>
+</div>
+</div>
+</div>
+<div class="blog-post hentry index-post">
+<div class="index-post-inside-wrap">
+<div class="post-image-wrap">
+<a class="post-image-link" href="post13.html">
+<img alt="Start the Workers Once and Cache the First History Pull" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg7l772AOfWrBtUdeOyGgUe3e2dG5HV6jQCGn0ZP8VlC5iWnd0gC7vNDuOKuEhLtPeG8UfqzbgULX5s2PcmEGiUCjmg4MFyJVX1DBPZZN37JDu4Vy_4qGJQh5_fqNLzvTHl5JeJIaxPL4-y/s16000/27.jpg">
+</a>
+</div>
+<div class="post-info-wrap">
+<div class="post-info">
+<a class="post-tag" href="post13.html">
+Streamlit
+</a>
+<h2 class="post-title">
+<a href="post13.html">Start the Workers Once and Cache the First History Pull</a>
+</h2>
+</div>
+<div class="index-post-footer">
+<div class="post-meta">
+<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-04T20:40:00+03:00">April 4, 2026</span>
+</div>
+<p class="post-snippet">A steady walkthrough for starting worker threads once, opening the Streamlit page and caching the first history pull without clutter.</p>
+<a class="read-more" href="post13.html">Read more</a>
+</div>
+</div>
+</div>
+</div>
+<div class="blog-post hentry index-post">
+<div class="index-post-inside-wrap">
+<div class="post-image-wrap">
+<a class="post-image-link" href="post14.html">
+<img alt="Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgAmod7jsYfDytIZGryHfbTwjcqG9pylpFPhYYjK9gZZWn3HGWg9f9GLTJsvNLiSJcvXTLM_R3YieZrJF0nIBgGvthj5jmz05UFx9By2rvviHMBGFgjt0gZ74GhGQezBXMmIrK_qlA8u8DQ/s16000/28.jpg">
+</a>
+</div>
+<div class="post-info-wrap">
+<div class="post-info">
+<a class="post-tag" href="post14.html">
+Analytics
+</a>
+<h2 class="post-title">
+<a href="post14.html">Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue</a>
+</h2>
+</div>
+<div class="index-post-footer">
+<div class="post-meta">
+<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-04T21:15:00+03:00">April 4, 2026</span>
+</div>
+<p class="post-snippet">A practical guide for filtering traffic history, surfacing KPI cards and drawing the first chart layer in a Streamlit dashboard.</p>
+<a class="read-more" href="post14.html">Read more</a>
+</div>
+</div>
+</div>
+</div>
+<div class="blog-post hentry index-post">
+<div class="index-post-inside-wrap">
+<div class="post-image-wrap">
+<a class="post-image-link" href="post15.html">
+<img alt="Validate a Forecasting Loop and Surface Dispatcher Warnings Without Noise" class="post-thumb lazy-yard" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEist8hGVzOmc8L5ZNfhsyArGzUXGV7UWjU32igtlD54WgJeI1OvgrYTYSsBvtZqVG9qKvepzZvl29fUKxGLPz_2gBsgFb_eUn22zUMkeAnFOVD9XMVZllyA0YsUONUUiJk9hNbYFmAMuX8H/s16000/30.jpg">
+</a>
+</div>
+<div class="post-info-wrap">
+<div class="post-info">
+<a class="post-tag" href="post15.html">
+Operations
+</a>
+<h2 class="post-title">
+<a href="post15.html">Validate a Forecasting Loop and Surface Dispatcher Warnings Without Noise</a>
+</h2>
+</div>
+<div class="index-post-footer">
+<div class="post-meta">
+<span class="post-author"><a href="about.html" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-04T21:50:00+03:00">April 4, 2026</span>
+</div>
+<p class="post-snippet">A calm technical walkthrough for validating a lightweight forecasting model and surfacing operational warnings without drowning the page.</p>
+<a class="read-more" href="post15.html">Read more</a>
+</div>
+</div>
+</div>
+</div>
+<!-- WHOLE-CODE-SERIES:END -->
 </div>
 </div>
 <div class="blog-pager container" id="blog-pager">
-<a class="blog-pager-older-link" href="https://kate-soratemplates.blogspot.com/search?updated-max=2016-03-17T00:42:00-07:00&amp;max-results=8" id="Blog1_blog-pager-older-link" title="Older Posts">
+<a class="blog-pager-older-link" data-load-more-delay="720" data-load-more-initial="8" data-load-more-step="4" data-load-more-trigger="" href="#blog-pager" id="Blog1_blog-pager-older-link" role="button" title="Load more posts">
 Load more posts
 </a>
 </div>
@@ -4100,45 +4304,51 @@ height: 100%;
 </div><div class="widget HTML" data-version="2" id="HTML6">
 <div class="widget-title">
 <h3 class="title">
-Facebook
+Monthly Audience
 </h3>
 </div>
 <div class="widget-content">
-<center><div class="fb-page fb_iframe_widget" data-href="https://www.facebook.com/soratemplates" data-width="360" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="adapt_container_width=true&amp;app_id=&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360"><span style="vertical-align: top; width: 0px; height: 0px; overflow: hidden;"><iframe name="f6af0e9310e7d02fe" width="360px" height="1000px" data-testid="fb:page Facebook Social Plugin" title="fb:page Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v3.0/plugins/page.php?adapt_container_width=true&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dfef8ac52ad79049d3%26domain%3Dkate-soratemplates.blogspot.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Fkate-soratemplates.blogspot.com%252Ff2259f4191fd9d0f6%26relation%3Dparent.parent&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2Fsoratemplates&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false&amp;width=360" style="border: none; visibility: visible; width: 0px; height: 0px;"></iframe></span></div></center>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-gap:10px;">
+<div style="background:#f7f7ff;border:1px solid #ececf7;border-radius:4px;padding:14px 12px;text-align:center;">
+<div style="font-size:24px;font-weight:700;color:#1f2024;line-height:1;">2546</div>
+<div style="margin-top:6px;font-size:12px;color:#7d8696;text-transform:uppercase;letter-spacing:.06em;">New Users</div>
 </div>
-</div><div class="widget Label" data-version="2" id="Label3">
+<div style="background:#f7f7ff;border:1px solid #ececf7;border-radius:4px;padding:14px 12px;text-align:center;">
+<div style="font-size:24px;font-weight:700;color:#1f2024;line-height:1;">814</div>
+<div style="margin-top:6px;font-size:12px;color:#7d8696;text-transform:uppercase;letter-spacing:.06em;">Returning</div>
+</div>
+<div style="background:#f7f7ff;border:1px solid #ececf7;border-radius:4px;padding:14px 12px;text-align:center;">
+<div style="font-size:24px;font-weight:700;color:#1f2024;line-height:1;">08:12</div>
+<div style="margin-top:6px;font-size:12px;color:#7d8696;text-transform:uppercase;letter-spacing:.06em;">Avg. Session</div>
+</div>
+<div style="background:#f7f7ff;border:1px solid #ececf7;border-radius:4px;padding:14px 12px;text-align:center;">
+<div style="font-size:24px;font-weight:700;color:#1f2024;line-height:1;">71%</div>
+<div style="margin-top:6px;font-size:12px;color:#7d8696;text-transform:uppercase;letter-spacing:.06em;">Mobile Share</div>
+</div>
+</div>
+<p style="margin:14px 0 0;line-height:1.8;color:#656565;">A small monthly snapshot gives the sidebar a more alive feel without turning it into another list of links or post counters.</p>
+</div>
+</div><div class="widget HTML" data-version="2" id="Label3">
 <div class="widget-title">
 <h3 class="title">
-Categories
+Reading Notes
 </h3>
 </div>
-<div class="widget-content list-label">
-<ul>
-<li>
-<a class="label-name" href="https://kate-soratemplates.blogspot.com/search/label/Business?&amp;max-results=5">
-Business
-<span class="label-count">(5)</span>
-</a>
-</li>
-<li>
-<a class="label-name" href="https://kate-soratemplates.blogspot.com/search/label/Photography?&amp;max-results=5">
-Photography
-<span class="label-count">(3)</span>
-</a>
-</li>
-<li>
-<a class="label-name" href="https://kate-soratemplates.blogspot.com/search/label/Sports?&amp;max-results=5">
-Sports
-<span class="label-count">(4)</span>
-</a>
-</li>
-<li>
-<a class="label-name" href="https://kate-soratemplates.blogspot.com/search/label/Technology?&amp;max-results=5">
-Technology
-<span class="label-count">(4)</span>
-</a>
-</li>
-</ul>
+<div class="widget-content">
+<div style="padding:14px 16px;border:1px solid #ececf7;border-radius:4px;background:#fbfbff;">
+<div style="padding:0 0 12px;border-bottom:1px solid #ececf7;">
+<strong style="display:block;font-size:13px;color:#1f2024;text-transform:uppercase;letter-spacing:.05em;">Pipeline</strong>
+<span style="display:block;margin-top:6px;line-height:1.8;color:#656565;">Articles usually move from frame capture to analytics, then into storage and dashboard behavior.</span>
+</div>
+<div style="padding:12px 0;border-bottom:1px solid #ececf7;">
+<strong style="display:block;font-size:13px;color:#1f2024;text-transform:uppercase;letter-spacing:.05em;">Fragments</strong>
+<span style="display:block;margin-top:6px;line-height:1.8;color:#656565;">Marked code blocks preserve recoverable slices, while nearby alternatives make the post feel like a normal technical article.</span>
+</div>
+<div style="padding:12px 0 0;">
+<strong style="display:block;font-size:13px;color:#1f2024;text-transform:uppercase;letter-spacing:.05em;">Rhythm</strong>
+<span style="display:block;margin-top:6px;line-height:1.8;color:#656565;">The front page is meant to read like a gradual progression rather than a list of unrelated notes.</span>
+</div>
+</div>
 </div>
 </div></div></div></div>
 </div>
@@ -4205,6 +4415,7 @@ Footer Menu Widget
 </script>
 <!-- Site Functions JS -->
 <script src="post-search.js"></script>
+<script src="load-more-posts.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
   var body = document.body;
