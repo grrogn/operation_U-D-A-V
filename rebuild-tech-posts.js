@@ -94,7 +94,7 @@ function codeBlock(code, note) {
 <div class="is-dark">
 <pre class="code-box" style="${CODE_BLOCK_STYLE}">${escapeHtml(code.trim())}</pre>
 </div>
-<p style="margin-top:-6px;margin-bottom:20px;color:#6f7f92;font-size:13px;">${note}</p>`.trim();
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">${note}</p>`.trim();
 }
 
 function readChunk(code) {
