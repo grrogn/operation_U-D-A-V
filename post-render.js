@@ -91,6 +91,11 @@
   var FOOTER_COPY_OLD =
     'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s.';
   var FOOTER_COPY_NEW = 'Notes on software, systems and IT work.';
+  var POST_TEMPLATE_OVERRIDES = [
+    '<style id="post-template-overrides">',
+    '#content-wrapper{margin:0 auto 0;}',
+    '</style>'
+  ].join('\n');
 
   function replaceAll(source, token, value) {
     return source.split(token).join(value);
@@ -121,6 +126,7 @@
     html = replaceAll(html, FOOTER_LOGO_URL, FOOTER_LOGO_LOCAL_URL);
     html = replaceAll(html, SIDEBAR_VIDEO_OLD_URL, SIDEBAR_VIDEO_LOCAL_URL);
     html = replaceAll(html, FOOTER_COPY_OLD, FOOTER_COPY_NEW);
+    html = replaceAll(html, '</head>', POST_TEMPLATE_OVERRIDES + '\n</head>');
     html = html.replace(
       POPULAR_POSTS_PATTERN,
       POPULAR_POSTS_WIDGET + '\n</div><div class="widget HTML" data-version="2" id="HTML1">'

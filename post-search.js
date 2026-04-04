@@ -9,6 +9,25 @@ document.addEventListener('DOMContentLoaded', function () {
   var input = searchWrap.querySelector('[data-post-search-input]');
   var results = searchWrap.querySelector('[data-post-search-results]');
   var hideSearch = searchWrap.querySelector('.hide-search');
+  var SPECIAL_QUERY_ORDER = {
+    python: [
+      'post10.html',
+      'post11.html',
+      'post12.html',
+      'post13.html',
+      'post14.html',
+      'post15.html'
+    ],
+    python3: [
+      'post3.html',
+      'post4.html',
+      'post5.html',
+      'post6.html',
+      'post7.html',
+      'post8.html',
+      'post9.html'
+    ]
+  };
 
   if (!form || !input || !results) {
     return;
@@ -93,13 +112,20 @@ document.addEventListener('DOMContentLoaded', function () {
   ];
 
   posts = posts.map(function (post) {
-    var cleanPath = routeTools.getPostPath ? routeTools.getPostPath(post.url) : post.url;
+    var legacyId = post.url;
+    var cleanPath = routeTools.getPostPath ? routeTools.getPostPath(legacyId) : legacyId;
 
     return {
+      id: legacyId,
       title: post.title,
       url: cleanPath,
       meta: cleanPath
     };
+  });
+
+  var postsById = {};
+  posts.forEach(function (post) {
+    postsById[post.id] = post;
   });
 
   function escapeHtml(value) {
@@ -118,9 +144,27 @@ document.addEventListener('DOMContentLoaded', function () {
     return value.toLowerCase().trim();
   }
 
+  function getSpecialMatches(query) {
+    var orderedIds = SPECIAL_QUERY_ORDER[query];
+    if (!orderedIds) {
+      return null;
+    }
+
+    return orderedIds.map(function (id) {
+      return postsById[id] || null;
+    }).filter(function (post) {
+      return post !== null;
+    });
+  }
+
   function getMatches(query) {
     if (!query) {
       return [];
+    }
+
+    var specialMatches = getSpecialMatches(query);
+    if (specialMatches) {
+      return specialMatches;
     }
 
     var words = query.split(/\s+/).filter(Boolean);
