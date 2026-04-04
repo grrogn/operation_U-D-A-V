@@ -113,7 +113,13 @@
   ].join('\n');
   var POST_TEMPLATE_OVERRIDES = [
     '<style id="post-template-overrides">',
-    '#content-wrapper{margin:32px auto 0;}',
+    '#content-wrapper{margin:0 auto;}',
+    '#main-wrapper .item-post-wrap{margin-top:18px;}',
+    '#sidebar-wrapper .theiaStickySidebar{margin-top:18px;}',
+    '#main-wrapper .post-body > .tr-caption-container{display:table;width:100% !important;max-width:100%;margin:0 0 24px !important;}',
+    '#main-wrapper .post-body > .tr-caption-container tbody,#main-wrapper .post-body > .tr-caption-container tr,#main-wrapper .post-body > .tr-caption-container td{display:block;width:100% !important;}',
+    '#main-wrapper .post-body > .tr-caption-container img{display:block;width:100% !important;height:auto;margin:0;}',
+    '#main-wrapper .tr-caption-container tr:last-child,#main-wrapper .tr-caption-container .tr-caption{display:none;}',
     '#footer-wrapper .primary-footer .container{display:flex;align-items:center;justify-content:space-between;gap:25px;}',
     '#footer-about-area{float:none;width:auto;flex:1 1 auto;padding:0;}',
     '#footer-about-area .widget{float:none;display:flex;align-items:center;gap:20px;width:100%;}',

@@ -144,6 +144,7 @@ button{background:none;border:0;padding:0}
 .social-color .youtube a{background-color:#db4a39}
 .social-color .linkedin a{background-color:#0077b5}
 #menu-footer{float:right}
+#menu-footer .widget-title{display:none}
 #menu-footer ul li{display:inline-block}
 #menu-footer ul li a{display:block;margin:0 0 0 5px;padding:0 10px;line-height:34px;font-size:11px;font-weight:600;text-transform:uppercase;color:#fff}
 .back-top{display:none;position:fixed;right:15px;bottom:15px;width:32px;height:32px;line-height:32px;text-align:center;border-radius:var(--radius);cursor:pointer;z-index:1010}
