@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <base href="/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 | Kate</title>
@@ -252,13 +253,16 @@
       content: '\f107';
       float: right;
       margin-left: 6px;
-      font: normal normal normal 12px/1 FontAwesome;
+      font-family: FontAwesome;
+      font-weight: 400;
     }
 
     #main-menu ul > li > ul > li.has-sub > a::after {
       content: '\f105';
       float: right;
       margin: 0;
+      font-family: FontAwesome;
+      font-weight: 400;
     }
 
     #main-menu ul > li:hover > ul,
