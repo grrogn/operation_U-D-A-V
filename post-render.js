@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   var routeTools = window.SITE_ROUTES || {};
   var HEADER_LOGO_URL =
     'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhhTQYRE8H5fUkmMT17hRa2gfoFZIUWtJh08yFyhwrogJ1d4EgpgVu1fX4CCEAvKbBzcUDRigfteKq1sXYVa9oxLY8bLQ_UFDfoXpHcIth5VVIgsJrKuVGV3cn4T5MrXDmlYqyFDU3GNmMt/s1600/Kate-logo.png';
@@ -7,7 +7,7 @@
   var HEADER_LOGO_LOCAL_URL = 'Kate-logo.png';
   var FOOTER_LOGO_LOCAL_URL = 'Kate-logo-White.png';
   var SIDEBAR_VIDEO_OLD_URL = 'https://www.youtube.com/embed/gmhw5XzNOuo';
-  var SIDEBAR_VIDEO_LOCAL_URL = 'https://www.youtube.com/watch?v=apA-O6Qh6hs';
+  var SIDEBAR_VIDEO_LOCAL_URL = 'https://www.youtube.com/embed/apA-O6Qh6hs';
   var DATE_OVERRIDES = {
     'post1.html': {
       publishedOld: '2016-03-17T00:56:00-07:00',
@@ -225,3 +225,4 @@
 
   renderPost();
 })();
+

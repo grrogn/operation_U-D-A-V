@@ -11,7 +11,7 @@
 <meta content="#f7f7ff" name="msapplication-navbutton-color">
 <meta content="blogger" name="generator">
 <link href="favicon.ico" rel="icon" type="image/x-icon">
-<link href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/" rel="canonical">
+<link href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/" rel="canonical">
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
 <link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
@@ -19,9 +19,9 @@
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
 <link href="./12.png" rel="image_src">
-<meta content="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/" property="og:url">
+<meta content="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/" property="og:url">
 <meta content="Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL" property="og:title">
-<meta content="A practical article about turning tracked detections into annotated frames without losing the logic that prepares rows for storage." property="og:description">
+<meta content="A stitched article copy that preserves the full 2_mod.txt traffic loop in several readable code slices." property="og:description">
 <meta content="./12.png" property="og:image">
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
@@ -3794,9 +3794,9 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "post11.html"
+    "@id": "/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/"
   },
-  "headline": "Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL","description": "A practical article about turning tracked detections into annotated frames without losing the logic that prepares rows for storage.","datePublished": "2025-08-05T19:35:00+03:00",
+  "headline": "Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL","description": "A stitched article copy that preserves the full 2_mod.txt traffic loop in several readable code slices.","datePublished": "2025-08-05T19:35:00+03:00",
   "dateModified": "2025-08-05T19:35:00+03:00","image": {
     "@type": "ImageObject","url": "./12.png",
     "height": 630,
@@ -3839,7 +3839,7 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
                   "position": 3,
                   "item": {
                     "name": "Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL",
-                    "@id": "post11.html"
+                    "@id": "/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/"
                   }
                 }]
               }
@@ -3862,86 +3862,111 @@ Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL
 </tr>
 </tbody>
 </table>
-<h2>Detection code becomes clearer when it splits setup from drawing</h2>
-<p>A detection function usually wants to do too much. It talks to the model, unwraps tensors, computes speeds, formats text and paints the frame. The healthiest version is not a shorter version. It is a version where those responsibilities are grouped in a way the eye can follow.</p>
-<p>The first half of the function should prepare the scene. It asks the detector for tracked objects, converts the returned structures into Python-friendly arrays and opens a drawing surface. Only after that does it make sense to talk about per-object overlays.</p>
-<p>That split also helps when the code is reused in an article. A reader can pause after the setup slice, understand the data shape, and then continue into the loop that turns raw results into readable annotations.</p>
+<h2>One stitched script can still read in clean stages</h2>
+<p>Some article copies are useful precisely because they refuse to summarize. This page keeps the working traffic loop intact, but it slows the read down by placing the full contents of <code>2_mod.txt</code> into several consecutive code blocks with small notes in between.</p>
+<p>If you move through the blocks from top to bottom, you reconstruct the entire file exactly as stored, including the duplicate import, the Russian inline comments and the direct database write.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def format_overlay_line(vehicle_name, object_id, clock_text, estimated_speed):
-    return f&quot; {vehicle_name} ID:{object_id} | {clock_text} | {estimated_speed} km/h &quot;</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">import cv2
+import numpy as np
+from ultralytics import YOLO
+from PIL import Image, ImageDraw, ImageFont
+import psycopg2
+import datetime
+import streamlit as st
+import pandas as pd
+import psycopg2
+import plotly.express as px
+MODEL_NAME = (&quot;yolov8x.pt&quot;)
+db_config = {
+   &quot;dbname&quot;: &quot;NewDataHelp&quot;,
+   &quot;user&quot;: &quot;postgres&quot;,
+   &quot;password&quot;: &quot;admin&quot;,
+   &quot;host&quot;: &quot;localhost&quot;,
+   &quot;port&quot;: &quot;5432&quot;
+}
+# 1. ПОДКЛЮЧЕНИЕ К БД
+try:
+   conn = psycopg2.connect(**db_config)
+   cur = conn.cursor()
+   db_ok = True
+   print(&quot;БАЗА ПОДКЛЮЧЕНА&quot;)
+except Exception as e:
+   db_ok = False
+   print(f&quot;ОШИБКА БД: {e}&quot;)</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This alternative component intentionally isolates the display string so the later recoverable fragment can focus on model output and image preparation.</p>
-<p>That helper is a good example of a neighboring component. It belongs to the same idea, but it is not part of the main stored slice.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first slice keeps the environment visible in one place: imports, model name, connection settings and the first database handshake.</p>
+<p>That matters because the rest of the loop only makes sense after the reader has seen which libraries are in play and how the script decides whether storage is available.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">overlay_stage = &quot;prepare&quot;
-
-# note: after 3 detector passes, this fragment begins.
-def detect_and_annotate(frame, detector, last_y_by_track, ui_font):
-    tracked = detector.track(
-        frame,
-        persist=True,
-        classes=[2, 5, 7],
-        conf=0.3,
-        iou=0.5,
-        imgsz=1280,
-        verbose=False,
-    )
-    rows_to_store = []
-
-    if tracked[0].boxes.id is not None:
-        corners = tracked[0].boxes.xyxy.int().cpu().numpy()
-        track_ids = tracked[0].boxes.id.int().cpu().tolist()
-        class_ids = tracked[0].boxes.cls.int().cpu().tolist()
-        centers = tracked[0].boxes.xywh.cpu().numpy()
-        canvas = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-        painter = ImageDraw.Draw(canvas)
-# note: 3 detector passes later, this fragment ends.
-
-overlay_stage = overlay_stage.title()</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6"># 2. ИНИЦИАЛИЗАЦИЯ
+model = YOLO(MODEL_NAME)
+cap = cv2.VideoCapture(&quot;test.MP4&quot;)
+track_history = {}
+try:
+   font = ImageFont.truetype(&quot;arial.ttf&quot;, 20)
+except:
+   font = ImageFont.load_default()
+while cap.isOpened():
+   success, frame = cap.read()
+   if not success: break
+   results = model.track(frame, persist=True, classes=[2, 5, 7],
+                         conf=0.3, iou=0.5, imgsz=1280, verbose=False)
+   if results[0].boxes.id is not None:
+       boxes = results[0].boxes.xyxy.int().cpu().numpy()
+       ids = results[0].boxes.id.int().cpu().tolist()
+       clss = results[0].boxes.cls.int().cpu().tolist()
+       centers = results[0].boxes.xywh.cpu().numpy()
+       # Сначала рисуем рамки (OpenCV)
+       for box in boxes:
+           cv2.rectangle(frame, (box[0], box[1]), (box[2], box[3]), (255, 100, 0), 2)
+       # Переходим в PIL для качественного текста (ОДИН РАЗ на кадр)
+       img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+       draw = ImageDraw.Draw(img_pil)</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The third marked slice stops just before the per-object loop, which makes it a clean breakpoint for anyone reconstructing the file later.</p>
-<p>Stopping there is useful because it preserves the boundary between model output and visual annotation. The first part explains what has been collected. The second part explains what will be done with it.</p>
-<table><thead><tr><th>Overlay concern</th><th>What the code needs</th><th>Why the split helps</th></tr></thead><tbody><tr><td>Tracked boxes</td><td>Coordinates, ids and class ids from the detector.</td><td>It gives the loop enough structure before any text is drawn.</td></tr><tr><td>Drawing surface</td><td>A PIL image plus an ImageDraw handle.</td><td>It keeps annotation code separate from OpenCV tensor handling.</td></tr><tr><td>Speed context</td><td>A previous y-position per tracked object.</td><td>It turns motion into a cheap derived signal without a second model.</td></tr></tbody></table>
-<h3>Alternative component: keep the text box math separate</h3>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second slice carries the script from initialization into the exact point where the frame is ready for per-object annotation.</p>
+<table><thead><tr><th>Stage</th><th>What gets established</th><th>Why the pause helps</th></tr></thead><tbody><tr><td>Initialization</td><td>The model, capture handle and font fallback are created.</td><td>It marks the transition from configuration to a running loop.</td></tr><tr><td>Tracking call</td><td>The detector produces boxes, ids, classes and centers.</td><td>The next slice can focus on one tracked object at a time.</td></tr><tr><td>Drawing surface</td><td>The frame crosses from OpenCV into PIL.</td><td>The annotation math reads more clearly once the surface already exists.</td></tr></tbody></table>
+<h3>The middle section keeps the live annotation literal</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def make_label_box(drawer, left, top, overlay_text, ui_font):
-    text_width, text_height = drawer.textbbox((0, 0), overlay_text, font=ui_font)[2:]
-    return {
-        &quot;box&quot;: [left, top - text_height - 10, left + text_width, top],
-        &quot;text&quot;: (left, top - text_height - 7),
-    }</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">       for box, track_id, cls, center in zip(boxes, ids, clss, centers):
+           x1, y1 = box[0], box[1]
+           x_c, y_c = int(center[0]), int(center[1])
+           label = model.names[cls].upper()
+           time_str = datetime.datetime.now().strftime(&quot;%H:%M:%S&quot;)
+           # Расчет скорости (ваша логика)
+           speed = round(abs(y_c - track_history.get(track_id, y_c)) * 2.5, 1)
+           track_history[track_id] = y_c
+           # Формируем текст
+           display_text = f&quot; {label} ID:{track_id} | {time_str} | X:{x_c} Y:{y_c} | {speed} km/h &quot;
+           # Рисуем подложку и красивый текст
+           tw, th = draw.textbbox((0, 0), display_text, font=font)[2:]
+           draw.rectangle([x1, y1 - th - 10, x1 + tw, y1], fill=(255, 100, 0))
+           draw.text((x1, y1 - th - 7), display_text, font=font, fill=(255, 255, 255))
+           # ЗАПИСЬ В POSTGRES
+           if db_ok:
+               try:
+                   cur.execute(&quot;&quot;&quot;
+                       INSERT INTO mart.current_traffic
+                       (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                   &quot;&quot;&quot;, (&#39;Cam_01&#39;, label, int(track_id), float(x_c), float(y_c), float(speed), 1))
+                   conn.commit()
+               except:
+                   conn.rollback()
+       # Возвращаем кадр в OpenCV
+       frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This lilac block is intentionally adjacent to the recoverable material, but the color shift signals that it is a neighboring solution rather than part of the numbered sequence.</p>
-<p>The actual loop is easier to absorb after the geometry has been discussed in plain English. That keeps the main rose slice from feeling like a wall of micro-decisions.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This third slice is the heart of the page: the tracked object loop, the overlay string, the label box and the direct insert into <code>mart.current_traffic</code>.</p>
+<p>Leaving that segment literal is what makes the copy feel recoverable rather than merely inspired by the source. The awkwardness is part of the artifact.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">overlay_policy = &quot;steady&quot;
-
-# note: after 4 overlay drafts, this fragment begins.
-        for corner, object_id, class_id, center in zip(corners, track_ids, class_ids, centers):
-            left, top = corner[0], corner[1]
-            center_x, center_y = int(center[0]), int(center[1])
-            vehicle_name = detector.names[class_id].upper()
-            estimated_speed = round(abs(center_y - last_y_by_track.get(object_id, center_y)) * 2.5, 1)
-            last_y_by_track[object_id] = center_y
-            rows_to_store.append(
-                (&quot;Cam_01&quot;, vehicle_name, int(object_id), float(center_x), float(center_y), float(estimated_speed))
-            )
-
-            stamp = datetime.now().strftime(&quot;%H:%M:%S&quot;)
-            overlay_text = f&quot; {vehicle_name} ID:{object_id} | {stamp} | {estimated_speed} km/h &quot;
-            text_width, text_height = painter.textbbox((0, 0), overlay_text, font=ui_font)[2:]
-            painter.rectangle([left, top - text_height - 10, left + text_width, top], fill=(255, 100, 0))
-            painter.text((left, top - text_height - 7), overlay_text, font=ui_font, fill=(255, 255, 255))
-
-        frame = cv2.cvtColor(np.array(canvas), cv2.COLOR_RGB2BGR)
-    return rows_to_store, frame
-# note: 4 overlay drafts later, this fragment ends.
-
-overlay_policy = overlay_policy.lower()</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">   # Вывод
+   cv2.imshow(&quot;Smart Traffic System&quot;, cv2.resize(frame, (1280, 720)))
+   if cv2.waitKey(1) &amp; 0xFF == ord(&quot;q&quot;):
+       break
+cap.release()
+if db_ok: cur.close(); conn.close()
+cv2.destroyAllWindows()</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The fourth marked slice covers the per-object work: speed estimation, row assembly, overlay text and the final BGR conversion.</p>
-<p>This is where the function earns its keep. It does not merely detect objects. It transforms them into a story the operator can read and into rows the database can store.</p>
-<ul><li>Prepare all detector outputs before the per-object loop starts.</li><li>Let the overlay logic describe one object at a time instead of juggling all concerns at once.</li><li>Convert back to OpenCV's color space only after the drawing work is complete.</li></ul>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The closing slice is short, but it completes the file: display, quit condition, release and cleanup.</p>
+<ul><li>The article copy preserves the full order of <code>2_mod.txt</code> rather than paraphrasing it.</li><li>The split points are only for readability; they do not remove any of the stored lines.</li><li>The result still reads like a normal post, but the underlying payload remains reconstructable.</li></ul>
 </div>
 <div class="post-labels">
 <div class="label-head Label">
