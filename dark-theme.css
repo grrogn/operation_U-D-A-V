@@ -524,6 +524,15 @@ body.dark-theme .HTML .widget-content strong[style*="color:#5ab6f9"] {
   color: #4a9dd9 !important;
 }
 
+body.dark-theme #social-widget .widget-content a,
+body.dark-theme #social-widget .widget-content a:visited {
+  color: #7fa5bd !important;
+}
+
+body.dark-theme #social-widget .widget-content a:hover {
+  color: #19ddc4 !important;
+}
+
 /* Fix bright blue links in sidebar widgets */
 body.dark-theme .HTML .widget-content a {
   color: #4a9dd9 !important;
