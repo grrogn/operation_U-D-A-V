@@ -922,6 +922,8 @@
       .foot-bar-social .widget-content { justify-content: center; }
     }
   </style>
+  <link href="dark-theme.css?v=36" rel="stylesheet" type="text/css">
+  <link href="footer-sync.css?v=1" rel="stylesheet" type="text/css">
 </head>
 <body class="error_page error404">
   <div id="outer-wrapper">
@@ -1757,11 +1759,12 @@ if __name__ == &quot;__main__&quot;:
               Footer Menu Widget
             </h3>
           </div>
-          <div class="widget-content">
-            <ul>
-              <li><a href="index.html">Home</a></li>
-              <li><a href="about.html">About</a></li>
-              <li><a href="contactus.html">Contact Us</a></li>
+            <div class="widget-content">
+              <ul>
+                <li><a href="#" id="theme-toggle" title="Toggle theme"><i class="fa fa-moon-o"></i></a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
             </ul>
           </div>
         </div></div>
@@ -1770,6 +1773,7 @@ if __name__ == &quot;__main__&quot;:
   </div>
 
   <script src="post-search.js"></script>
+  <script src="theme-toggle.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var body = document.body;

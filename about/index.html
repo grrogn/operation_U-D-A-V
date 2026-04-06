@@ -3648,7 +3648,10 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
   .foot-bar-social{width:100%;margin-top:18px}
   .foot-bar-social .widget-content{justify-content:center}
 }
-</style></head>
+</style>
+<link href="dark-theme.css?v=36" rel="stylesheet" type="text/css">
+<link href="footer-sync.css?v=1" rel="stylesheet" type="text/css">
+</head>
 <body class="static_page item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
@@ -3962,6 +3965,7 @@ Footer Menu Widget
 </div>
 <div class="widget-content">
 <ul>
+<li><a href="#" id="theme-toggle" title="Toggle theme"><i class="fa fa-moon-o"></i></a></li>
 <li><a href="/">Home</a></li>
 <li><a href="about.html">About</a></li>
 <li><a href="contactus.html">Contact Us</a></li>
@@ -4008,6 +4012,7 @@ Contact form
 //]]>
 </script>
 <script src="post-search.js"></script>
+<script src="theme-toggle.js"></script>
 <!-- Site Functions JS -->
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {

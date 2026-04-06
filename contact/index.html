@@ -3648,7 +3648,50 @@ var monthFormat = ["January", "February", "March", "April", "May", "June", "July
   .foot-bar-social{width:100%;margin-top:18px}
   .foot-bar-social .widget-content{justify-content:center}
 }
-</style></head>
+</style>
+<link href="dark-theme.css?v=36" rel="stylesheet" type="text/css">
+<link href="footer-sync.css?v=1" rel="stylesheet" type="text/css">
+<style id="contact-form-status-overrides" type="text/css">
+.contact-form-error-message,
+.contact-form-success-message{
+display:block;
+width:100%;
+min-height:0;
+margin:0;
+}
+.contact-form-error-message-with-border,
+.contact-form-success-message-with-border{
+float:none;
+display:block;
+clear:both;
+width:100%;
+margin:18px 0 0;
+padding:11px 14px;
+border-radius:3px;
+box-sizing:border-box;
+font-size:12px;
+font-weight:600;
+line-height:1.55;
+text-align:left;
+}
+.contact-form-error-message-with-border{
+color:#9d1f1f;
+}
+.contact-form-success-message-with-border{
+color:#165b93;
+}
+body.dark-theme .contact-form-error-message-with-border{
+background-color:#2b1717;
+border-color:#b65a5a;
+color:#f0c4c4;
+}
+body.dark-theme .contact-form-success-message-with-border{
+background-color:#102431;
+border-color:#4f8db8;
+color:#d1e7f6;
+}
+</style>
+</head>
 <body class="static_page item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
@@ -3958,6 +4001,7 @@ Footer Menu Widget
 </div>
 <div class="widget-content">
 <ul>
+<li><a href="#" id="theme-toggle" title="Toggle theme"><i class="fa fa-moon-o"></i></a></li>
 <li><a href="/">Home</a></li>
 <li><a href="about.html">About</a></li>
 <li><a href="contactus.html">Contact Us</a></li>
@@ -4004,6 +4048,8 @@ Contact form
 //]]>
 </script>
 <script src="post-search.js"></script>
+<script src="contact-form.js"></script>
+<script src="theme-toggle.js"></script>
 <!-- Site Functions JS -->
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function () {
