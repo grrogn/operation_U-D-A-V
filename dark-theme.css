@@ -1,0 +1,539 @@
+/* Dark Theme for Kate Blog */
+
+/* Smooth transitions */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Base dark theme colors */
+body.dark-theme {
+  background: #0d0d0d !important;
+  background-color: #0d0d0d !important;
+  color: #e0e0e0;
+}
+
+/* Main wrapper */
+body.dark-theme #outer-wrapper {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Header */
+body.dark-theme #header-wrap {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+body.dark-theme .main-logo h1,
+body.dark-theme .main-logo h1 a {
+  color: #ffffff;
+}
+
+/* Header buttons - no backgrounds */
+body.dark-theme .header-signin-link {
+  background-color: transparent !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .header-signin-link:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme .show-search,
+body.dark-theme .hide-search {
+  background-color: transparent !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .show-search:hover,
+body.dark-theme .hide-search:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme .mobile-menu-toggle {
+  background-color: transparent !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .mobile-menu-toggle:hover {
+  color: #19ddc4;
+}
+
+/* Menu */
+body.dark-theme #main-menu ul > li > a {
+  color: #e0e0e0;
+}
+
+body.dark-theme #main-menu ul > li:hover {
+  background-color: transparent !important;
+}
+
+body.dark-theme #main-menu ul > li:hover > a {
+  color: #19ddc4;
+}
+
+body.dark-theme .mobile-menu-wrap {
+  background-color: #1a1a1a;
+}
+
+/* Search */
+body.dark-theme #nav-search {
+  background-color: #1a1a1a;
+}
+
+body.dark-theme #nav-search .search-input {
+  color: #e0e0e0;
+}
+
+body.dark-theme .search-suggestions {
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .search-suggestion-item:hover {
+  background-color: #2a2a2a;
+}
+
+body.dark-theme .search-suggestion-title {
+  color: #e0e0e0;
+}
+
+/* Content area */
+body.dark-theme .title-wrap > h3 {
+  background-color: #1a1a1a;
+  color: #19ddc4;
+  border-bottom: 2px solid #2a2a2a;
+}
+
+/* Post cards - slightly lighter than background */
+body.dark-theme .index-post {
+  background-color: #242424;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
+}
+
+body.dark-theme .index-post .post-info-wrap {
+  background-color: #242424;
+}
+
+body.dark-theme .index-post .post-info .post-tag {
+  color: #e0e0e0;
+}
+
+body.dark-theme .index-post .post-info > h2 > a {
+  color: #ffffff;
+}
+
+body.dark-theme .index-post .post-info > h2 > a:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme .index-post-footer {
+  border-top: 1px solid #2a2a2a;
+}
+
+body.dark-theme .post-snippet {
+  color: #b0b0b0;
+}
+
+body.dark-theme .post-meta {
+  color: #808080;
+}
+
+body.dark-theme .post-meta a {
+  color: #808080;
+}
+
+/* Sidebar */
+body.dark-theme #sidebar-wrapper .widget {
+  background-color: #242424;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .widget-title h3 {
+  color: #19ddc4;
+  background-color: #242424;
+}
+
+body.dark-theme .widget-content {
+  color: #b0b0b0;
+  background-color: #242424;
+}
+
+body.dark-theme .custom-widget .post-title a {
+  color: #e0e0e0;
+}
+
+body.dark-theme .custom-widget li:hover .post-title a {
+  color: #19ddc4;
+}
+
+body.dark-theme .custom-widget li {
+  border-top: 1px dotted #2a2a2a;
+}
+
+/* Post pages */
+body.dark-theme #breadcrumb {
+  background-color: #1a1a1a;
+  border-bottom: 2px solid #2a2a2a;
+}
+
+body.dark-theme .item-post h1.post-title {
+  color: #ffffff;
+}
+
+body.dark-theme .item-post .post-body {
+  border-top: 1px solid #2a2a2a;
+  color: #b0b0b0;
+}
+
+body.dark-theme .item-post .post-body h1,
+body.dark-theme .item-post .post-body h2,
+body.dark-theme .item-post .post-body h3,
+body.dark-theme .item-post .post-body h4,
+body.dark-theme .item-post .post-body h5,
+body.dark-theme .item-post .post-body h6 {
+  color: #ffffff;
+}
+
+body.dark-theme .post-item-inner {
+  background-color: #242424;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .post-labels a {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .post-labels a:hover {
+  background-color: #19ddc4;
+  color: #ffffff;
+  border-color: #19ddc4;
+}
+
+body.dark-theme .post-share {
+  background-color: #242424;
+  border-top: 2px solid #2a2a2a;
+}
+
+body.dark-theme .post-nav li a {
+  color: #e0e0e0;
+}
+
+body.dark-theme .post-nav li:hover a {
+  color: #19ddc4;
+}
+
+body.dark-theme .about-author {
+  background-color: #242424;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .author-name span {
+  color: #ffffff;
+}
+
+body.dark-theme .author-description {
+  color: #b0b0b0;
+}
+
+body.dark-theme #related-wrap {
+  background-color: #242424;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .related-posts .post-title a {
+  color: #e0e0e0;
+}
+
+body.dark-theme .related-posts .related-item:hover .post-title a {
+  color: #19ddc4;
+}
+
+body.dark-theme .blog-post-comments {
+  background-color: #242424;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .comments {
+  color: #e0e0e0;
+}
+
+/* Footer */
+body.dark-theme #footer-wrapper {
+  background-color: #0d0d0d;
+  border-top: none !important;
+}
+
+body.dark-theme .primary-footer {
+  background-color: #171921;
+  border-top: 1px solid #2a2a2a;
+}
+
+body.dark-theme .footer-about-area .image-caption {
+  color: #b0b0b0;
+}
+
+/* Footer menu - no backgrounds on links */
+body.dark-theme .menu-footer ul {
+  background-color: transparent !important;
+}
+
+body.dark-theme .menu-footer li {
+  background-color: transparent !important;
+}
+
+body.dark-theme .menu-footer a {
+  color: #b0b0b0;
+}
+
+body.dark-theme .menu-footer a:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme .menu-footer .widget-content {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body.dark-theme .menu-footer .widget {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Fix menu-footer height to match original */
+body.dark-theme #footer-wrapper > .container.row:last-child {
+  padding: 7px 0 !important;
+  margin: 0 auto !important;
+  height: auto !important;
+}
+
+body.dark-theme #menu-footer {
+  height: 34px !important;
+  min-height: 34px !important;
+  max-height: 34px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body.dark-theme #menu-footer ul {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 34px !important;
+  height: 34px !important;
+}
+
+body.dark-theme #menu-footer ul li {
+  height: 34px !important;
+  line-height: 34px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.dark-theme #menu-footer ul li a {
+  line-height: 34px !important;
+  height: 34px !important;
+  padding: 0 10px !important;
+  margin: 0 0 0 5px !important;
+  display: inline-block !important;
+}
+
+/* Social buttons - keep their original colors */
+body.dark-theme .foot-bar-social,
+body.dark-theme .foot-bar-social ul,
+body.dark-theme .foot-bar-social li {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+body.dark-theme .foot-bar-social .widget-content {
+  background-color: transparent !important;
+}
+
+/* Remove default gray background from social links */
+body.dark-theme .foot-bar-social ul > li > a {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+/* Restore colored backgrounds for social networks */
+body.dark-theme .foot-bar-social.social-color .facebook a {
+  background-color: #3b5999 !important;
+  background: #3b5999 !important;
+}
+
+body.dark-theme .foot-bar-social.social-color .twitter a {
+  background-color: #00acee !important;
+  background: #00acee !important;
+}
+
+body.dark-theme .foot-bar-social.social-color .instagram a {
+  background: linear-gradient(15deg,#ffb13d,#dd277b,#4d5ed4) !important;
+}
+
+body.dark-theme .foot-bar-social.social-color .youtube a {
+  background-color: #db4a39 !important;
+  background: #db4a39 !important;
+}
+
+body.dark-theme .foot-bar-social.social-color .linkedin a {
+  background-color: #0077b5 !important;
+  background: #0077b5 !important;
+}
+
+/* Forms */
+body.dark-theme input,
+body.dark-theme textarea {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border-color: #2a2a2a;
+}
+
+body.dark-theme .contact-form {
+  background-color: #242424;
+  border: 1px solid #2a2a2a;
+}
+
+/* Static pages */
+body.dark-theme .static_page .post-body {
+  color: #b0b0b0;
+}
+
+body.dark-theme .static_page .post-body p {
+  color: #b0b0b0;
+}
+
+/* Query message */
+body.dark-theme .queryMessage {
+  background-color: #242424;
+  color: #e0e0e0;
+  border: 1px solid #2a2a2a;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+  position: relative;
+}
+
+#theme-toggle i {
+  transition: transform 0.3s ease;
+}
+
+body.dark-theme #theme-toggle i:before {
+  content: "\f185";
+}
+
+/* Fix menu hover - use brand color instead of dark background */
+body.dark-theme #main-menu ul > li:hover {
+  background-color: transparent !important;
+}
+
+body.dark-theme #main-menu ul > li:hover > a {
+  color: #19ddc4 !important;
+}
+
+/* Fix sidebar - make inner blocks darker than sidebar background */
+body.dark-theme #sidebar-wrapper {
+  background-color: transparent;
+}
+
+body.dark-theme #sidebar-wrapper .widget {
+  background-color: #242424 !important;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme #sidebar-wrapper .widget .widget-content {
+  background-color: #242424 !important;
+}
+
+/* Fix inline styled blocks in sidebar (New Users, Returning, etc) */
+body.dark-theme .HTML .widget-content > div > div[style*="background:#f7f7ff"] {
+  background: #1a1a1a !important;
+  border-color: #2a2a2a !important;
+}
+
+body.dark-theme .HTML .widget-content > div > div[style*="background:#f7f7ff"] > div[style*="color:#1f2024"] {
+  color: #ffffff !important;
+}
+
+body.dark-theme .HTML .widget-content > div > div[style*="background:#f7f7ff"] > div[style*="color:#7d8696"] {
+  color: #b0b0b0 !important;
+}
+
+/* Fix Pipeline block with white border */
+body.dark-theme .HTML .widget-content > div[style*="border:1px solid"] {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+body.dark-theme .HTML .widget-content > div[style*="border"] > div {
+  background: transparent !important;
+  border-color: #2a2a2a !important;
+}
+
+body.dark-theme .HTML .widget-content strong[style*="color:#1f2024"] {
+  color: #ffffff !important;
+}
+
+body.dark-theme .HTML .widget-content span[style*="color:#656565"] {
+  color: #b0b0b0 !important;
+}
+
+body.dark-theme .HTML .widget-content h3,
+body.dark-theme .HTML .widget-content h4 {
+  color: #ffffff !important;
+}
+
+body.dark-theme .HTML .widget-content p {
+  color: #b0b0b0 !important;
+  background: transparent !important;
+}
+
+body.dark-theme .PopularPosts .widget-content {
+  background-color: #242424 !important;
+}
+
+/* Popular Posts text colors */
+body.dark-theme .PopularPosts .post-title a {
+  color: #e0e0e0 !important;
+}
+
+body.dark-theme .PopularPosts .post-title a:hover {
+  color: #19ddc4 !important;
+}
+
+body.dark-theme .PopularPosts .post-date {
+  color: #b0b0b0 !important;
+}
+
+body.dark-theme .PopularPosts .post-snippet {
+  color: #b0b0b0 !important;
+}
+
+/* Reading Map - less bright blue */
+body.dark-theme .HTML .widget-content div[style*="color:#5ab6f9"],
+body.dark-theme .HTML .widget-content span[style*="color:#5ab6f9"],
+body.dark-theme .HTML .widget-content strong[style*="color:#5ab6f9"] {
+  color: #4a9dd9 !important;
+}
+
+/* Fix bright blue links in sidebar widgets */
+body.dark-theme .HTML .widget-content a {
+  color: #4a9dd9 !important;
+}
+
+body.dark-theme .HTML .widget-content a:hover {
+  color: #19ddc4 !important;
+}
+
+body.dark-theme .sidebar .widget {
+  background-color: #242424 !important;
+  border: 1px solid #2a2a2a;
+}

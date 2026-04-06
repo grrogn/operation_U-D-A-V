@@ -151,6 +151,197 @@ button{background:none;border:0;padding:0}
 .back-top::before{content:"";position:absolute;inset:0;background:var(--accent);opacity:.5;transition:opacity .17s ease}
 .back-top::after{content:"\f077";position:relative;color:#fff;opacity:.8;transition:opacity .17s ease}
 .back-top:hover::before,.back-top:hover::after{opacity:1}
+
+/* Dark Theme Styles */
+body.dark-theme {
+  background: #0d0d0d;
+  color: #e0e0e0;
+}
+
+body.dark-theme #outer-wrapper {
+  background-color: #1a1a1a;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+body.dark-theme #header-wrap {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+body.dark-theme .main-logo h1,
+body.dark-theme .main-logo h1 a {
+  color: #ffffff;
+}
+
+body.dark-theme .header-signin-link {
+  background-color: transparent !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .header-signin-link:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme .show-search,
+body.dark-theme .hide-search {
+  background-color: transparent !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .show-search:hover,
+body.dark-theme .hide-search:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme .mobile-menu-toggle {
+  background-color: transparent !important;
+  color: #e0e0e0;
+}
+
+body.dark-theme .mobile-menu-toggle:hover {
+  color: #19ddc4;
+}
+
+body.dark-theme #main-menu ul > li > a {
+  color: #e0e0e0;
+}
+
+body.dark-theme #main-menu ul > li:hover {
+  background-color: transparent !important;
+}
+
+body.dark-theme #main-menu ul > li:hover > a {
+  color: #19ddc4;
+}
+
+body.dark-theme .mobile-menu-wrap {
+  background-color: #1a1a1a;
+}
+
+body.dark-theme #nav-search {
+  background-color: #1a1a1a;
+}
+
+body.dark-theme #nav-search .search-input {
+  color: #e0e0e0;
+}
+
+body.dark-theme .search-suggestions {
+  background-color: #1a1a1a;
+  border: 1px solid #2a2a2a;
+}
+
+body.dark-theme .search-suggestion-item:hover {
+  background-color: #2a2a2a;
+}
+
+body.dark-theme .search-suggestion-title {
+  color: #e0e0e0;
+}
+
+/* Auth cards dark theme */
+body.dark-theme .auth-card,
+body.dark-theme .auth-side-card {
+  background-color: #242424 !important;
+  border: 1px solid #2a2a2a !important;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.3) !important;
+}
+
+body.dark-theme .widget-title > h3,
+body.dark-theme .auth-side-card h2 {
+  color: #ffffff !important;
+}
+
+body.dark-theme .auth-form-copy {
+  color: #c0c0c0 !important;
+}
+
+body.dark-theme .auth-side-card p {
+  color: #c0c0c0 !important;
+}
+
+body.dark-theme .auth-points li {
+  color: #e8e8e8 !important;
+}
+
+body.dark-theme .auth-mini-card {
+  background: linear-gradient(135deg,rgba(25,221,196,.12),rgba(25,221,196,.04)) !important;
+  border: 1px solid rgba(25,221,196,.25) !important;
+}
+
+body.dark-theme .auth-mini-card strong {
+  color: #ffffff !important;
+}
+
+body.dark-theme .auth-mini-card p {
+  color: #c0c0c0 !important;
+}
+
+body.dark-theme .auth-badge {
+  background: rgba(25,221,196,.15) !important;
+  color: #19ddc4 !important;
+}
+
+body.dark-theme .contact-form-name,
+body.dark-theme .contact-form-email {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border-color: #2a2a2a !important;
+}
+
+body.dark-theme .contact-form-name:focus,
+body.dark-theme .contact-form-email:focus {
+  border-color: rgba(25,221,196,.6) !important;
+  box-shadow: 0 0 0 3px rgba(25,221,196,.14) !important;
+}
+
+body.dark-theme .auth-password-toggle {
+  color: #b0b0b0 !important;
+}
+
+body.dark-theme .auth-password-toggle:hover {
+  background: rgba(25,221,196,.12) !important;
+  color: #e0e0e0 !important;
+}
+
+body.dark-theme .auth-check {
+  color: #c0c0c0 !important;
+}
+
+body.dark-theme .auth-switch {
+  color: #c0c0c0 !important;
+}
+
+body.dark-theme .auth-switch a {
+  color: #19ddc4 !important;
+}
+
+body.dark-theme .auth-switch a:hover {
+  color: #ffffff !important;
+}
+
+body.dark-theme .auth-inline-link {
+  color: #19ddc4 !important;
+}
+
+body.dark-theme .auth-inline-link:hover {
+  color: #ffffff !important;
+}
+
+body.dark-theme .contact-form-button-submit {
+  background: #19ddc4 !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .contact-form-button-submit:hover {
+  background: #14c1ab !important;
+  color: #ffffff !important;
+}
+
+body.dark-theme .contact-form-button-submit:disabled {
+  opacity: .6 !important;
+}
+
 @media screen and (max-width:1200px){.row{width:100%}}
 @media screen and (max-width:980px){
   #header-wrap{padding:0}

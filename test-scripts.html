@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Script Loading Test</title>
+</head>
+<body>
+  <h1>Testing Script Loading</h1>
+  <div id="results"></div>
+  
+  <script src="site-routes.js"></script>
+  <script src="posts-data.js"></script>
+  <script src="post-template.js"></script>
+  
+  <script>
+    var results = [];
+    results.push('SITE_ROUTES loaded: ' + (typeof window.SITE_ROUTES !== 'undefined'));
+    results.push('POSTS_DATA loaded: ' + (typeof window.POSTS_DATA !== 'undefined'));
+    results.push('POST_TEMPLATE loaded: ' + (typeof window.POST_TEMPLATE !== 'undefined'));
+    
+    if (window.POSTS_DATA) {
+      results.push('post7.html exists: ' + (typeof window.POSTS_DATA['post7.html'] !== 'undefined'));
+      results.push('Total posts: ' + Object.keys(window.POSTS_DATA).length);
+    }
+    
+    if (window.POST_TEMPLATE) {
+      results.push('Template length: ' + window.POST_TEMPLATE.length);
+    }
+    
+    document.getElementById('results').innerHTML = '<pre>' + results.join('\n') + '</pre>';
+  </script>
+</body>
+</html>
