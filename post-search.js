@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-  var routeTools = window.SITE_ROUTES || {};
   var searchWrap = document.getElementById('nav-search');
   if (!searchWrap) {
     return;
@@ -11,21 +10,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var hideSearch = searchWrap.querySelector('.hide-search');
   var SPECIAL_QUERY_ORDER = {
     python: [
-      'post10.html',
-      'post11.html',
-      'post12.html',
-      'post13.html',
-      'post14.html',
-      'post15.html'
+      '/blogs/lay-out-a-traffic-intelligence-file-before-the-first-frame-arrives/',
+      '/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/',
+      '/blogs/persist-live-detections-and-roll-them-into-an-hourly-mart/',
+      '/blogs/start-the-workers-once-and-cache-the-first-history-pull/',
+      '/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/',
+      '/blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/'
     ],
     python3: [
-      'post3.html',
-      'post4.html',
-      'post5.html',
-      'post6.html',
-      'post7.html',
-      'post8.html',
-      'post9.html'
+      '/blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/',
+      '/blogs/keep-postgresql-lookups-cheap-while-a-vision-worker-boots-up/',
+      '/blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/',
+      '/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/',
+      '/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/',
+      '/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/',
+      '/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/'
     ]
   };
 
@@ -36,96 +35,84 @@ document.addEventListener('DOMContentLoaded', function () {
   var posts = [
     {
         "title": "Some amazing similarities between people around the world",
-        "url": "post1.html",
-        "meta": "post1.html"
+        "url": "/blogs/some-amazing-similarities-between-people-around-the-world/",
+        "meta": "/blogs/some-amazing-similarities-between-people-around-the-world/"
     },
     {
         "title": "Little known facts about deer worth knowing",
-        "url": "post2.html",
-        "meta": "post2.html"
+        "url": "/blogs/little-known-facts-about-deer-worth-knowing/",
+        "meta": "/blogs/little-known-facts-about-deer-worth-knowing/"
     },
     {
         "title": "Shape the Import Surface of a Python Analytics Service Before the Live Loop",
-        "url": "post3.html",
-        "meta": "post3.html"
+        "url": "/blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/",
+        "meta": "/blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/"
     },
     {
         "title": "Keep PostgreSQL Lookups Cheap While a Vision Worker Boots Up",
-        "url": "post4.html",
-        "meta": "post4.html"
+        "url": "/blogs/keep-postgresql-lookups-cheap-while-a-vision-worker-boots-up/",
+        "meta": "/blogs/keep-postgresql-lookups-cheap-while-a-vision-worker-boots-up/"
     },
     {
         "title": "Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread",
-        "url": "post5.html",
-        "meta": "post5.html"
+        "url": "/blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/",
+        "meta": "/blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/"
     },
     {
         "title": "Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby",
-        "url": "post6.html",
-        "meta": "post6.html"
+        "url": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/",
+        "meta": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/"
     },
     {
         "title": "Sketch a Streamlit Analytics Page With Filters Before the Data Arrives",
-        "url": "post7.html",
-        "meta": "post7.html"
+        "url": "/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/",
+        "meta": "/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/"
     },
     {
         "title": "Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle",
-        "url": "post8.html",
-        "meta": "post8.html"
+        "url": "/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/",
+        "meta": "/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/"
     },
     {
         "title": "Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File",
-        "url": "post9.html",
-        "meta": "post9.html"
+        "url": "/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/",
+        "meta": "/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/"
     },
     {
         "title": "Lay Out a Traffic Intelligence File Before the First Frame Arrives",
-        "url": "post10.html",
-        "meta": "post10.html"
+        "url": "/blogs/lay-out-a-traffic-intelligence-file-before-the-first-frame-arrives/",
+        "meta": "/blogs/lay-out-a-traffic-intelligence-file-before-the-first-frame-arrives/"
     },
     {
         "title": "Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL",
-        "url": "post11.html",
-        "meta": "post11.html"
+        "url": "/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/",
+        "meta": "/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/"
     },
     {
         "title": "Persist Live Detections and Roll Them Into an Hourly Mart",
-        "url": "post12.html",
-        "meta": "post12.html"
+        "url": "/blogs/persist-live-detections-and-roll-them-into-an-hourly-mart/",
+        "meta": "/blogs/persist-live-detections-and-roll-them-into-an-hourly-mart/"
     },
     {
         "title": "Start the Workers Once and Cache the First History Pull",
-        "url": "post13.html",
-        "meta": "post13.html"
+        "url": "/blogs/start-the-workers-once-and-cache-the-first-history-pull/",
+        "meta": "/blogs/start-the-workers-once-and-cache-the-first-history-pull/"
     },
     {
         "title": "Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue",
-        "url": "post14.html",
-        "meta": "post14.html"
+        "url": "/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/",
+        "meta": "/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/"
     },
     {
         "title": "Validate a Forecasting Loop and Surface Dispatcher Warnings Without Noise",
-        "url": "post15.html",
-        "meta": "post15.html"
+        "url": "/blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/",
+        "meta": "/blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/"
       }
   ];
 
-  posts = posts.map(function (post) {
-    var legacyId = post.url;
-    var cleanPath = routeTools.getPostPath ? routeTools.getPostPath(legacyId) : legacyId;
-
-    return {
-      id: legacyId,
-      title: post.title,
-      url: cleanPath,
-      meta: cleanPath
-    };
-  });
-
   var postsById = {};
   posts.forEach(function (post) {
-    postsById[post.id] = post;
+    postsById[post.url] = post;
   });
 
   function escapeHtml(value) {
