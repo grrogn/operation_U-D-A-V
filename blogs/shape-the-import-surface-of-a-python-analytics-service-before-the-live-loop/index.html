@@ -644,44 +644,22 @@ Shape the Import Surface of a Python Analytics Service Before the Live Loop
 <h3>A quick dependency sketch before the real module code</h3>
 <p>One easy way to make the file less mysterious is to sketch the boundaries first. This is not the production fragment. It is just a short article-side helper that mirrors the same architecture in a friendlier, more tutorial-like shape.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">SERVICE_BOUNDARIES = {
-    &quot;capture&quot;: [&quot;cv2&quot;, &quot;YOLO&quot;],
-    &quot;storage&quot;: [&quot;psycopg2&quot;],
-    &quot;ui&quot;: [&quot;streamlit&quot;, &quot;plotly&quot;],
-}
-
-def summarize_boundaries(boundaries):
-    return &quot;, &quot;.join(
-        f&quot;{section}:{len(modules)}&quot;
-        for section, modules in boundaries.items()
-    )
-
-print(summarize_boundaries(SERVICE_BOUNDARIES))</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra block is article scaffolding. It makes the program shape visible before the recoverable fragment appears.</p>
-<p>That small sketch also explains why long top-of-file lists are not noise here. They are part of the architecture. In the next blue block, the recoverable slice is surrounded by a couple of harmless setup lines so the article still reads like a normal post.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">&quot;&quot;&quot;Starter note for a live lane analytics module.&quot;&quot;&quot;
-service_name = &quot;lane-observer&quot;
-
-# note: after 1 quiet pass, this fragment begins.
-import time
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">import time
 import json
 import queue
 import threading
 from collections import defaultdict
-from datetime import datetime, timedelta
-
+from datetime import datetime, timedelta</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra block is article scaffolding. It makes the program shape visible before the recoverable fragment appears.</p>
+<p>That small sketch also explains why long top-of-file lists are not noise here. They are part of the architecture. In the next blue block, the recoverable slice is surrounded by a couple of harmless setup lines so the article still reads like a normal post.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">import warnings
+warnings.filterwarnings(&#39;ignore&#39;)
 import cv2
 import pandas as pd
-import plotly.express as px
-import plotly.graph_objects as go
 import psycopg2
-import streamlit as st
-from ultralytics import YOLO
-# note: 1 quiet pass later, this fragment ends.
-
-default_video_source = &quot;video.mp4&quot;</pre>
+from ultralytics import YOLO</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first fragment keeps the file identity intact: computer vision, analytics, storage and UI are all visible before any function body appears.</p>
 <p>Notice that the imported modules are not random. `cv2` and `YOLO` imply frame-level work. `psycopg2` implies a row-oriented storage layer. `streamlit` and Plotly imply a presentation layer that lives in the same file. Even before the first function, the service has already declared its three jobs.</p>
@@ -689,35 +667,24 @@ default_video_source = &quot;video.mp4&quot;</pre>
 <p>A second small decision is where to place the long-lived resources. For a one-file service, it can be perfectly reasonable to keep the connection cursor, class lookup map and event queue near the top. The point is not purity. The point is being obvious.</p>
 <p>This matters even more when you later split the file or hand it to another person. A vague name like `ctx` or `items` creates debt immediately. A literal name like `warehouse_link` or `event_buffer` explains its own purpose with very little ceremony.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">RESOURCE_LABELS = (
-    &quot;warehouse_link&quot;,
-    &quot;metrics_cursor&quot;,
-    &quot;DETECTED_CLASSES&quot;,
-    &quot;event_buffer&quot;,
-)
-
-for resource_name in RESOURCE_LABELS:
-    print(&quot;boot resource:&quot;, resource_name)</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Another article-side block: this kind of tiny preflight printout is often useful when a script is still being shaped and renamed.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">runtime_profile = {&quot;mode&quot;: &quot;stream&quot;, &quot;storage&quot;: &quot;postgres&quot;}
-
-# note: after 2 margin notes, this fragment begins.
-warehouse_link = psycopg2.connect(
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">warehouse_link = psycopg2.connect(
     dbname=&quot;CAR&quot;,
     user=&quot;postgres&quot;,
-    password=&quot;admin&quot;,
+    password=&quot;1234&quot;,
     host=&quot;localhost&quot;,
     port=&quot;5432&quot;,
 )
-metrics_cursor = warehouse_link.cursor()
-
-DETECTED_CLASSES = {2: &quot;car&quot;, 3: &quot;motorcycle&quot;, 5: &quot;bus&quot;, 7: &quot;truck&quot;}
-event_buffer = queue.Queue()
-# note: 2 margin notes later, this fragment ends.
-
-queue_channel_name = &quot;dashboard-events&quot;</pre>
+metrics_cursor = warehouse_link.cursor()</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Another article-side block: this kind of tiny preflight printout is often useful when a script is still being shaped and renamed.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">metrics_cursor.execute(&quot;&quot;&quot;
+    CREATE TABLE IF NOT EXISTS vehicle_types (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(50) UNIQUE NOT NULL,
+        category VARCHAR(50)
+    )
+&quot;&quot;&quot;)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Only the blue code block tone changes here. The site layout stays the same, but the Python slice now reads like a focused service bootstrap.</p>
 <p>At this point the article still has not reached the worker loop, and that is fine. The opening of a long file should buy clarity first. Speed comes later, once the reader knows which objects are shared across the whole module and which ones are local to a single task.</p>
@@ -1052,6 +1019,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 

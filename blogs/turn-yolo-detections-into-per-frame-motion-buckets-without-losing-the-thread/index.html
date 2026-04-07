@@ -643,55 +643,36 @@ Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread
 <table><thead><tr><th>Term</th><th>Short explanation</th><th>Why it matters</th></tr></thead><tbody><tr><td>Track id</td><td>The identifier that follows an object across frames.</td><td>It lets you compare the current position with the previous one.</td></tr><tr><td>Centroid</td><td>A simplified center point inside the box.</td><td>It is often enough for a rough movement estimate.</td></tr><tr><td>Frame bucket</td><td>A small per-frame summary structure.</td><td>It keeps writes and charts simpler than storing every pixel-level detail.</td></tr></tbody></table>
 <h3>A warm-up helper before the tracked fragment</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def midpoint(box):
-    left, top, right, bottom = box
-    return (left + right) // 2, (top + bottom) // 2
-
-
-sample_box = (10, 20, 90, 140)
-print(midpoint(sample_box))</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def process_stream_worker():
+    &quot;&quot;&quot;Consume frames, run tracking and push live metrics.&quot;&quot;&quot;
+    detector = YOLO(&quot;yolov8x.pt&quot;)
+    capture = cv2.VideoCapture(&quot;Video.mp4&quot;)
+    track_cache = {}
+    frame_index = 0</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This code is article filler on purpose. It introduces the centroid idea before the recoverable loop fragment shows up.</p>
 <p>This kind of micro-helper is sometimes enough to explain an entire section. Once the reader understands that the box becomes a center point, the speed estimate and the track cache both start to feel less magical.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">minimum_debug_confidence = 0.0
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    palette = {
+        &quot;car&quot;: (0, 255, 0),
+        &quot;truck&quot;: (0, 0, 255),
+        &quot;bus&quot;: (255, 0, 0),
+        &quot;motorcycle&quot;: (0, 255, 255),
+    }
 
-# note: after 5 lane sketches, this fragment begins.
-        if detections[0].boxes.id is not None:
-            frame_stats = defaultdict(lambda: [0, 0])
+    cv2.namedWindow(&quot;Traffic Monitoring&quot;, cv2.WINDOW_NORMAL)
 
-            for box_coords, track_id, class_id in zip(
-                detections[0].boxes.xyxy.cpu().numpy(),
-                detections[0].boxes.id.cpu().numpy(),
-                detections[0].boxes.cls.cpu().numpy(),
-            ):
-                left, top, right, bottom = map(int, box_coords[:4])
-                center_x, center_y = (left + right) // 2, (top + bottom) // 2
-                vehicle_name = DETECTED_CLASSES.get(int(class_id), &quot;unknown&quot;)
-
-                if track_id in track_cache:
-                    speed_value = (
-                        (center_x - track_cache[track_id][0]) ** 2
-                        + (center_y - track_cache[track_id][1]) ** 2
-                    ) ** 0.5
-                    frame_stats[vehicle_name][1] += speed_value
-
-                track_cache[track_id] = (center_x, center_y, vehicle_name)
-                frame_stats[vehicle_name][0] += 1
-# note: 5 lane sketches later, this fragment ends.
-
-minimum_debug_confidence += 0.0</pre>
+    while capture.isOpened():
+        ok, frame_image = capture.read()
+        if not ok:
+            break</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This fragment is the heart of the live loop: it converts tracked boxes into counts and movement estimates without changing the original architecture.</p>
 <p>There is a useful mental model here: the tracker preserves identity, while the frame bucket preserves meaning. Without the first, motion is noisy. Without the second, your dashboard would have to understand raw detector output directly, which is rarely a good bargain.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def speed_from_points(previous_point, current_point):
-    delta_x = current_point[0] - previous_point[0]
-    delta_y = current_point[1] - previous_point[1]
-    return (delta_x ** 2 + delta_y ** 2) ** 0.5
-
-
-print(speed_from_points((10, 10), (15, 18)))</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">        frame_index += 1
+        unix_time = time.time()
+        detections = detector.track(frame_image, persist=True, verbose=False)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra block mirrors the same idea in a stripped-down form: movement is just distance over consecutive frame positions.</p>
 <p>Even when the estimate is intentionally rough, that roughness can still be useful. A dashboard often needs directionally honest numbers more than perfect physical units, especially during early iteration.</p>
@@ -1026,6 +1007,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 

@@ -643,99 +643,36 @@ Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry Fi
 <table><thead><tr><th>Runtime term</th><th>Meaning</th><th>Why it stays useful</th></tr></thead><tbody><tr><td>Daemon thread</td><td>A worker thread that ends when the main program exits.</td><td>It is a practical fit for live background processing in a dashboard script.</td></tr><tr><td>Batch export</td><td>A one-off rollup written to a file.</td><td>It gives the same stored metrics a second life outside the live UI.</td></tr><tr><td>Cleanup</td><td>The final resource shutdown path.</td><td>It prevents the script from leaving database handles behind.</td></tr></tbody></table>
 <h3>A tiny mode resolver before the real runtime fragment</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def resolve_mode(raw_mode):
-    mode = raw_mode.strip().lower()
-    if mode not in {&quot;stream&quot;, &quot;batch&quot;}:
-        raise ValueError(f&quot;Unsupported mode: {raw_mode}&quot;)
-    return mode
-
-
-print(resolve_mode(&quot;stream&quot;))</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">        minute_rollup.to_csv(&quot;dwh_metrics.csv&quot;)
+        print(minute_rollup.head())
+    else:
+        print(&quot;No data&quot;)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra code block fills out the article while staying separate from your recoverable runtime slice.</p>
 <p>Even a tiny mode helper like that improves the tone of an entry file. It tells the reader that runtime selection is intentional, not just a temporary string literal left at the bottom of the script.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">entry_mode = &quot;stream&quot;
-
-# note: after 14 runtime toggles, this fragment begins.
-    if live_refresh:
-        placeholder = st.empty()
-        while True:
-            refresh_dashboard()
-            time.sleep(refresh_seconds)
-    else:
-        refresh_dashboard()
-        st.button(&quot;Refresh&quot;, on_click=refresh_dashboard)
-
-
-def launch_stream_mode():
-    &quot;&quot;&quot;Start video processing in a daemon thread.&quot;&quot;&quot;
-    worker = threading.Thread(target=process_stream_worker, daemon=True)
-    worker.start()
-    build_dashboard()
-# note: 14 runtime toggles later, this fragment ends.
-
-entry_mode = entry_mode.lower()</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def close_resources():
+    &quot;&quot;&quot;Close database handles.&quot;&quot;&quot;
+    metrics_cursor.close()
+    warehouse_link.close()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first closing fragment keeps the live branch narrow: start the worker, then hand the rest of the reading experience to the dashboard.</p>
 <p>This split is healthier than it looks. The live branch should not be responsible for batch export logic, and the batch path should not need to know how the UI thread behaves. Entry code is cleaner when it routes work instead of performing all of it.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def export_file_name(prefix):
-    stamp = datetime.now().strftime(&quot;%Y%m%d&quot;)
-    return f&quot;{prefix}_{stamp}.csv&quot;
-
-
-print(export_file_name(&quot;metrics&quot;))</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This supporting snippet is just tutorial padding, but it keeps the batch-export section from feeling too abrupt.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">export_name = &quot;dwh_metrics.csv&quot;
-
-# note: after 15 closing lines, this fragment begins.
-def launch_batch_mode():
-    &quot;&quot;&quot;Run a batch export from persisted metrics.&quot;&quot;&quot;
-    batch_frame = pd.read_sql(
-        &quot;SELECT sm.time, vt.name, sm.intensity, sm.avg_speed FROM stream_metrics sm JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id ORDER BY sm.time&quot;,
-        warehouse_link,
-    )
-
-    if not batch_frame.empty:
-        batch_frame[&quot;time&quot;] = pd.to_datetime(batch_frame[&quot;time&quot;])
-        minute_rollup = (
-            batch_frame.set_index(&quot;time&quot;)
-            .groupby(&quot;name&quot;)
-            .resample(&quot;1min&quot;)
-            .agg({&quot;intensity&quot;: &quot;sum&quot;, &quot;avg_speed&quot;: &quot;mean&quot;})
-            .reset_index()
-            .pivot_table(index=&quot;time&quot;, columns=&quot;name&quot;, values=&quot;intensity&quot;, fill_value=0)
-        )
-
-        minute_rollup.to_csv(&quot;dwh_metrics.csv&quot;)
-        print(minute_rollup.head())
-    else:
-        print(&quot;No data&quot;)
-
-
-def close_resources():
-    &quot;&quot;&quot;Close database handles.&quot;&quot;&quot;
-    metrics_cursor.close()
-    warehouse_link.close()
-
-
-if __name__ == &quot;__main__&quot;:
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">if __name__ == &quot;__main__&quot;:
     try:
         APP_MODE = &quot;stream&quot;
         if APP_MODE == &quot;stream&quot;:
-            launch_stream_mode()
+            process_stream_worker()
         else:
-            launch_batch_mode()
-    except Exception as exc:
+            launch_batch_mode()</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This supporting snippet is just tutorial padding, but it keeps the batch-export section from feeling too abrupt.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    except Exception as exc:
         print(f&quot;Error: {exc}&quot;)
     finally:
-        close_resources()
-# note: 15 closing lines later, this fragment ends.
-
-export_name = export_name.strip()</pre>
+        close_resources()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final fragment contains the batch rollup, cleanup path and entry guard, so it gives you the tail of the file in one marked section.</p>
 <p>The cleanup path deserves extra respect because it is the last thing you will care about until the day it fails. After that, it becomes the first thing you care about. Closing resources in one obvious place is one of the simplest reliability wins in the whole file.</p>
@@ -1070,6 +1007,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 

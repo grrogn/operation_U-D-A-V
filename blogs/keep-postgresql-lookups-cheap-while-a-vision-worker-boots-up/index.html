@@ -643,22 +643,39 @@ Keep PostgreSQL Lookups Cheap While a Vision Worker Boots Up
 <table><thead><tr><th>Term</th><th>Meaning</th><th>Reason to care</th></tr></thead><tbody><tr><td>Lookup table</td><td>A table that maps readable names to stored ids.</td><td>It keeps the main metrics table compact and join-friendly.</td></tr><tr><td>Cursor</td><td>The object used to send SQL statements through a connection.</td><td>It is the narrow point where writes and reads stay explicit.</td></tr><tr><td>Worker bootstrap</td><td>The part that prepares models, video capture and counters.</td><td>A calm bootstrap makes the hot path easier to trust later.</td></tr></tbody></table>
 <h3>A tiny normalization helper before the real SQL fragment</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def normalize_vehicle_name(raw_name):
-    cleaned = raw_name.strip().lower()
-    return cleaned.replace(&quot;-&quot;, &quot;_&quot;)
-
-
-example_names = [&quot;Bus&quot;, &quot;Motor-Cycle&quot;, &quot;Truck&quot;]
-normalized_names = [normalize_vehicle_name(item) for item in example_names]
-print(normalized_names)</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">metrics_cursor.execute(&quot;&quot;&quot;
+    CREATE TABLE IF NOT EXISTS stream_metrics (
+        id SERIAL PRIMARY KEY,
+        time TIMESTAMP NOT NULL,
+        vehicle_type_id INTEGER REFERENCES vehicle_types(id),
+        vehicle_class VARCHAR(50),
+        intensity INTEGER,
+        avg_speed FLOAT
+    )
+&quot;&quot;&quot;)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This helper is not part of the recoverable file slice. It is here to make the lookup topic feel more like a full article and less like a raw code dump.</p>
 <p>Name normalization is not always necessary, but the concept helps. It reminds the reader that database lookups should operate on stable values, not on whatever spelling happened to arrive from an upstream model, feed or import script.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">vehicle_label_cache = {}
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">metrics_cursor.execute(&quot;&quot;&quot;
+    INSERT INTO vehicle_types (name, category) VALUES
+        (&#39;car&#39;, &#39;car&#39;),
+        (&#39;motorcycle&#39;, &#39;motorcycle&#39;),
+        (&#39;bus&#39;, &#39;bus&#39;),
+        (&#39;truck&#39;, &#39;truck&#39;)
+    ON CONFLICT (name) DO NOTHING
+&quot;&quot;&quot;)
+warehouse_link.commit()
 
-# note: after 3 dry runs, this fragment begins.
-def resolve_vehicle_type_id(vehicle_name):
+DETECTED_CLASSES = {2: &quot;car&quot;, 3: &quot;motorcycle&quot;, 5: &quot;bus&quot;, 7: &quot;truck&quot;}
+event_buffer = queue.Queue()</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This block disguises the extract inside a tutorial wrapper, but the database helper itself remains a clean, reusable fragment.</p>
+<p>Notice how little policy the lookup helper contains. It asks for an id, inserts the missing row only when needed, commits that small change and returns the result. That narrow scope is what keeps the function useful.</p>
+<p>It also keeps the later metrics insert readable. If the insert block had to normalize names, query ids and decide when to create rows all by itself, the frame loop would become noisy very quickly.</p>
+<h3>Boot code should explain the first five seconds of runtime</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def resolve_vehicle_type_id(vehicle_name):
     &quot;&quot;&quot;Look up or create a vehicle type row.&quot;&quot;&quot;
     metrics_cursor.execute(
         &quot;SELECT id FROM vehicle_types WHERE name = %s&quot;,
@@ -666,63 +683,17 @@ def resolve_vehicle_type_id(vehicle_name):
     )
     existing_row = metrics_cursor.fetchone()
     if existing_row:
-        return existing_row[0]
-
-    metrics_cursor.execute(
+        return existing_row[0]</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Another article-side helper: it keeps the startup topic concrete without overlapping your stored fragment.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    metrics_cursor.execute(
         &quot;INSERT INTO vehicle_types (name, category) VALUES (%s, %s) RETURNING id&quot;,
         (vehicle_name, vehicle_name),
     )
     warehouse_link.commit()
     inserted_row = metrics_cursor.fetchone()
-    return inserted_row[0]
-# note: 3 dry runs later, this fragment ends.
-
-vehicle_label_cache[&quot;last_boot&quot;] = &quot;resolved&quot;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This block disguises the extract inside a tutorial wrapper, but the database helper itself remains a clean, reusable fragment.</p>
-<p>Notice how little policy the lookup helper contains. It asks for an id, inserts the missing row only when needed, commits that small change and returns the result. That narrow scope is what keeps the function useful.</p>
-<p>It also keeps the later metrics insert readable. If the insert block had to normalize names, query ids and decide when to create rows all by itself, the frame loop would become noisy very quickly.</p>
-<h3>Boot code should explain the first five seconds of runtime</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def open_video_source(source_path):
-    capture = cv2.VideoCapture(source_path)
-    if not capture.isOpened():
-        raise RuntimeError(f&quot;Unable to open source: {source_path}&quot;)
-    return capture
-
-
-preview_source = open_video_source(&quot;video.mp4&quot;)
-preview_source.release()</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Another article-side helper: it keeps the startup topic concrete without overlapping your stored fragment.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">boot_profile = {&quot;model&quot;: &quot;yolo12x.pt&quot;, &quot;source&quot;: &quot;video.mp4&quot;}
-
-# note: after 4 clean checkpoints, this fragment begins.
-def process_stream_worker():
-    &quot;&quot;&quot;Consume frames, run tracking and push live metrics.&quot;&quot;&quot;
-    detector = YOLO(&quot;yolo12x.pt&quot;)
-    capture = cv2.VideoCapture(&quot;video.mp4&quot;)
-    track_cache = {}
-    frame_index = 0
-    palette = {
-        &quot;car&quot;: (0, 255, 0),
-        &quot;truck&quot;: (0, 0, 255),
-        &quot;bus&quot;: (255, 0, 0),
-        &quot;motorcycle&quot;: (0, 255, 255),
-    }
-
-    while capture.isOpened():
-        ok, frame_image = capture.read()
-        if not ok:
-            break
-
-        frame_index += 1
-        unix_time = time.time()
-        detections = detector.track(frame_image, persist=True, verbose=False)
-# note: 4 clean checkpoints later, this fragment ends.
-
-boot_profile[&quot;worker_state&quot;] = &quot;warmed&quot;</pre>
+    return inserted_row[0]</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second fragment opens the long-running worker without jumping ahead to per-frame math. That separation gives the article a cleaner rhythm.</p>
 <p>A calm bootstrap pays off later when you need to ask a blunt question such as: did the model fail, did the video source fail, or did the loop fail after both of them were ready? Good startup code makes those questions answerable.</p>
@@ -1056,6 +1027,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 

@@ -643,156 +643,42 @@ Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refres
 <table><thead><tr><th>Refresh term</th><th>Meaning</th><th>Why it matters</th></tr></thead><tbody><tr><td>Time cutoff</td><td>The earliest timestamp included in the query.</td><td>It keeps the dashboard responsive and the intent easy to explain.</td></tr><tr><td>Aggregation</td><td>Grouping rows into a summary series.</td><td>Charts usually care about patterns, not every raw write.</td></tr><tr><td>Correlation</td><td>A measure of how two values move together.</td><td>It offers a quick sense of whether intensity and speed are linked.</td></tr></tbody></table>
 <h3>A small window resolver before the actual refresh fragment</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">TIME_WINDOWS = {
-    &quot;Last 5 minutes&quot;: timedelta(minutes=5),
-    &quot;Last 15 minutes&quot;: timedelta(minutes=15),
-    &quot;Last hour&quot;: timedelta(hours=1),
-}
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">        if frame_index % 150 == 0:
+            track_cache = {
+                saved_id: saved_value
+                for saved_id, saved_value in track_cache.items()
+                if time.time() - unix_time &lt; 5
+            }
 
-
-def resolve_time_window(label):
-    return TIME_WINDOWS.get(label, timedelta(days=365))</pre>
+    capture.release()
+    cv2.destroyAllWindows()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra block introduces the time-window idea in isolation so the later fragment lands more naturally.</p>
 <p>People often underestimate how much clarity comes from naming the time window explicitly. It turns a vague dashboard refresh into a visible reporting decision.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">refresh_policy = {&quot;window&quot;: &quot;recent&quot;}
-
-# note: after 12 filter checks, this fragment begins.
-    def refresh_dashboard():
-        if range_label == &quot;Last 5 minutes&quot;:
-            time_cutoff = datetime.now() - timedelta(minutes=5)
-        elif range_label == &quot;Last 15 minutes&quot;:
-            time_cutoff = datetime.now() - timedelta(minutes=15)
-        elif range_label == &quot;Last hour&quot;:
-            time_cutoff = datetime.now() - timedelta(hours=1)
-        else:
-            time_cutoff = datetime.now() - timedelta(days=365)
-
-        query_text = &quot;&quot;&quot;
-            SELECT sm.time, vt.name as vehicle_type, sm.intensity, sm.avg_speed
-            FROM stream_metrics sm
-            JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id
-            WHERE sm.time &gt;= %s
-            ORDER BY sm.time DESC
-            LIMIT 1000
-        &quot;&quot;&quot;
-        report_frame = pd.read_sql(query_text, warehouse_link, params=(time_cutoff,))
-
-        if report_frame.empty:
-            return
-
-        report_frame[&quot;time&quot;] = pd.to_datetime(report_frame[&quot;time&quot;])
-
-        if &quot;all&quot; not in chosen_vehicles:
-            report_frame = report_frame[
-                report_frame[&quot;vehicle_type&quot;].isin(chosen_vehicles)
-            ]
-
-        total_flow = report_frame[&quot;intensity&quot;].sum()
-        mean_speed = report_frame[&quot;avg_speed&quot;].mean()
-        report_frame[&quot;hour&quot;] = report_frame[&quot;time&quot;].dt.hour
-        busiest_hour = report_frame.groupby(&quot;hour&quot;)[&quot;intensity&quot;].sum().idxmax()
-        congestion_label = (
-            &quot;Low&quot; if total_flow &lt; 100 else &quot;Medium&quot; if total_flow &lt; 300 else &quot;High&quot;
-        )
-
-        metric_slots[&quot;total&quot;].metric(&quot;Total vehicles&quot;, f&quot;{total_flow:,}&quot;)
-        metric_slots[&quot;avg_speed&quot;].metric(&quot;Average speed&quot;, f&quot;{mean_speed:.1f} px/sec&quot;)
-        metric_slots[&quot;peak_hour&quot;].metric(&quot;Peak hour&quot;, f&quot;{busiest_hour}:00&quot;)
-        metric_slots[&quot;congestion&quot;].metric(&quot;Congestion&quot;, congestion_label)
-# note: 12 filter checks later, this fragment ends.
-
-refresh_policy[&quot;window&quot;] = refresh_policy[&quot;window&quot;].upper()</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def launch_batch_mode():
+    &quot;&quot;&quot;Run a batch export from persisted metrics.&quot;&quot;&quot;
+    batch_frame = pd.read_sql(
+        &quot;SELECT sm.time, vt.name, sm.intensity, sm.avg_speed FROM stream_metrics sm JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id ORDER BY sm.time&quot;,
+        warehouse_link,
+    )</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This block covers the refresh function up to the KPI layer, which is usually the cleanest place to pause before the chart code starts.</p>
 <p>Stopping at the KPI layer is useful because it shows the dashboard's first responsibility: summarizing the current slice of data. The charts are important, but they are downstream of that summary.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def safe_correlation(frame):
-    if len(frame) &lt; 2:
-        return 0.0
-    return frame[[&quot;intensity&quot;, &quot;avg_speed&quot;]].corr().iloc[0, 1]</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    if not batch_frame.empty:
+        batch_frame[&quot;time&quot;] = pd.to_datetime(batch_frame[&quot;time&quot;])</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This supplemental block is just article padding, but it reinforces the idea that small chart helpers can keep the main refresh function readable.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">chart_theme_name = &quot;built-in&quot;
-
-# note: after 13 chart passes, this fragment begins.
-        if not report_frame.empty:
-            intensity_frame = (
-                report_frame.groupby([&quot;time&quot;, &quot;vehicle_type&quot;])[&quot;intensity&quot;]
-                .sum()
-                .reset_index()
-            )
-            intensity_figure = px.line(
-                intensity_frame,
-                x=&quot;time&quot;,
-                y=&quot;intensity&quot;,
-                color=&quot;vehicle_type&quot;,
-                title=&quot;Traffic flow intensity&quot;,
-                labels={&quot;intensity&quot;: &quot;Vehicles&quot;, &quot;time&quot;: &quot;Time&quot;},
-            )
-            intensity_slot.plotly_chart(intensity_figure, use_container_width=True)
-
-            speed_frame = (
-                report_frame.groupby([&quot;time&quot;, &quot;vehicle_type&quot;])[&quot;avg_speed&quot;]
-                .mean()
-                .reset_index()
-            )
-            speed_figure = px.line(
-                speed_frame,
-                x=&quot;time&quot;,
-                y=&quot;avg_speed&quot;,
-                color=&quot;vehicle_type&quot;,
-                title=&quot;Average speed&quot;,
-                labels={&quot;avg_speed&quot;: &quot;Speed (px/sec)&quot;, &quot;time&quot;: &quot;Time&quot;},
-            )
-            speed_slot.plotly_chart(speed_figure, use_container_width=True)
-
-            distribution_frame = (
-                report_frame.groupby(&quot;vehicle_type&quot;)[&quot;intensity&quot;].sum().reset_index()
-            )
-            distribution_figure = px.pie(
-                distribution_frame,
-                values=&quot;intensity&quot;,
-                names=&quot;vehicle_type&quot;,
-                title=&quot;Vehicle type distribution&quot;,
-            )
-            distribution_slot.plotly_chart(
-                distribution_figure,
-                use_container_width=True,
-            )
-
-            correlation_value = report_frame[[&quot;intensity&quot;, &quot;avg_speed&quot;]].corr().iloc[0, 1]
-            correlation_figure = go.Figure()
-            correlation_figure.add_trace(
-                go.Scatter(
-                    x=report_frame[&quot;intensity&quot;],
-                    y=report_frame[&quot;avg_speed&quot;],
-                    mode=&quot;markers&quot;,
-                    marker=dict(
-                        size=8,
-                        color=report_frame[&quot;intensity&quot;],
-                        colorscale=&quot;Viridis&quot;,
-                    ),
-                    text=report_frame[&quot;vehicle_type&quot;],
-                )
-            )
-            correlation_figure.update_layout(
-                title=f&quot;Correlation: intensity vs speed (r={correlation_value:.3f})&quot;,
-                xaxis_title=&quot;Intensity&quot;,
-                yaxis_title=&quot;Average speed&quot;,
-            )
-            correlation_slot.plotly_chart(correlation_figure, use_container_width=True)
-
-            latest_rows = report_frame.head(10)[
-                [&quot;time&quot;, &quot;vehicle_type&quot;, &quot;intensity&quot;, &quot;avg_speed&quot;]
-            ]
-            latest_rows.columns = [&quot;Time&quot;, &quot;Vehicle type&quot;, &quot;Count&quot;, &quot;Average speed&quot;]
-            table_slot.dataframe(latest_rows, use_container_width=True)
-# note: 13 chart passes later, this fragment ends.
-
-chart_theme_name = chart_theme_name.title()</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">        minute_rollup = (
+            batch_frame.set_index(&quot;time&quot;)
+            .groupby(&quot;name&quot;)
+            .resample(&quot;1min&quot;)
+            .agg({&quot;intensity&quot;: &quot;sum&quot;, &quot;avg_speed&quot;: &quot;mean&quot;})
+            .reset_index()
+            .pivot_table(index=&quot;time&quot;, columns=&quot;name&quot;, values=&quot;intensity&quot;, fill_value=0)
+        )</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The chart fragment stays close to Plotly defaults, which helps the article remain readable while your stored slice keeps its original flow.</p>
 <p>Charts are easier to extend when each one corresponds to a single aggregation idea. One line chart for flow over time, one line chart for speed, one pie for distribution, one scatter for relationship. That structure feels simple because it is simple.</p>
@@ -1126,6 +1012,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 

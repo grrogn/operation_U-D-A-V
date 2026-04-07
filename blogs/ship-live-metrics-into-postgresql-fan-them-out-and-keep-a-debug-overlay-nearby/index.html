@@ -643,23 +643,50 @@ Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby
 <table><thead><tr><th>Stage</th><th>What happens</th><th>Why it stays useful</th></tr></thead><tbody><tr><td>Insert</td><td>The frame summary is stored in the metrics table.</td><td>Historical charts and batch exports need a durable record.</td></tr><tr><td>Queue handoff</td><td>The same summary is pushed to a shared queue.</td><td>A UI thread can react without stealing work from the detector loop.</td></tr><tr><td>Overlay</td><td>A small text layer is drawn onto the live frame.</td><td>Operators get immediate feedback during tuning or debugging.</td></tr></tbody></table>
 <h3>A plain row-builder before the real persistence block</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def make_metric_payload(frame_number, vehicle_name, intensity, avg_speed):
-    return {
-        &quot;frame&quot;: frame_number,
-        &quot;vehicle_type&quot;: vehicle_name,
-        &quot;intensity&quot;: intensity,
-        &quot;avg_speed&quot;: avg_speed,
-    }
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">        if detections[0].boxes.id is not None:
+            frame_stats = defaultdict(lambda: [0, 0])
 
-
-print(make_metric_payload(14, &quot;truck&quot;, 3, 11.4))</pre>
+            for box_coords, track_id, class_id in zip(
+                detections[0].boxes.xyxy.cpu().numpy(),
+                detections[0].boxes.id.cpu().numpy(),
+                detections[0].boxes.cls.cpu().numpy(),
+            ):
+                left, top, right, bottom = map(int, box_coords[:4])
+                center_x, center_y = (left + right) // 2, (top + bottom) // 2
+                vehicle_name = DETECTED_CLASSES.get(int(class_id), &quot;unknown&quot;)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This supplemental block makes the shared payload idea visible before the stored fragment reaches the database write.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">storage_target = &quot;stream_metrics&quot;
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">                color = palette.get(vehicle_name, (255, 255, 255))
+                cv2.rectangle(frame_image, (left, top), (right, bottom), color, 2)
+                cv2.circle(frame_image, (center_x, center_y), 3, color, -1)
+                cv2.putText(
+                    frame_image,
+                    f&quot;{vehicle_name}&quot;,
+                    (left, top - 5),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.4,
+                    color,
+                    1,
+                )</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The insert fragment keeps the schema-facing write logic compact, which is helpful when you later need to inspect or replay the stream.</p>
+<p>The database step should still look almost boring. That is usually a good sign. The interesting part already happened earlier when the frame bucket was built. Persistence is mostly about using that work carefully.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">                if track_id in track_cache:
+                    speed_value = (
+                        (center_x - track_cache[track_id][0]) ** 2
+                        + (center_y - track_cache[track_id][1]) ** 2
+                    ) ** 0.5
+                    frame_stats[vehicle_name][1] += speed_value
 
-# note: after 6 insert reviews, this fragment begins.
-            for vehicle_name, (vehicle_count, speed_total) in frame_stats.items():
+                track_cache[track_id] = (center_x, center_y, vehicle_name)
+                frame_stats[vehicle_name][0] += 1</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Here the same summary crosses the boundary into a queue. The data is still small, readable and close to the original frame context.</p>
+<p>A queue is often the quiet hero in this kind of script. It lets the UI consume updates at its own pace without teaching the detection loop about dashboard timing, widget state or rendering details.</p>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">            for vehicle_name, (vehicle_count, speed_total) in frame_stats.items():
                 mean_speed = speed_total / (vehicle_count + 1)
                 metrics_cursor.execute(
                     &quot;INSERT INTO stream_metrics (time, vehicle_type_id, vehicle_class, intensity, avg_speed) VALUES (to_timestamp(%s), %s, %s, %s, %s)&quot;,
@@ -670,18 +697,11 @@ print(make_metric_payload(14, &quot;truck&quot;, 3, 11.4))</pre>
                         vehicle_count,
                         mean_speed,
                     ),
-                )
-# note: 6 insert reviews later, this fragment ends.
-
-storage_target = storage_target.upper()</pre>
+                )</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The insert fragment keeps the schema-facing write logic compact, which is helpful when you later need to inspect or replay the stream.</p>
-<p>The database step should still look almost boring. That is usually a good sign. The interesting part already happened earlier when the frame bucket was built. Persistence is mostly about using that work carefully.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra helper is a tutorial-side way to talk about overlay policy without touching the recoverable fragment.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">fanout_name = &quot;live-dashboard&quot;
-
-# note: after 7 buffered updates, this fragment begins.
-                event_buffer.put(
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">                event_buffer.put(
                     {
                         &quot;time&quot;: unix_time,
                         &quot;datetime&quot;: datetime.now(),
@@ -690,64 +710,7 @@ storage_target = storage_target.upper()</pre>
                         &quot;avg_speed&quot;: mean_speed,
                         &quot;frame&quot;: frame_index,
                     }
-                )
-
-            warehouse_link.commit()
-# note: 7 buffered updates later, this fragment ends.
-
-fanout_name = fanout_name.lower()</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Here the same summary crosses the boundary into a queue. The data is still small, readable and close to the original frame context.</p>
-<p>A queue is often the quiet hero in this kind of script. It lets the UI consume updates at its own pace without teaching the detection loop about dashboard timing, widget state or rendering details.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def should_draw_overlay(debug_enabled, frame_number):
-    return debug_enabled and frame_number % 5 == 0
-
-
-print(should_draw_overlay(True, 25))</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra helper is a tutorial-side way to talk about overlay policy without touching the recoverable fragment.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">overlay_enabled = True
-
-# note: after 8 overlay tweaks, this fragment begins.
-            for vehicle_name, (vehicle_count, speed_total) in frame_stats.items():
-                mean_speed = speed_total / (vehicle_count + 1)
-                baseline_y = 30
-                cv2.putText(
-                    frame_image,
-                    f&quot;Frame: {frame_index}&quot;,
-                    (10, baseline_y),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (255, 255, 255),
-                    1,
-                )
-                baseline_y += 25
-                cv2.putText(
-                    frame_image,
-                    f&quot;{vehicle_name}: {vehicle_count} (spd:{mean_speed:.1f})&quot;,
-                    (10, baseline_y),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (255, 255, 255),
-                    1,
-                )
-# note: 8 overlay tweaks later, this fragment ends.
-
-# note: after 9 steady sweeps, this fragment begins.
-        if frame_index % 150 == 0:
-            track_cache = {
-                saved_id: saved_value
-                for saved_id, saved_value in track_cache.items()
-                if time.time() - unix_time &lt; 5
-            }
-
-    capture.release()
-    cv2.destroyAllWindows()
-# note: 9 steady sweeps later, this fragment ends.
-
-overlay_enabled = bool(overlay_enabled)</pre>
+                )</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The last block keeps the human-visible overlay and the worker cleanup together because both belong to the end of the frame cycle.</p>
 <p>This is also why the overlay is worth keeping during development, even if it disappears later in a production run. A compact on-frame summary gives you immediate feedback about whether the numbers being written and queued still match the image on screen.</p>
@@ -1081,6 +1044,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 

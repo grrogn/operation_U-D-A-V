@@ -643,101 +643,56 @@ Sketch a Streamlit Analytics Page With Filters Before the Data Arrives
 <table><thead><tr><th>UI term</th><th>Meaning</th><th>Why it helps</th></tr></thead><tbody><tr><td>Sidebar filter</td><td>A control group that changes the visible dataset.</td><td>It gives users a clear place to narrow the story.</td></tr><tr><td>Placeholder</td><td>An empty container that can be updated later.</td><td>It lets layout and refresh logic stay loosely coupled.</td></tr><tr><td>KPI card</td><td>A small metric callout for one key number.</td><td>It gives the dashboard a quick visual summary before charts.</td></tr></tbody></table>
 <h3>A quick wireframe in code before the real page setup</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">PANEL_ORDER = [&quot;kpi&quot;, &quot;trend&quot;, &quot;distribution&quot;, &quot;table&quot;]
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">            warehouse_link.commit()
 
-for panel_name in PANEL_ORDER:
-    print(&quot;layout slot:&quot;, panel_name)</pre>
+            baseline_y = 30
+            cv2.putText(
+                frame_image,
+                f&quot;Frame: {frame_index}&quot;,
+                (10, baseline_y),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (255, 255, 255),
+                2,
+            )
+            baseline_y += 25</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This filler block behaves like a tiny dashboard wireframe. It helps the article feel fuller before the recoverable Streamlit section begins.</p>
 <p>Even that tiny list is useful because it reveals intent. A dashboard with a deliberate order feels calmer than one that grew widget by widget.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">dashboard_name = &quot;traffic-flow&quot;
-
-# note: after 10 sidebar drafts, this fragment begins.
-def build_dashboard():
-    &quot;&quot;&quot;Render the interactive analytics dashboard.&quot;&quot;&quot;
-
-    st.set_page_config(
-        page_title=&quot;Traffic Analytics Dashboard&quot;,
-        page_icon=&quot;:vertical_traffic_light:&quot;,
-        layout=&quot;wide&quot;,
-        initial_sidebar_state=&quot;expanded&quot;,
-    )
-
-    st.title(&quot;Traffic flow analytics&quot;)
-    st.markdown(&quot;---&quot;)
-
-    with st.sidebar:
-        st.header(&quot;Dashboard settings&quot;)
-        vehicle_choices = [&quot;car&quot;, &quot;motorcycle&quot;, &quot;bus&quot;, &quot;truck&quot;, &quot;all&quot;]
-        chosen_vehicles = st.multiselect(
-            &quot;Vehicle types&quot;,
-            vehicle_choices,
-            default=[&quot;car&quot;, &quot;bus&quot;, &quot;truck&quot;],
-        )
-
-        range_label = st.selectbox(
-            &quot;Time range&quot;,
-            [&quot;Last 5 minutes&quot;, &quot;Last 15 minutes&quot;, &quot;Last hour&quot;, &quot;All data&quot;],
-            index=1,
-        )
-
-        live_refresh = st.checkbox(&quot;Auto refresh&quot;, value=True)
-        refresh_seconds = (
-            st.slider(&quot;Refresh interval (sec)&quot;, 1, 10, 3) if live_refresh else 0
-        )
-
-        st.markdown(&quot;---&quot;)
-        st.caption(&quot;The dashboard reads metrics from the live video pipeline.&quot;)
-# note: 10 sidebar drafts later, this fragment ends.
-
-dashboard_name = dashboard_name.replace(&quot;-&quot;, &quot; &quot;)</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">            for vehicle_name, (vehicle_count, speed_total) in frame_stats.items():
+                mean_speed = speed_total / (vehicle_count + 1)
+                cv2.putText(
+                    frame_image,
+                    f&quot;{vehicle_name}: {vehicle_count} (spd:{mean_speed:.1f})&quot;,
+                    (10, baseline_y),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    palette.get(vehicle_name, (255, 255, 255)),
+                    1,
+                )
+                baseline_y += 20</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This first dashboard fragment defines the page, title and filters. It reads like article code, but the marked slice still reconstructs cleanly.</p>
 <p>Once the sidebar exists, the next design step is to reserve the reading order. KPI cards come first because they summarize, then trend charts, then deeper plots, and only after that the raw rows.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">def metric_title(label):
-    return label.replace(&quot;_&quot;, &quot; &quot;).title()
-
-
-for key in (&quot;total_flow&quot;, &quot;avg_speed&quot;, &quot;peak_hour&quot;):
-    print(metric_title(key))</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">            total_vehicles = sum(frame_stats[k][0] for k in frame_stats)
+            cv2.putText(
+                frame_image,
+                f&quot;Total: {total_vehicles}&quot;,
+                (10, baseline_y + 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (0, 255, 255),
+                2,
+            )</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra snippet is only there to keep the article feeling like a tutorial, not a direct fragment dump.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">layout_revision = &quot;v1&quot;
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">        cv2.imshow(&quot;Traffic Monitoring&quot;, frame_image)
 
-# note: after 11 empty panels, this fragment begins.
-    kpi_column_one, kpi_column_two, kpi_column_three, kpi_column_four = st.columns(4)
-
-    metric_slots = {
-        &quot;total&quot;: kpi_column_one.empty(),
-        &quot;avg_speed&quot;: kpi_column_two.empty(),
-        &quot;peak_hour&quot;: kpi_column_three.empty(),
-        &quot;congestion&quot;: kpi_column_four.empty(),
-    }
-
-    trend_column, speed_column = st.columns(2)
-    with trend_column:
-        st.subheader(&quot;Traffic intensity by vehicle type&quot;)
-        intensity_slot = st.empty()
-
-    with speed_column:
-        st.subheader(&quot;Average speed by vehicle type&quot;)
-        speed_slot = st.empty()
-
-    st.subheader(&quot;Trends and distribution&quot;)
-    bottom_left, bottom_right = st.columns(2)
-    with bottom_left:
-        distribution_slot = st.empty()
-    with bottom_right:
-        correlation_slot = st.empty()
-
-    st.subheader(&quot;Recent events&quot;)
-    table_slot = st.empty()
-# note: 11 empty panels later, this fragment ends.
-
-layout_revision = layout_revision.upper()</pre>
+        if cv2.waitKey(1) == 27:
+            break</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second fragment stays focused on layout containers. That separation keeps the eventual refresh function easier to scan.</p>
 <p>The key idea is that placeholders let layout and refresh logic evolve at different speeds. That is especially helpful in a one-file project, where the temptation to intertwine everything is always high.</p>
@@ -1071,6 +1026,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
 
 
 
