@@ -320,7 +320,7 @@ body.dark-theme #menu-footer {
   min-height: 34px !important;
   max-height: 34px !important;
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 0 0 0 auto !important;
 }
 
 body.dark-theme #menu-footer ul {
@@ -328,9 +328,15 @@ body.dark-theme #menu-footer ul {
   padding: 0 !important;
   line-height: 34px !important;
   height: 34px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 5px !important;
 }
 
 body.dark-theme #menu-footer ul li {
+  display: flex !important;
+  align-items: center !important;
   height: 34px !important;
   line-height: 34px !important;
   margin: 0 !important;
@@ -338,11 +344,18 @@ body.dark-theme #menu-footer ul li {
 }
 
 body.dark-theme #menu-footer ul li a {
+  color: #b0b0b0 !important;
   line-height: 34px !important;
   height: 34px !important;
   padding: 0 10px !important;
-  margin: 0 0 0 5px !important;
-  display: inline-block !important;
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+body.dark-theme #menu-footer ul li a:hover {
+  color: #19ddc4 !important;
 }
 
 /* Social buttons - keep their original colors */
@@ -472,11 +485,28 @@ body.dark-theme .HTML .widget-content > div > div[style*="background:#f7f7ff"] {
   border-color: #2a2a2a !important;
 }
 
+body.dark-theme .stats-card {
+  background: #1a1a1a !important;
+  border-color: #2a2a2a !important;
+}
+
 body.dark-theme .HTML .widget-content > div > div[style*="background:#f7f7ff"] > div[style*="color:#1f2024"] {
   color: #ffffff !important;
 }
 
+body.dark-theme .stats-value {
+  color: #ffffff !important;
+}
+
 body.dark-theme .HTML .widget-content > div > div[style*="background:#f7f7ff"] > div[style*="color:#7d8696"] {
+  color: #b0b0b0 !important;
+}
+
+body.dark-theme .stats-label {
+  color: #b0b0b0 !important;
+}
+
+body.dark-theme .stats-note {
   color: #b0b0b0 !important;
 }
 
@@ -486,7 +516,17 @@ body.dark-theme .HTML .widget-content > div[style*="border:1px solid"] {
   border: 1px solid #2a2a2a !important;
 }
 
+body.dark-theme .notes-panel {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+}
+
 body.dark-theme .HTML .widget-content > div[style*="border"] > div {
+  background: transparent !important;
+  border-color: #2a2a2a !important;
+}
+
+body.dark-theme .notes-item {
   background: transparent !important;
   border-color: #2a2a2a !important;
 }
@@ -495,7 +535,15 @@ body.dark-theme .HTML .widget-content strong[style*="color:#1f2024"] {
   color: #ffffff !important;
 }
 
+body.dark-theme .notes-heading {
+  color: #ffffff !important;
+}
+
 body.dark-theme .HTML .widget-content span[style*="color:#656565"] {
+  color: #b0b0b0 !important;
+}
+
+body.dark-theme .notes-text {
   color: #b0b0b0 !important;
 }
 
