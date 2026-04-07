@@ -1,0 +1,56 @@
+﻿import psycopg2
+from datetime import datetime
+
+# Latin characters only
+db_config = {
+    "dbname": "faf",
+    "user": "postgres",
+    "password": "",
+    "host": "localhost",
+    "port": "5432"
+}
+
+def run_batch_pipeline():
+    conn = None
+    cur = None
+    try:
+        print("Start processing...")
+        conn = psycopg2.connect(**db_config)
+        cur = conn.cursor()
+        
+        sql = """
+        INSERT INTO mart.traffic_history (report_hour, camera_id, vehicle_type, avg_speed, intensity, density)
+        SELECT 
+            date_trunc('hour', last_update), camera_id, vehicle_type,
+            AVG(avg_speed), COUNT(*), AVG(count)
+        FROM mart.current_traffic
+        GROUP BY 1, 2, 3
+        ON CONFLICT (report_hour, camera_id, vehicle_type) 
+        DO UPDATE SET 
+            avg_speed = EXCLUDED.avg_speed,
+            intensity = EXCLUDED.intensity,
+            density = EXCLUDED.density;
+        """
+        cur.execute(sql)
+        conn.commit()
+        print("Done!")
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        if cur: cur.close()
+        if conn: conn.close()
+
+if __name__ == "__main__":
+    run_batch_pipeline()
+
+
+CREATE TABLE IF NOT EXISTS mart.traffic_history (
+    id SERIAL PRIMARY KEY,
+    report_hour TIMESTAMP NOT NULL,
+    camera_id VARCHAR(50) NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL,
+    avg_speed FLOAT,
+    intensity INTEGER,
+    density FLOAT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(report_hour, camera_id, vehicle_type)  -- For ON CONFLICT

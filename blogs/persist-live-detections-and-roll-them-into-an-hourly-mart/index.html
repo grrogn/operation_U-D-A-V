@@ -641,75 +641,52 @@ Persist Live Detections and Roll Them Into an Hourly Mart
 <p>Those jobs can live in the same file without becoming the same function. The live insert path should stay close to the row structure already produced by the detector, while the mart refresh can stay close to SQL and timing.</p>
 <p>That division matters even more in articles because it lets the reader separate the operational write loop from the analytical history layer. One supports immediacy. The other supports reporting.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def pack_stream_record(camera_id, vehicle_name, object_id, x_coord, y_coord, speed_value):
-    return (camera_id, vehicle_name, object_id, x_coord, y_coord, speed_value, 1)</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">           # WRITE TO POSTGRES
+           if db_ok:
+               try:
+                   cur.execute(&quot;&quot;&quot;
+                       INSERT INTO mart.current_traffic
+                       (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+                   &quot;&quot;&quot;, (&#39;Cam_01&#39;, label, int(track_id), float(x_c), float(y_c), float(speed), 1))
+                   conn.commit()
+               except:
+                   conn.rollback()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This adjacent component shows the row shape in isolation so the real insert path does not have to explain its tuple structure at the same time.</p>
 <p>A small packing helper like that is not required, but it highlights a useful mental model: if the row shape is stable, the write function can remain small.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">write_mode = &quot;live-stream&quot;
-
-# note: after 5 commit cycles, this fragment begins.
-def write_live_rows(cursor, connection, pending_rows):
-    for record in pending_rows:
-        try:
-            cursor.execute(
-                &quot;&quot;&quot;
-                INSERT INTO mart.current_traffic
-                (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
-                &quot;&quot;&quot;,
-                (record[0], record[1], record[2], record[3], record[4], record[5], 1),
-            )
-            connection.commit()
-        except Exception:
-            connection.rollback()
-# note: 5 commit cycles later, this fragment ends.
-
-write_mode = write_mode.replace(&quot;-&quot;, &quot;_&quot;)</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">       # Convert the frame back to OpenCV
+       frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+   # Display output
+   cv2.imshow(&quot;Smart Traffic System&quot;, cv2.resize(frame, (1280, 720)))
+   if cv2.waitKey(1) &amp; 0xFF == ord(&quot;q&quot;):
+       break</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The fifth marked slice is the narrow write path. It keeps the insert statement visible and leaves the transaction rule in one easy-to-find place.</p>
 <table><thead><tr><th>Persistence term</th><th>Meaning</th><th>Why it belongs here</th></tr></thead><tbody><tr><td>Current table</td><td>The table that stores fresh tracked rows.</td><td>It is the operational landing zone for the live pipeline.</td></tr><tr><td>History table</td><td>The rolled-up hourly view of the same traffic.</td><td>It gives dashboards a steadier reporting layer.</td></tr><tr><td>Rollback</td><td>The fallback after a failed insert attempt.</td><td>It keeps a bad write from poisoning the next one.</td></tr></tbody></table>
 <h3>Alternative component: a tiny transaction wrapper</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def commit_or_reset(connection, action):
-    try:
-        action()
-        connection.commit()
-    except Exception:
-        connection.rollback()
-        raise</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">cap.release()
+if db_ok: cur.close(); conn.close()
+cv2.destroyAllWindows()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This component is intentionally nearby and color-separated. It reads like a neighboring design option rather than part of the stored numbered flow.</p>
 <p>The hourly rollup deserves its own stage because it has a different rhythm. It is not called for every object or even for every frame. It turns a live stream into a reporting cadence.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">mart_refresh = &quot;hourly-rollup&quot;
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">CREATE SCHEMA IF NOT EXISTS mart;
 
-# note: after 6 mart updates, this fragment begins.
-def rollup_hourly_history():
-    while True:
-        try:
-            db = psycopg2.connect(**DATABASE_SETTINGS)
-            cursor = db.cursor()
-            cursor.execute(
-                &quot;&quot;&quot;
-                INSERT INTO mart.traffic_history (report_hour, camera_id, vehicle_type, avg_speed, intensity, density)
-                SELECT date_trunc(&#39;hour&#39;, last_update), camera_id, vehicle_type, AVG(avg_speed), COUNT(*), AVG(count)
-                FROM mart.current_traffic
-                GROUP BY 1, 2, 3
-                ON CONFLICT (report_hour, camera_id, vehicle_type)
-                DO UPDATE SET avg_speed = EXCLUDED.avg_speed, intensity = EXCLUDED.intensity, density = EXCLUDED.density;
-                &quot;&quot;&quot;
-            )
-            db.commit()
-            cursor.close()
-            db.close()
-            time.sleep(5)
-        except Exception:
-            time.sleep(5)
-# note: 6 mart updates later, this fragment ends.
-
-mart_refresh = mart_refresh.upper()</pre>
+CREATE TABLE IF NOT EXISTS mart.current_traffic (
+    id SERIAL PRIMARY KEY,
+    camera_id VARCHAR(50) NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL,
+    track_id INTEGER NOT NULL,
+    x_coord FLOAT NOT NULL,
+    y_coord FLOAT NOT NULL,
+    avg_speed FLOAT,
+    count INTEGER DEFAULT 1,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The sixth marked slice keeps the SQL-heavy refresh logic together, including the repeat cadence and the upsert behavior.</p>
 <p>This pairing works because the first function writes what is happening now, while the second keeps history queryable later. They belong to the same pipeline, but they speak to different time horizons.</p>
@@ -1043,6 +1020,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
+
+
+
+
 
 
 

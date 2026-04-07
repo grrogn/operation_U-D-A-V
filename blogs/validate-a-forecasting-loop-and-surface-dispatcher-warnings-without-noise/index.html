@@ -641,92 +641,31 @@ Validate a Forecasting Loop and Surface Dispatcher Warnings Without Noise
 <p>Forecast validation matters here because a predicted value is only useful when the page can also show how that prediction behaves against held-out data. At the same time, operator warnings matter because insight without action tends to stall on the screen.</p>
 <p>Keeping those concerns close together works surprisingly well. One section measures how trustworthy the forecasting step is, and the next section translates the current slice into warnings and lightweight monitoring.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def split_history_frame(frame, ratio=0.8):
-    boundary = int(len(frame) * ratio)
-    return frame.iloc[:boundary], frame.iloc[boundary:]</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">    avg_speed FLOAT,
+    intensity INTEGER,
+    density FLOAT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This neighboring component turns the train-test split into a separate idea so the model-validation fragment can stay centered on metrics and plotting.</p>
 <p>That side helper is not necessary for the actual system, but it is useful in the article because it keeps the validation fragment from carrying every small decision inside one rose block.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">validation_mode = &quot;forecast-check&quot;
-
-# note: after 10 validation rounds, this fragment begins.
-            st.subheader(&quot;Forecast model evaluation&quot;)
-            full_history = load_history_frame()
-            if len(full_history) &gt; 10:
-                full_history[&quot;hour&quot;] = pd.to_datetime(full_history[&quot;report_hour&quot;]).dt.hour
-                train_slice = full_history.iloc[: int(len(full_history) * 0.8)]
-                test_slice = full_history.iloc[int(len(full_history) * 0.8) :]
-
-                model = GradientBoostingRegressor().fit(train_slice[[&quot;hour&quot;]], train_slice[&quot;intensity&quot;])
-                predicted = model.predict(test_slice[[&quot;hour&quot;]])
-
-                metric_left, metric_right = st.columns(2)
-                metric_left.metric(&quot;MAE&quot;, f&quot;{mean_absolute_error(test_slice[&#39;intensity&#39;], predicted):.1f}&quot;)
-                metric_right.metric(&quot;RMSE&quot;, f&quot;{np.sqrt(mean_squared_error(test_slice[&#39;intensity&#39;], predicted)):.1f}&quot;)
-
-                validation_chart = go.Figure()
-                validation_chart.add_trace(go.Scatter(y=test_slice[&quot;intensity&quot;].values, name=&quot;Actual&quot;))
-                validation_chart.add_trace(
-                    go.Scatter(y=predicted, name=&quot;Forecast&quot;, line=dict(dash=&quot;dash&quot;))
-                )
-                validation_chart.update_layout(
-                    title=&quot;Forecast vs actual on validation data&quot;,
-                    xaxis_title=&quot;Ordered validation intervals&quot;,
-                    yaxis_title=&quot;Traffic intensity (vehicles/hour)&quot;,
-                )
-                st.plotly_chart(validation_chart, use_container_width=True)
-            else:
-                st.info(f&quot;More rows are needed before training the model (current volume: {len(full_history)})&quot;)
-# note: 10 validation rounds later, this fragment ends.
-
-validation_mode = validation_mode.lower()</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">    UNIQUE(report_hour, camera_id, vehicle_type)  -- For ON CONFLICT</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The tenth marked slice covers model training, error metrics and the comparison chart, which together form the validation story of the file.</p>
 <p>Validation becomes persuasive when the page shows both the summary metrics and the curve. Numbers answer how wrong the model is on average, while the chart answers how it behaves across the sequence.</p>
 <h3>Alternative component: make alert thresholds explicit</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">ALERT_RULES = {
-    &quot;high_density&quot;: 200,
-    &quot;slow_flow&quot;: 30,
-}</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">from datetime import datetime
+
+current_hour = datetime.now().replace(minute=0, second=0, microsecond=0)
+print(current_hour)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This muted block sits next to the operational warning slice as a visibly different design option for threshold management.</p>
 <p>Once the validation story is complete, the warning path feels earned. The page has already shown how it sees the data, so operational alerts no longer look arbitrary.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">alert_surface = &quot;dispatcher&quot;
-
-# note: after 11 alert checks, this fragment begins.
-            st.subheader(&quot;Dispatcher notes&quot;)
-            if current_row[&quot;intensity&quot;] &gt; 200:
-                st.warning(&quot;High density detected. Consider lowering the speed limit to 40 km/h.&quot;)
-
-            if current_row[&quot;avg_speed&quot;] &lt; 30:
-                st.error(&quot;Congestion detected. Activate the warning board.&quot;)
-                st.sidebar.subheader(&quot;Monitoring&quot;)
-
-                db = psycopg2.connect(**DATABASE_SETTINGS)
-                cursor = db.cursor()
-                cursor.execute(
-                    &quot;CREATE TABLE IF NOT EXISTS mart.quality_log (id SERIAL PRIMARY KEY, issue INT, ts TIMESTAMP DEFAULT NOW())&quot;
-                )
-                live_count = pd.read_sql(&quot;SELECT COUNT(*) AS c FROM mart.current_traffic&quot;, db)[&quot;c&quot;].iloc[0]
-                st.sidebar.metric(&quot;Rows in live stream&quot;, live_count)
-
-                issue_count = pd.read_sql(
-                    &quot;SELECT COUNT(*) AS c FROM mart.quality_log WHERE ts &gt; NOW() - INTERVAL &#39;1 hour&#39;&quot;,
-                    db,
-                )[&quot;c&quot;].iloc[0]
-                st.sidebar.metric(&quot;Issues in the last hour&quot;, issue_count)
-                db.close()
-
-    time.sleep(5)
-    st.rerun()
-except Exception as error:
-    st.error(f&quot;Error: {error}&quot;)
-# note: 11 alert checks later, this fragment ends.
-
-alert_surface = alert_surface.title()</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">summary_target = &quot;mart.traffic_history&quot;
+report_keys = (&quot;report_hour&quot;, &quot;camera_id&quot;, &quot;vehicle_type&quot;)
+print(summary_target, report_keys)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The eleventh marked slice closes the series with dispatcher guidance, lightweight monitoring and the rerun behavior that keeps the page live.</p>
 <p>That ending is strong because it combines analytics and operations without pretending they are the same thing. Validation explains confidence. Warnings explain urgency. Monitoring explains system health.</p>
@@ -1061,6 +1000,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
+
+
+
+
 
 
 

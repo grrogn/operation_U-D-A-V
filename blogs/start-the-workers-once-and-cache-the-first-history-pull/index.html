@@ -641,82 +641,50 @@ Start the Workers Once and Cache the First History Pull
 <p>The usual cure is small and effective: put a session flag in front of the worker startup, then keep the first data fetch behind a cache boundary. That gives the page a practical memory of what has already been done.</p>
 <p>This is also one of the best places to add supporting code around the main fragments. Startup behavior benefits from extra explanatory snippets because it blends control flow, state and timing.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def choose_font_or_default():
-    try:
-        return ImageFont.truetype(&quot;arial.ttf&quot;, 20)
-    except Exception:
-        return ImageFont.load_default()</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">import psycopg2
+from datetime import datetime
+
+# Latin characters only
+db_config = {
+    &quot;dbname&quot;: &quot;faf&quot;,
+    &quot;user&quot;: &quot;postgres&quot;,
+    &quot;password&quot;: &quot;&quot;,
+    &quot;host&quot;: &quot;localhost&quot;,
+    &quot;port&quot;: &quot;5432&quot;
+}</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This neighboring component echoes the font fallback idea without stepping into the numbered recovery chain too early.</p>
 <p>That fallback is useful as a side note because it reminds the reader that startup code is not only about threads. It is also where tiny environmental assumptions should be handled gracefully.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">worker_stage = &quot;video-loop&quot;
-
-# note: after 7 worker checks, this fragment begins.
-def process_stream():
-    detector = YOLO(MODEL_CHECKPOINT)
-    capture = cv2.VideoCapture(&quot;test.MP4&quot;)
-    last_y_by_track = {}
-
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def run_batch_pipeline():
+    conn = None
+    cur = None
     try:
-        ui_font = ImageFont.truetype(&quot;arial.ttf&quot;, 20)
-    except Exception:
-        ui_font = ImageFont.load_default()
-
-    while capture.isOpened():
-        db = psycopg2.connect(**DATABASE_SETTINGS)
-        cursor = db.cursor()
-        frame = read_frame_or_restart(capture)
-
-        if frame is not None:
-            rows_to_store, frame = detect_and_annotate(frame, detector, last_y_by_track, ui_font)
-            if rows_to_store:
-                write_live_rows(cursor, db, rows_to_store)
-
-        cursor.close()
-        db.close()
-# note: 7 worker checks later, this fragment ends.
-
-worker_stage = worker_stage.title()</pre>
+        print(&quot;Start processing...&quot;)
+        conn = psycopg2.connect(**db_config)
+        cur = conn.cursor()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The seventh marked slice holds the streaming loop that opens the detector, capture and font fallback before handing rows to the database layer.</p>
 <p>Notice how the loop stays readable because earlier responsibilities were already defined. The frame helper, annotation function and write function do the heavy lifting, so the worker loop mostly orchestrates.</p>
 <h3>Alternative component: describe the refresh contract explicitly</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def dashboard_refresh_contract(ttl_seconds):
-    return {
-        &quot;cache_ttl&quot;: ttl_seconds,
-        &quot;starts_workers_once&quot;: True,
-        &quot;refreshes_from_history&quot;: True,
-    }</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">        sql = &quot;&quot;&quot;
+        INSERT INTO mart.traffic_history (report_hour, camera_id, vehicle_type, avg_speed, intensity, density)
+        SELECT 
+            date_trunc(&#39;hour&#39;, last_update), camera_id, vehicle_type,
+            AVG(avg_speed), COUNT(*), AVG(count)
+        FROM mart.current_traffic</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This side block reads like an architectural note. The color shift keeps it separate from the numbered slices while still reinforcing the same section of the file.</p>
 <p>Only after the worker loop is clear does it make sense to show the session gate and the cached data pull. That ordering helps because the UI startup now feels like a handoff instead of a collision.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">startup_guard = &quot;boot-once&quot;
-
-# note: after 8 startup guards, this fragment begins.
-if &quot;stream_worker_booted&quot; not in st.session_state:
-    threading.Thread(target=process_stream, daemon=True).start()
-    threading.Thread(target=rollup_hourly_history, daemon=True).start()
-    st.session_state.stream_worker_booted = True
-
-st.set_page_config(page_title=&quot;ITS Analytics Hub&quot;, layout=&quot;wide&quot;)
-st.title(&quot;ITS Traffic Analytics&quot;)
-
-
-@st.cache_data(ttl=5)
-def load_history_frame():
-    db = psycopg2.connect(**DATABASE_SETTINGS)
-    data = pd.read_sql(
-        &quot;SELECT * FROM mart.traffic_history ORDER BY report_hour DESC LIMIT 1000&quot;,
-        db,
-    )
-    db.close()
-    return data
-# note: 8 startup guards later, this fragment ends.
-
-startup_guard = startup_guard.replace(&quot;-&quot;, &quot; &quot;)</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">        GROUP BY 1, 2, 3
+        ON CONFLICT (report_hour, camera_id, vehicle_type) 
+        DO UPDATE SET 
+            avg_speed = EXCLUDED.avg_speed,
+            intensity = EXCLUDED.intensity,
+            density = EXCLUDED.density;
+        &quot;&quot;&quot;</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The eighth marked slice holds the one-time thread startup, page title and cached history loader, which together form the bridge into the dashboard.</p>
 <ul><li>Guard worker startup with session state so rerenders do not spawn duplicate loops.</li><li>Cache the first history pull because dashboards usually need stable, recent data more than they need constant raw queries.</li><li>Let the worker loop orchestrate helpers instead of duplicating their logic inline.</li></ul>
@@ -1050,6 +1018,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
+
+
+
+
 
 
 

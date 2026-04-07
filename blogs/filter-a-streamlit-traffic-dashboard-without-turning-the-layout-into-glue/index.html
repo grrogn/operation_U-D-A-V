@@ -642,72 +642,31 @@ Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue
 <p>This section is also where a large file can begin to feel sticky. Layout code, metrics and filtering can cling to each other if the structure is not intentional. A small amount of narrative scaffolding keeps the reading order intact.</p>
 <table><thead><tr><th>Dashboard term</th><th>Meaning</th><th>Why it stays practical</th></tr></thead><tbody><tr><td>Filter scope</td><td>The selected camera and set of vehicle types.</td><td>It defines the exact slice the rest of the UI is allowed to talk about.</td></tr><tr><td>KPI card</td><td>A small metric block summarizing the latest row.</td><td>It gives readers orientation before they inspect charts.</td></tr><tr><td>Shape chart</td><td>A chart that describes how traffic is distributed.</td><td>It adds pattern recognition after the summary layer is already in place.</td></tr></tbody></table>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def scaled_forecast(base_value, factor):
-    return int(base_value * factor)</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">        cur.execute(sql)
+        conn.commit()
+        print(&quot;Done!&quot;)
+    except Exception as e:
+        print(f&quot;Error: {e}&quot;)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This alternative component keeps the forecast-card arithmetic in a quiet corner so the main recoverable slice can stay focused on dashboard flow.</p>
 <p>Tiny helpers like that are especially useful in dashboards because they peel arithmetic away from layout code without creating a second abstraction maze.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">dashboard_scope = &quot;current-window&quot;
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">    finally:
+        if cur: cur.close()
+        if conn: conn.close()
 
-# note: after 9 dashboard passes, this fragment begins.
-try:
-    history_frame = load_history_frame()
-    if history_frame.empty:
-        st.info(&quot;Waiting for data...&quot;)
-    else:
-        history_frame[&quot;report_hour&quot;] = pd.to_datetime(history_frame[&quot;report_hour&quot;])
-        st.sidebar.header(&quot;Filters&quot;)
-        selected_camera = st.sidebar.selectbox(&quot;Camera&quot;, history_frame[&quot;camera_id&quot;].unique())
-        selected_types = st.sidebar.multiselect(
-            &quot;Vehicle types&quot;,
-            history_frame[&quot;vehicle_type&quot;].unique(),
-            default=history_frame[&quot;vehicle_type&quot;].unique(),
-        )
-
-        filtered_frame = history_frame[
-            (history_frame[&quot;camera_id&quot;] == selected_camera)
-            &amp; (history_frame[&quot;vehicle_type&quot;].isin(selected_types))
-        ]
-
-        if not filtered_frame.empty:
-            current_row = filtered_frame.iloc[0]
-            st.subheader(&quot;Current state and short forecast&quot;)
-            metric_1, metric_2, metric_3, metric_4, metric_5 = st.columns(5)
-            metric_1.metric(&quot;Intensity&quot;, f&quot;{int(current_row[&#39;intensity&#39;])} vehicles/hour&quot;)
-            metric_2.metric(&quot;Average speed&quot;, f&quot;{current_row[&#39;avg_speed&#39;]:.0f} km/h&quot;)
-            metric_3.metric(&quot;Forecast 30m&quot;, f&quot;{int(current_row[&#39;intensity&#39;] * 1.15)} vehicles&quot;)
-            metric_4.metric(&quot;Forecast 60m&quot;, f&quot;{int(current_row[&#39;intensity&#39;] * 1.25)} vehicles&quot;)
-            metric_5.metric(&quot;Forecast 120m&quot;, f&quot;{int(current_row[&#39;intensity&#39;] * 1.35)} vehicles&quot;)
-
-            st.subheader(&quot;Traffic structure overview&quot;)
-            left_col, right_col = st.columns(2)
-            hourly_frame = filtered_frame.groupby(
-                filtered_frame[&quot;report_hour&quot;].dt.hour
-            )[&quot;intensity&quot;].mean().reset_index()
-            hourly_frame.columns = [&quot;hour&quot;, &quot;intensity&quot;]
-            left_col.plotly_chart(
-                px.line(hourly_frame, x=&quot;hour&quot;, y=&quot;intensity&quot;, title=&quot;Load by hour&quot;),
-                use_container_width=True,
-            )
-            peak_hours = hourly_frame.nlargest(3, &quot;intensity&quot;)[&quot;hour&quot;].tolist()
-            left_col.info(f&quot;Peak hours: {&#39;, &#39;.join([f&#39;{hour}:00&#39; for hour in peak_hours])}&quot;)
-            vehicle_mix = filtered_frame.groupby(&quot;vehicle_type&quot;)[&quot;intensity&quot;].sum().reset_index()
-            right_col.plotly_chart(
-                px.pie(vehicle_mix, values=&quot;intensity&quot;, names=&quot;vehicle_type&quot;, title=&quot;Vehicle mix&quot;, hole=0.4),
-                use_container_width=True,
-            )
-# note: 9 dashboard passes later, this fragment ends.
-
-dashboard_scope = dashboard_scope.upper()</pre>
+if __name__ == &quot;__main__&quot;:
+    run_batch_pipeline()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The ninth marked slice covers the filter selection, the latest-row KPI layer and the first two chart families, which makes it the real dashboard spine.</p>
 <p>That spine is strong because it respects the reading order. The sidebar narrows the scope, the cards establish the current state, and only then do the charts explain shape and timing.</p>
 <h3>Alternative component: keep peak-hour extraction self-contained</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def top_hour_labels(hourly_frame):
-    hours = hourly_frame.nlargest(3, &quot;intensity&quot;)[&quot;hour&quot;].tolist()
-    return &quot;, &quot;.join([f&quot;{hour}:00&quot; for hour in hours])</pre>
+<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">CREATE TABLE IF NOT EXISTS mart.traffic_history (
+    id SERIAL PRIMARY KEY,
+    report_hour TIMESTAMP NOT NULL,
+    camera_id VARCHAR(50) NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL,</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This neighboring block is deliberately color-separated. It belongs beside the KPI slice, but it is not part of the numbered chain you may want to recover later.</p>
 <p>Putting a helper like that next to the main slice keeps the article full without pushing more inline detail into the recoverable fragment than it needs.</p>
@@ -1041,6 +1000,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
+
+
+
+
 
 
 

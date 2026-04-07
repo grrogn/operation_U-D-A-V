@@ -643,73 +643,50 @@ Lay Out a Traffic Intelligence File Before the First Frame Arrives
 <table><thead><tr><th>Bootstrap term</th><th>Meaning</th><th>Why it helps later</th></tr></thead><tbody><tr><td>Import surface</td><td>The libraries made visible at the top of the file.</td><td>It tells the reader the true shape of the service before any function body appears.</td></tr><tr><td>Runtime setting</td><td>A value that configures the detector or database connection.</td><td>It prevents configuration details from being scattered across the file.</td></tr><tr><td>Frame restart</td><td>A small rule for what happens when capture.read() fails.</td><td>It lets the processing loop stay simple because failure handling is already defined.</td></tr></tbody></table>
 <h3>A small bootstrap helper before the first recoverable slice</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def build_runtime_options():
-    return {
-        &quot;checkpoint&quot;: &quot;yolov8x.pt&quot;,
-        &quot;poll_seconds&quot;: 5,
-        &quot;camera_label&quot;: &quot;Cam_01&quot;,
-    }
-
-
-RUNTIME_OPTIONS = build_runtime_options()</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">import cv2
+from ultralytics import YOLO
+from PIL import Image, ImageDraw, ImageFont
+import psycopg2
+import datetime
+import psycopg2
+import numpy as np</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This alternative component stays outside the recoverable sequence and simply gives the article a second way to introduce runtime settings.</p>
 <p>That helper is intentionally boring. Boring bootstrap code is valuable because it makes later changes feel local instead of global.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">runtime_profile = &quot;traffic-core&quot;
-
-# note: after 1 bootstrap review, this fragment begins.
-import cv2
-from ultralytics import YOLO
-from PIL import Image, ImageDraw, ImageFont
-import psycopg2
-from datetime import datetime
-import streamlit as st
-import pandas as pd
-import plotly.express as px
-import threading
-import time
-import plotly.graph_objects as go
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error
-import numpy as np
-
-MODEL_CHECKPOINT = &quot;yolov8x.pt&quot;
-DATABASE_SETTINGS = {
-    &quot;dbname&quot;: &quot;NewDataHelp&quot;,
-    &quot;user&quot;: &quot;postgres&quot;,
-    &quot;password&quot;: &quot;admin&quot;,
-    &quot;host&quot;: &quot;localhost&quot;,
-    &quot;port&quot;: &quot;5432&quot;,
-}
-# note: 1 bootstrap review later, this fragment ends.
-
-runtime_profile = runtime_profile.upper()</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">MODEL_NAME = (&quot;yolov8x.pt&quot;)
+db_config = {
+   &quot;dbname&quot;: &quot;faf&quot;,
+   &quot;user&quot;: &quot;postgres&quot;,
+   &quot;password&quot;: &quot;&quot;,
+   &quot;host&quot;: &quot;localhost&quot;,
+   &quot;port&quot;: &quot;5432&quot;
+}</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first marked slice carries the import surface and the runtime settings, so it establishes the vocabulary of the rest of the file.</p>
 <p>Once the checkpoint name and database settings are visible in one place, every later function can stay more honest. It no longer needs to pretend that configuration is somebody else's problem.</p>
 <p>This is also the point where translation matters. The original code can speak one language, but the article should still read smoothly in another, which is why the names here are rephrased without changing the architectural role they play.</p>
 <h3>Alternative component: a tiny capture probe before the rewind logic</h3>
 <div class="is-dark">
-<pre class="code-box" style="background:#15131a;border:1px solid #595267;color:#e9e1ef;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(162,144,190,.08);--code-base:#e9e1ef;--code-comment:#aba0b9;--code-keyword:#caaad7;--code-string:#dbc4e6;--code-number:#c6b1d4;--code-function:#e0cdec;--code-class:#ead9f1;--code-builtin:#cfbedf;--code-constant:#e3d5eb;--code-decorator:#b9a2cf;--code-operator:#b8aebf;--code-identifier:#e9e1ef">def probe_capture(capture):
-    position = int(capture.get(cv2.CAP_PROP_POS_FRAMES))
-    return {&quot;position&quot;: position, &quot;ready&quot;: capture.isOpened()}</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">try:
+   conn = psycopg2.connect(**db_config)
+   cur = conn.cursor()
+   db_ok = True
+   print(&quot;DATABASE CONNECTED&quot;)
+except Exception as e:
+   db_ok = False
+   print(f&quot;DATABASE ERROR: {e}&quot;)</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This side block sits near the restart helper and reads like a neighboring component rather than part of the main recoverable chain.</p>
 <p>Putting the recovery rule after some explanation keeps it from becoming the first thing the reader sees. That matters here because the function is useful, but it should not define the tone of the whole article.</p>
 <div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">capture_mode = &quot;looping&quot;
-
-# note: after 2 frame checks, this fragment begins.
-def read_frame_or_restart(capture):
-    ok, frame = capture.read()
-    if not ok:
-        capture.set(cv2.CAP_PROP_POS_FRAMES, 0)
-        return None
-    return frame
-# note: 2 frame checks later, this fragment ends.
-
-capture_mode = capture_mode.strip()</pre>
+<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">model = YOLO(MODEL_NAME)
+cap = cv2.VideoCapture(&quot;Data_Video.mp4&quot;)
+track_history = {}
+try:
+   font = ImageFont.truetype(&quot;arial.ttf&quot;, 20)
+except:
+   font = ImageFont.load_default()</pre>
 </div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second marked slice is small on purpose. It captures the frame rewind behavior without dragging the detection logic in too early.</p>
 <ul><li>Keep imports and runtime values in one visible zone so the file announces its stack immediately.</li><li>Treat end-of-stream behavior as part of the design, not as an afterthought tucked inside the main loop.</li><li>Let tiny helpers stay tiny because their value is usually in the rule they encode, not in their size.</li></ul>
@@ -1043,6 +1020,11 @@ document.addEventListener('DOMContentLoaded', function () {
   </script>
 <script src="post-code-theme.js"></script>
 </body></html>
+
+
+
+
+
 
 
 
