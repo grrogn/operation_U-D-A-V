@@ -83,3 +83,46 @@
   line-height: 1.8;
   color: #656565;
 }
+
+.code-copy-wrap {
+  position: relative;
+}
+
+.code-copy-wrap pre.code-box {
+  margin: 0;
+}
+
+.code-copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  background: rgba(15, 18, 24, 0.72);
+  color: #f4f6fb;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  padding: 7px 11px;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease, opacity .18s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.code-copy-button:hover {
+  background: rgba(15, 18, 24, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.code-copy-button:focus-visible {
+  outline: 2px solid #19ddc4;
+  outline-offset: 2px;
+}
+
+.code-copy-button.is-copied {
+  background: rgba(25, 221, 196, 0.2);
+  border-color: rgba(25, 221, 196, 0.5);
+  color: #ffffff;
+}
