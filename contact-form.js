@@ -1,4 +1,4 @@
-// Contact Form Handler
+﻿// Contact Form Handler
 (function () {
   "use strict";
 
@@ -127,3 +127,5 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 })();
+
+

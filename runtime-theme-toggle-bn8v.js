@@ -1,4 +1,4 @@
-// Theme Toggle Script
+﻿// Theme Toggle Script
 (function() {
   'use strict';
   
@@ -51,3 +51,5 @@
   }
   });
 })();
+
+

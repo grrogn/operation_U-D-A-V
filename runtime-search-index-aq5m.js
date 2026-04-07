@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
   var searchWrap = document.getElementById('nav-search');
   if (!searchWrap) {
     return;
@@ -260,3 +260,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+

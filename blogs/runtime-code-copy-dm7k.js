@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
   var codeBlocks = document.querySelectorAll('pre.code-box');
 
   if (!codeBlocks.length) {
@@ -68,3 +68,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
   initNavigation();
   initPasswordToggles();
   initAuthForms();
@@ -289,3 +289,5 @@ function getStoredUsers() {
 function saveStoredUsers(users) {
   localStorage.setItem("site_auth_users", JSON.stringify(users));
 }
+
+

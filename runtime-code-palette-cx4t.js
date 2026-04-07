@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   var KEYWORDS = {
     and: true,
     as: true,
@@ -357,3 +357,5 @@
     applyTheme();
   }
 })();
+
+
