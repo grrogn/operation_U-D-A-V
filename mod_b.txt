@@ -4,18 +4,20 @@
 
 РЕГИОНАЛЬНЫЙ ЭТАП ЧЕМПИОНАТА ВЫСОКИХ ТЕХНОЛОГИЙ
 г. Санкт-Петербург, 2026
-
 КОМПЕТЕНЦИЯ: Аналитик транспортных данных
-
 МОДУЛЬ Б: Анализ и обработка больших данных
-
 ОТЧЁТ О ПРОДЕЛАННОЙ РАБОТЕ
 
-Исполнитель: [Ваше ФИО]
-Дата выполнения: [ДД.ММ.ГГГГ]
+REGIONAL STAGE OF THE HIGH-TECH CHAMPIONSHIP
+, St. Petersburg, 2026
+COMPETENCE: Transport Data Analyst
+MODULE B: Big Data Analysis and Processing
+PROGRESS REPORT
+
 
 ─────────────────────────────────────────────────────────
 1. ВВЕДЕНИЕ
+introduction
 ─────────────────────────────────────────────────────────
 
 Реализованы два контура обработки данных:
@@ -24,8 +26,15 @@
 • Пакетный: агрегация потоковых данных → расчёт исторических 
   метрик → загрузка в mart.traffic_history
 
+Two data processing circuits are implemented:
+• Streaming: video capture → YOLOv8 detection → tracking → 
+  Calculating metrics → writing to mart.current_traffic
+• Batch: aggregation of streaming data → calculation of historical 
+  metrics → uploading to mart.traffic_history
+
 ─────────────────────────────────────────────────────────
 2. ПОТОКОВАЯ ОБРАБОТКА
+STREAMING PROCESSING
 ─────────────────────────────────────────────────────────
 
 2.1. Алгоритм получения видеопотока
@@ -72,8 +81,57 @@
 • Сохранение ID: track_history[track_id] = y_c
 • Расчёт скорости по вертикальному смещению
 
+2.1. The algorithm for receiving a video stream
+• Implemented: cv2.VideoCapture("test.MP4")
+• Processing cycle: while cap.isOpened()
+• Processing EOF: cap.set(CAP_PROP_POS_FRAMES, 0) at completion
+
+2.2. Neural network detection model
+• Model: YOLOv8x (ultralytics), file yolov8x.pt
+• Parameters: conf=0.3, iou=0.5, imgsz=1280
+• Classes: [2:car, 5:bus, 7:truck]
+
+2.3. Evaluation of algorithm quality
+• Metric: visual validation of the stability of the bounding box
+• Estimated values on the test fragment:
+- Precision: ~0.94
+  - Recall: ~0.91
+- Tracking stability: >95%
+
+2.4. Running the model on streaming data
+• The process_video() function in the daemon stream
+• Real-time processing of each frame
+• Database connection: psycopg2.connect(**db_config)
+
+2.5. Recognition of objects in the frame
+• Extraction: boxes, ids, classes, centers
+• Filtering by classes: classes=[2,5,7]
+• All objects with confidence≥0.3 are processed
+
+2.6. Fixing key parameters
+• Vehicle type: model.names[cls].upper()
+• Time: datetime.now().strftime("%H:%M:%S")
+• Coordinates: x_c, y_c from the center bounding box
+• Track ID: results[0].boxes.id
+
+2.7. Calculation of metrics in real time
+• Speed: abs(y_c - track_history[track_id]) × 2.5
+• DB entry: INSERT INTO mart.current_traffic
+• Fields: camera_id, vehicle_type, track_id, x_coord, 
+  y_coord, avg_speed, count, last_update
+
+2.8. Tracking between frames
+• Mechanism: model.track(persist=True) + track_history dictionary
+• Save ID: track_history[track_id] = y_c
+• Calculation of velocity based on vertical displacement
+
+
+
+
+
 ─────────────────────────────────────────────────────────
 3. ПАКЕТНАЯ ОБРАБОТКА
+BATCH PROCESSING
 ─────────────────────────────────────────────────────────
 
 3.1. Пересчёт исторических данных
@@ -89,8 +147,22 @@
 • Плотность: AVG(count) → среднее число ТС в кадре
 • Агрегация: GROUP BY report_hour, camera_id, vehicle_type
 
+3.1. Recalculation of historical data
+• Function: run_streaming_pipeline()
+• Period: aggregation by hour (date_trunc('hour', last_update))
+• Source: mart.current_traffic
+• Destination: mart.traffic_history
+• Mechanism: UPSERT via ON CONFLICT
+
+3.2. Calculation of key metrics
+• Intensity: COUNT(*) → number of vehicles per hour
+• Average speed: AVG(avg_speed)
+• Density: AVG(count) → average number of vehicles per frame
+• Aggregation: GROUP BY report_hour, camera_id, vehicle_type
+
 ─────────────────────────────────────────────────────────
 4. ВХОДЫ И ВЫХОДЫ КОНВЕЙЕРОВ
+CONVEYOR ENTRANCES AND EXITS
 ─────────────────────────────────────────────────────────
 
 | Этап              | Вход                    | Выход                    |
@@ -101,8 +173,17 @@
 | Запись в БД       | Кортеж данных           | mart.current_traffic     |
 | Агрегация         | mart.current_traffic    | mart.traffic_history     |
 
+| Stage | Entrance | Exit |
+|-------------------|-------------------------|--------------------------|
+| Video capture | test.MP4 | Frame (numpy BGR)         |
+| Detection | Frame + YOLOv8x | [bbox, cls, conf, id] |
+| Tracking | Detection + history | speed, updated history|
+| Entry in the database | Data tuple | mart.current_traffic |
+| Aggregation | mart.current_traffic | mart.traffic_history |
+
 ─────────────────────────────────────────────────────────
 5. ИНСТРУКЦИЯ ЗАПУСКА
+LAUNCH INSTRUCTIONS
 ─────────────────────────────────────────────────────────
 
 1. Зависимости:
@@ -120,10 +201,30 @@
    SELECT COUNT(*) FROM mart.current_traffic;
    SELECT * FROM mart.traffic_history LIMIT 5;
 
+1. Dependencies:
+   pip install opencv-python ultralytics pillow psycopg2-binary
+
+2. Database Preparation:
+- Create a "NewDataHelp" database
+- Perform DDL for mart tables.*
+
+3. Launch:
+   streamlit run app.py
+# Automatically starts processing threads
+
+4. Verification:
+   SELECT COUNT(*) FROM mart.current_traffic;
+   SELECT * FROM mart.traffic_history LIMIT 5;
+
 ─────────────────────────────────────────────────────────
 6. ЗАКЛЮЧЕНИЕ
+conclusion
 ─────────────────────────────────────────────────────────
 
 ✅ Потоковый пайплайн: детекция, трекинг, запись метрик
 ✅ Пакетный пайплайн: агрегация по часам, UPSERT-логика
 ✅ Отчёт структурирован по критериям модуля Б
+
+✅ Streaming pipeline: detection, tracking, metric recording
+ Batch pipeline: hourly aggregation, UPSERT logic
+, The report is structured according to the criteria of module B

@@ -642,35 +642,35 @@ Keep Python Side Effects Easy to Trace While Utility Helpers Multiply
 <p>This is also the part people screenshot, reference in meetings and remember during incidents. It deserves more than a thin caption and one lonely code block.</p>
 <table><thead><tr><th>Interface term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>KPI row</td><td>A compact set of headline values derived from the latest filtered record.</td><td>It gives the dashboard an immediate operational voice before deeper visuals appear.</td></tr><tr><td>Trend panel</td><td>The hourly line view and peak-hour note built from the same filtered slice.</td><td>It shows how traffic intensity changes across the day without leaving the current context.</td></tr><tr><td>Forecast handoff</td><td>The point where descriptive charts end and model evaluation begins.</td><td>It prepares the reader for the validation logic that follows in the next article.</td></tr></tbody></table>
 <h3>The KPI row turns one filtered record into a quick planning view</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Текущее состояние и прогноз")
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Current Status and Forecast")
             c1, c2, c3, c4, c5 = st.columns(5)
-            c1.metric("Интенсивность", f"{int(last['intensity'])} ТС/ч")
-            c2.metric("Ср. Скорость", f"{last['avg_speed']:.0f} км/ч")
-            c3.metric("Прогноз 30м", f"{int(last['intensity'] * 1.15)} ТС")
-            c4.metric("Прогноз 60м", f"{int(last['intensity'] * 1.25)} ТС")
-            c5.metric("Прогноз 120м", f"{int(last['intensity'] * 1.35)} ТС")</pre></div>
+            c1.metric("Intensity", f"{int(last['intensity'])} veh/h")
+            c2.metric("Avg. Speed", f"{last['avg_speed']:.0f} km/h")
+            c3.metric("30 min Forecast", f"{int(last['intensity'] * 1.15)} veh")
+            c4.metric("60 min Forecast", f"{int(last['intensity'] * 1.25)} veh")
+            c5.metric("120 min Forecast", f"{int(last['intensity'] * 1.35)} veh")</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This slice takes one recent row and stretches it into a quick planning view, which is exactly how many real dashboards earn attention from non-technical readers.</p>
 <p>There is practical psychology in that row. People like seeing one current figure, one speed figure and then a few forward-looking estimates beside them. Even a lightweight forecast heuristic can help the page feel more decision-oriented, provided it stays visibly tied to the latest filtered observation.</p>
 <h3>The trend chart starts by grouping intensity into an hourly rhythm</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Анализ трафика и структуры")
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Traffic Analysis and Composition")
             col1, col2 = st.columns(2)
             hourly = df_filtered.groupby(df_filtered['report_hour'].dt.hour)['intensity'].mean().reset_index()
-            hourly.columns = ['часы', 'Интенсивность']
-            col1.plotly_chart(px.line(hourly, x='часы', y='Интенсивность', title="Загруженность по часам"),
+            hourly.columns = ['hour', 'Intensity']
+            col1.plotly_chart(px.line(hourly, x='hour', y='Intensity', title="Traffic Load by Hour"),
                               use_container_width=True)</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The line chart keeps the visual story attached to the same filtered dataframe, which helps the page feel explanatory rather than ornamental.</p>
 <p>That matters because hourly grouping is where the dashboard starts showing shape instead of just totals. The operator can begin to see cadence, not merely volume.</p>
 <h3>Peak-hour notes and vehicle mix keep the visual layer grounded</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            peak_hours = hourly.nlargest(3, 'Интенсивность')['часы'].tolist() 
-            col1.info(f"Часы пик: {', '.join([f'{h}:00' for h in peak_hours])}")
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            peak_hours = hourly.nlargest(3, 'Intensity')['hour'].tolist() 
+            col1.info(f"Peak hours: {', '.join([f'{h}:00' for h in peak_hours])}")
             structure = df_filtered.groupby('vehicle_type')['intensity'].sum().reset_index()
             col2.plotly_chart(
-                px.pie(structure, values='intensity', names='vehicle_type', title="Доли транспорта", hole=0.4),
+                px.pie(structure, values='intensity', names='vehicle_type', title="Vehicle Mix", hole=0.4),
                 use_container_width=True)</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This slice adds just enough annotation and composition detail to keep the chart section from becoming anonymous.</p>
 <p>The pairing is effective because it answers two different questions with one glance. The peak-hour note explains where the busiest moments cluster, while the pie chart explains what the traffic mix is made of.</p>
 <h3>The page opens a forecast section once the descriptive view is in place</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Оценка эффективности модели прогнозирования")
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Forecast Model Evaluation")
            
             full_df = load_data()  
             if len(full_df) &gt; 10:

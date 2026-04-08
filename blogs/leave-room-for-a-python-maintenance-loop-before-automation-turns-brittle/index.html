@@ -648,37 +648,37 @@ Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle
                 c1.metric("MAE", f"{mean_absolute_error(test['intensity'], pred):.1f}")
                 c2.metric("RMSE", f"{np.sqrt(mean_squared_error(test['intensity'], pred)):.1f}")
                 fig = go.Figure()
-                fig.add_trace(go.Scatter(y=test['intensity'].values, name="Факт"))
-                fig.add_trace(go.Scatter(y=pred, name="Прогноз", line=dict(dash='dash')))
+                fig.add_trace(go.Scatter(y=test['intensity'].values, name="Actual"))
+                fig.add_trace(go.Scatter(y=pred, name="Forecast", line=dict(dash='dash')))
                 fig.update_layout(
-                    title="Прогноз vs Факт на валидации",
-                    xaxis_title="Временные интервалы (порядок тестовых данных)",
-                    yaxis_title="Интенсивность движения (ТС/час)"
+                    title="Forecast vs Actual on Validation",
+                    xaxis_title="Time Intervals (Test Data Order)",
+                    yaxis_title="Traffic Intensity (veh/hour)"
                 )
                 st.plotly_chart(fig, use_container_width=True)</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The evaluation block fits the regressor, measures MAE and RMSE, and then plots fact against prediction in one visible pass.</p>
 <p>That makes the predictive layer feel concrete rather than mystical. The file does not merely announce a forecast. It exposes the validation routine right beside the metric cards.</p>
 <h3>The tail still admits when data is thin and then turns to dispatcher guidance</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            else:
-                st.info(f"Нужно больше данных для обучения модели (сейчас {len(full_df)} записей)")
+                st.info(f"More data is needed to train the model (currently {len(full_df)} records)")
             
-            # Рекомендации диспетчеру
-            st.subheader("Рекомендации диспетчеру")
+            # Dispatcher recommendations
+            st.subheader("Dispatcher Recommendations")
             if last['intensity'] &gt; 200:
-                st.warning("Высокая плотность! Снизить скорость до 40 км/ч")
+                st.warning("High density! Reduce speed to 40 km/h")
             if last['avg_speed'] &lt; 30:
-                st.error("Затор обнаружен! Активировать табло оповещения.")</pre></div>
+                st.error("Traffic jam detected! Activate the warning sign.")</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">One branch says there is not enough data to train, and the next branch translates the latest intensity and speed into blunt operator-facing messages.</p>
 <p>That pairing is helpful because it keeps the dashboard honest on both fronts. It can say when the model is underfed, and it can still offer simple rule-based guidance from the newest row.</p>
 <h3>The monitoring block stays nested beside the most urgent warning path</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                
-                # Мониторинг (без метрики ошибок за час)
-                st.sidebar.subheader("Мониторинг")
+                # Monitoring (without the hourly error metric)
+                st.sidebar.subheader("Monitoring")
                 conn = psycopg2.connect(**db_config)
                 cur = conn.cursor()
                 cur.execute("CREATE TABLE IF NOT EXISTS mart.quality_log (id SERIAL PRIMARY KEY, issue INT, ts TIMESTAMP DEFAULT NOW())")
                 cnt = pd.read_sql("SELECT COUNT(*) as c FROM mart.current_traffic", conn)['c'].iloc[0]
-                st.sidebar.metric("Записей в потоке", cnt)
+                st.sidebar.metric("Records in Stream", cnt)
                 conn.close()</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The sidebar counter sits inside the same urgent branch as the congestion warning, which makes the file's operational priorities unusually visible.</p>
 <p>It is not the cleanest structure in the world, but it is faithful to `not.txt` and it shows exactly when the page decides extra monitoring context is worth surfacing.</p>
@@ -688,7 +688,7 @@ Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle
     st.rerun()
     
 except Exception as e:
-    st.error(f"Ошибка: {e}")</pre></div>
+    st.error(f"Error: {e}")</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final visible code block keeps the rerun cadence and outer exception path together, which is exactly how the file really ends.</p>
 <p>This closing order is important. It means the series now ends where `not.txt` ends: after the page has rendered, after the sidebar counter has had a chance to update and right where the runtime decides to sleep briefly and draw again.</p>
 <ul><li>The sixth `sql` post now contains the true tail of `not.txt`, from validation fallback to rerun loop.</li><li>The code still flows strictly in order, and the last block is the actual end of the file.</li><li>The surrounding text now matches the updated monitoring and exception path.</li></ul>

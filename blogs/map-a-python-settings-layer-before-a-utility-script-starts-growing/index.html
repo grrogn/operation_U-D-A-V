@@ -643,7 +643,7 @@ Map Python Language Defaults Before a Utility Script Starts Growing
 <table><thead><tr><th>Dashboard term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>Cache TTL</td><td>The freshness window Streamlit uses before recomputing cached data.</td><td>It decides whether the app feels responsive, stale or wasteful.</td></tr><tr><td>Data access boundary</td><td>The moment where the UI stops being layout code and starts reading the database.</td><td>It keeps operational questions easy to answer because the read path is explicit.</td></tr><tr><td>Filter surface</td><td>The set of controls that shape the currently visible slice of data.</td><td>It gives the dashboard a clear contract with the person using it.</td></tr></tbody></table>
 <h3>The page setup and first loader establish the dashboard's main contract</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">st.set_page_config(page_title="ITS Analytics Hub", layout="wide")
-st.title("Аналитическая панель ITS")
+st.title("ITS Analytics Dashboard")
 
 @st.cache_data(ttl=5)
 def load_data():
@@ -657,15 +657,15 @@ def load_data():
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">try:
     df = load_data()
     if df.empty:
-        st.info("Ожидание данных...")
+        st.info("Waiting for data...")
     else:
         df['report_hour'] = pd.to_datetime(df['report_hour'])</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The opening of the main block stays direct on purpose: load the cached frame, admit when it is empty and normalize the timestamp only when the history table actually returns something useful.</p>
 <p>That sequence matters because it keeps the dashboard honest. The page does not pretend freshness or structure until the underlying history has produced a slice the rest of the interface can safely depend on.</p>
 <h3>The sidebar controls stay narrow and tied to the dataframe itself</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">        st.sidebar.header("Фильтры")
-        selected_camera = st.sidebar.selectbox("Камера", df['camera_id'].unique())
-        selected_types = st.sidebar.multiselect("Типы ТС", df['vehicle_type'].unique(),
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">        st.sidebar.header("Filters")
+        selected_camera = st.sidebar.selectbox("Camera", df['camera_id'].unique())
+        selected_types = st.sidebar.multiselect("Vehicle Types", df['vehicle_type'].unique(),
                                                 default=df['vehicle_type'].unique())</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The filter surface stays compact and readable, which helps the page feel stable before any metric card begins trying to summarize the traffic picture.</p>
 <p>There is a lot of value in that restraint. The controls do not invent extra state. They simply expose the camera and vehicle-type fields already present in the dataframe and let the operator narrow the slice with minimal ceremony.</p>
