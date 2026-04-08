@@ -659,18 +659,15 @@ import plotly.graph_objects as go
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 import numpy as np
-import joblib
-from datetime import datetime, timedelta
-import os
 
 MODEL_NAME = "yolov8x.pt"</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second slice rounds out the story with threading, forecasting, persistence and model export, which makes the file feel even more like an orchestration hub.</p>
-<p>It is a useful reminder that good technical writing does not have to pretend import regions are boring. When readers can see concurrency, metrics and model storage up front, they are much less likely to misread the rest of the file as a pile of unrelated helpers.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second slice rounds out the story with threading, forecasting and plotting primitives, which makes the file feel even more like an orchestration hub.</p>
+<p>It is a useful reminder that good technical writing does not have to pretend import regions are boring. When readers can see concurrency, metrics and chart support up front, they are much less likely to misread the rest of the file as a pile of unrelated helpers.</p>
 <h3>The database map stays short enough to remain trustworthy</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">db_config = {
-    "dbname": "NewDataHelp",
+    "dbname": "faf",
     "user": "postgres",
-    "password": "admin",
+    "password": "12345",
     "host": "localhost",
     "port": "5432"
 }</pre></div>
@@ -678,6 +675,7 @@ MODEL_NAME = "yolov8x.pt"</pre></div>
 <p>This matters because a blended file like this can become tiring very quickly if its constants are not anchored. The database map does not look glamorous, but it gives later functions a common address book, and that kind of plainness is what allows the rest of the code to become more ambitious without becoming harder to follow.</p>
 <h3>The first helper already hints at how the video loop will behave</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">def get_raw_frame(cap):
+    """Extract: Read frame"""
     success, frame = cap.read()
     if not success:
         cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
@@ -685,7 +683,7 @@ MODEL_NAME = "yolov8x.pt"</pre></div>
     return frame</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The helper is brief, but it quietly establishes the file's attitude toward continuity by rewinding the capture instead of failing hard at end-of-stream.</p>
 <p>That is the kind of tiny design choice people remember later when they try to reconstruct system behavior. A short helper like this tells us the application is not just reading a video once. It is preparing for repeated cycling, which becomes meaningful as soon as background threads and dashboards enter the story.</p>
-<ul><li>The first `sql` post now contains the real top of `dashbash.txt`, starting from imports and ending with the first helper.</li><li>The code blocks are medium-sized and sequential, so the series can keep moving without jumps.</li><li>The pink code treatment stays intact while the surrounding text does more explanatory work.</li></ul>
+<ul><li>The first `sql` post now contains the real top of `not.txt`, starting from imports and ending with the first helper.</li><li>The code blocks are medium-sized and sequential, so the series can keep moving without jumps.</li><li>The pink code treatment stays intact while the surrounding text does more explanatory work.</li></ul>
 <blockquote class="tr_bq">A demanding engineering file becomes easier to trust when its opening lines admit, plainly and early, how many jobs it is about to perform.</blockquote>
 </div>
 <div class="post-labels">

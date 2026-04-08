@@ -641,68 +641,57 @@ Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle
 <p>The vocabulary changes again here, and for good reason. Terms like <em>validation metric</em>, <em>operator guidance</em> and <em>refresh tail</em> belong together because they all answer the same higher-level question: can the interface support judgment rather than just observation. Once a dashboard begins scoring a model, warning about density and quietly refreshing itself, it stops being a static report and starts behaving like a workstation.</p>
 <p>This tail end also carries a lot of emotional weight. It is where the page either earns trust or starts overpromising. That is why the blocks below need to stay orderly and source-faithful. The last part of the file should feel like a clear landing.</p>
 <table><thead><tr><th>Ops term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>Validation metric</td><td>A numeric check on how well the forecasting model matches held-out data.</td><td>It tells the reader whether the predictive layer deserves confidence.</td></tr><tr><td>Operator guidance</td><td>A rule-based message aimed at a dispatcher or monitoring person.</td><td>It translates numerical conditions into practical action.</td></tr><tr><td>Refresh tail</td><td>The final sleep-and-rerun path that keeps the dashboard alive.</td><td>It defines the tempo of the whole screen after every render cycle.</td></tr></tbody></table>
-<h3>The forecasting section opens by preparing train, test and model export</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Оценка эффективности модели прогнозирования")
-            full_df = load_data()
-            if len(full_df) &gt; 10:
-                full_df['hour'] = pd.to_datetime(full_df['report_hour']).dt.hour
-                train = full_df.iloc[:int(len(full_df) * 0.8)]
-                test = full_df.iloc[int(len(full_df) * 0.8):]
-                model = GradientBoostingRegressor().fit(train[['hour']], train['intensity'])
+<h3>The forecasting section turns cached history into a small validation run</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                model = GradientBoostingRegressor().fit(train[['hour']], train['intensity'])
                 pred = model.predict(test[['hour']])
-                try:
-                    os.makedirs('models', exist_ok=True)
-                    joblib.dump(model, 'models/traffic_model.pkl')
-                except:
-                    joblib.dump(model, 'traffic_model.pkl')</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The evaluation section starts with a very practical gesture: only train when there is enough data, and save the fitted model where later runs can find it.</p>
-<p>That makes the predictive layer feel grounded. The file is not pretending that forecasting is magic. It turns the historical frame into hour-level features, splits the sample, fits a simple regressor and then preserves the artifact.</p>
-<h3>The validation panel turns predictions into something a person can judge</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                col1, col2 = st.columns(2)
-                col1.metric("MAE", f"{mean_absolute_error(test['intensity'], pred):.1f}")
-                col2.metric("RMSE", f"{np.sqrt(mean_squared_error(test['intensity'], pred)):.1f}")
+                c1, c2 = st.columns(2)
+                c1.metric("MAE", f"{mean_absolute_error(test['intensity'], pred):.1f}")
+                c2.metric("RMSE", f"{np.sqrt(mean_squared_error(test['intensity'], pred)):.1f}")
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(y=test['intensity'].values, name="Факт"))
                 fig.add_trace(go.Scatter(y=pred, name="Прогноз", line=dict(dash='dash')))
                 fig.update_layout(
                     title="Прогноз vs Факт на валидации",
-                    xaxis_title="Временные интервалы",
+                    xaxis_title="Временные интервалы (порядок тестовых данных)",
                     yaxis_title="Интенсивность движения (ТС/час)"
                 )
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.info(f"Нужно больше данных для обучения модели (сейчас {len(full_df)} записей)")</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">MAE, RMSE and the fact-vs-prediction chart give the forecast section a visible conscience instead of asking the reader to trust it blindly.</p>
-<p>This is the kind of addition that makes a dashboard feel mature. It does not just emit a prediction. It shows how that prediction behaves against held-out data and admits when the sample is still too small to deserve training.</p>
-<h3>The recommendation block translates numbers into action language</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Рекомендации диспетчеру")
+                st.plotly_chart(fig, use_container_width=True)</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The evaluation block fits the regressor, measures MAE and RMSE, and then plots fact against prediction in one visible pass.</p>
+<p>That makes the predictive layer feel concrete rather than mystical. The file does not merely announce a forecast. It exposes the validation routine right beside the metric cards.</p>
+<h3>The tail still admits when data is thin and then turns to dispatcher guidance</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            else:
+                st.info(f"Нужно больше данных для обучения модели (сейчас {len(full_df)} записей)")
+            
+            # Рекомендации диспетчеру
+            st.subheader("Рекомендации диспетчеру")
             if last['intensity'] &gt; 200:
                 st.warning("Высокая плотность! Снизить скорость до 40 км/ч")
-            elif last['intensity'] &gt; 150:
-                st.info("Повышенная нагрузка. Мониторинг усилен.")
-
             if last['avg_speed'] &lt; 30:
-                st.error("Затор обнаружен! Активировать табло оповещения.")
-            elif last['avg_speed'] &lt; 50:
-                st.warning("Замедление движения. Возможны локальные заторы.")</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This section is where the analytics screen starts sounding like a colleague instead of a report, because the values are translated into plain operator-facing messages.</p>
-<p>Numbers alone can be ambiguous during a busy shift. Simple threshold-based guidance, even if conservative, helps the dashboard participate in decision-making without pretending it is a fully autonomous control system.</p>
-<h3>The sidebar monitor and refresh tail close the file in full view</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.sidebar.subheader("Мониторинг")
-            try:
+                st.error("Затор обнаружен! Активировать табло оповещения.")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">One branch says there is not enough data to train, and the next branch translates the latest intensity and speed into blunt operator-facing messages.</p>
+<p>That pairing is helpful because it keeps the dashboard honest on both fronts. It can say when the model is underfed, and it can still offer simple rule-based guidance from the newest row.</p>
+<h3>The monitoring block stays nested beside the most urgent warning path</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                
+                # Мониторинг (без метрики ошибок за час)
+                st.sidebar.subheader("Мониторинг")
                 conn = psycopg2.connect(**db_config)
+                cur = conn.cursor()
+                cur.execute("CREATE TABLE IF NOT EXISTS mart.quality_log (id SERIAL PRIMARY KEY, issue INT, ts TIMESTAMP DEFAULT NOW())")
                 cnt = pd.read_sql("SELECT COUNT(*) as c FROM mart.current_traffic", conn)['c'].iloc[0]
-                st.sidebar.metric("Записей в потоке", f"{cnt:,}")
-                conn.close()
-            except:
-                st.sidebar.warning("Нет данных мониторинга")
+                st.sidebar.metric("Записей в потоке", cnt)
+                conn.close()</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The sidebar counter sits inside the same urgent branch as the congestion warning, which makes the file's operational priorities unusually visible.</p>
+<p>It is not the cleanest structure in the world, but it is faithful to `not.txt` and it shows exactly when the page decides extra monitoring context is worth surfacing.</p>
+<h3>The rerun tail and top-level exception path close the file in full view</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">    
     time.sleep(5)
     st.rerun()
+    
 except Exception as e:
     st.error(f"Ошибка: {e}")</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final visible code block keeps the monitor counter, rerun cadence and top-level exception path together, which is exactly how the file really ends.</p>
-<p>This closing order is important. It means the series now ends where `dashbash.txt` ends: after the page has rendered, after the sidebar counter has had a chance to update and right where the runtime decides to sleep briefly and draw again.</p>
-<ul><li>The sixth `sql` post now contains the true tail of `dashbash.txt`, from forecast evaluation to rerun loop.</li><li>The code still flows strictly in order, and the last block is the actual end of the file.</li><li>Emoji were removed from the visible UI strings here as well, so the article styling stays cleaner.</li></ul>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final visible code block keeps the rerun cadence and outer exception path together, which is exactly how the file really ends.</p>
+<p>This closing order is important. It means the series now ends where `not.txt` ends: after the page has rendered, after the sidebar counter has had a chance to update and right where the runtime decides to sleep briefly and draw again.</p>
+<ul><li>The sixth `sql` post now contains the true tail of `not.txt`, from validation fallback to rerun loop.</li><li>The code still flows strictly in order, and the last block is the actual end of the file.</li><li>The surrounding text now matches the updated monitoring and exception path.</li></ul>
 <blockquote class="tr_bq">A live dashboard earns long-term trust when it can evaluate itself, advise a human and then quietly prepare for the next pass.</blockquote>
 </div>
 <div class="post-labels">

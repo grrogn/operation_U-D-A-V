@@ -632,24 +632,16 @@ Keep Python Side Effects Easy to Trace While Utility Helpers Multiply
 <td style="text-align:center;"><img alt="KPI and chart layer of a traffic analytics dashboard" border="0" src="./asset-python-helper-portrait-vc4n.jfif" title="KPI and chart layer of a traffic analytics dashboard"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a dashboard mid-section with KPI cards, comparison tiles and paired charts that all feel busy but still structured.</td>
+<td class="tr-caption">Suggested cover: a dashboard mid-section with KPI cards, a trend panel and a forecast handoff that all feel busy but still structured.</td>
 </tr>
 </tbody>
 </table>
 <h2>The middle of the dashboard is where the file starts speaking to humans</h2>
-<p>Once the bootstrap is complete and the filtered slice exists, the script can finally begin saying something useful to an operator. This is where many dashboards either become persuasive or start drifting into decorative noise. Metrics, comparison panels and charts may all look familiar, yet the interesting question is whether they are fed by a coherent slice of data and whether the visual rhythm helps a person reason about current conditions instead of merely admiring layout.</p>
-<p>That is why these blocks matter so much. They are the portion of the file where database results, forecast heuristics and visual composition all get translated into managerial language. Words like <em>KPI row</em>, <em>comparison window</em> and <em>chart pair</em> become useful here because the dashboard is no longer just computing values. It is constructing a story about the current road situation, the recent past and the shape of the traffic mix.</p>
+<p>Once the bootstrap is complete and the filtered slice exists, the script can finally begin saying something useful to an operator. This is where many dashboards either become persuasive or start drifting into decorative noise. Metrics, trend charts and forecast cues may all look familiar, yet the interesting question is whether they are fed by a coherent slice of data and whether the visual rhythm helps a person reason about current conditions instead of merely admiring layout.</p>
+<p>That is why these blocks matter so much. They are the portion of the file where database results, lightweight heuristics and visual composition all get translated into managerial language. Words like <em>KPI row</em>, <em>trend panel</em> and <em>forecast handoff</em> become useful here because the dashboard is no longer just computing values. It is constructing a story about the current road situation, the daily rhythm and the point where descriptive analytics begins leaning toward prediction.</p>
 <p>This is also the part people screenshot, reference in meetings and remember during incidents. It deserves more than a thin caption and one lonely code block.</p>
-<table><thead><tr><th>Interface term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>KPI row</td><td>A compact set of headline values designed for fast scanning.</td><td>It sets the emotional tone of the dashboard before deeper charts appear.</td></tr><tr><td>Comparison window</td><td>A structured look at today, yesterday and week-level context.</td><td>It helps prevent one current metric from being interpreted in isolation.</td></tr><tr><td>Chart pair</td><td>Two adjacent visual summaries that explain shape, not just totals.</td><td>It lets the operator compare trend and composition without switching context.</td></tr></tbody></table>
-<h3>The live KPI block begins with the current-state summary</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                    st.subheader("Текущее состояние")
-                    col1, col2, col3 = st.columns(3)
-                    col1.metric("Средняя скорость", f"{current_filtered['avg_speed'].mean():.0f} км/ч")
-                    col2.metric("Интенсивность", f"{int(current_filtered['intensity'].sum())} ТС/мин")
-                    col3.metric("Активных ТС", f"{len(current_filtered)}")</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first visible panel stays tight and operator-friendly, which makes the dashboard feel immediately useful before any forecasting rhetoric appears.</p>
-<p>This block earns its place because it gives the page a present tense. The metrics are not about abstract warehouse history. They are about what the selected camera is showing right now, and that distinction helps the entire screen feel grounded instead of decorative.</p>
-<h3>The next row expands from present state into a lightweight forecast view</h3>
+<table><thead><tr><th>Interface term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>KPI row</td><td>A compact set of headline values derived from the latest filtered record.</td><td>It gives the dashboard an immediate operational voice before deeper visuals appear.</td></tr><tr><td>Trend panel</td><td>The hourly line view and peak-hour note built from the same filtered slice.</td><td>It shows how traffic intensity changes across the day without leaving the current context.</td></tr><tr><td>Forecast handoff</td><td>The point where descriptive charts end and model evaluation begins.</td><td>It prepares the reader for the validation logic that follows in the next article.</td></tr></tbody></table>
+<h3>The KPI row turns one filtered record into a quick planning view</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Текущее состояние и прогноз")
             c1, c2, c3, c4, c5 = st.columns(5)
             c1.metric("Интенсивность", f"{int(last['intensity'])} ТС/ч")
@@ -659,44 +651,36 @@ Keep Python Side Effects Easy to Trace While Utility Helpers Multiply
             c5.metric("Прогноз 120м", f"{int(last['intensity'] * 1.35)} ТС")</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This slice takes one recent row and stretches it into a quick planning view, which is exactly how many real dashboards earn attention from non-technical readers.</p>
 <p>There is practical psychology in that row. People like seeing one current figure, one speed figure and then a few forward-looking estimates beside them. Even a lightweight forecast heuristic can help the page feel more decision-oriented, provided it stays visibly tied to the latest filtered observation.</p>
-<h3>The comparison panel slows the reader down in a good way</h3>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Сравнение с прошлыми периодами")
-            today_data = df_filtered[df_filtered['report_hour'].dt.date == datetime.now().date()]
-            yesterday_data = df_filtered[df_filtered['report_hour'].dt.date == (datetime.now() - timedelta(days=1)).date()]
-            week_data = df_filtered[df_filtered['report_hour'].dt.date >= (datetime.now() - timedelta(days=7)).date()]
-            col1, col2, col3 = st.columns(3)
-            if not today_data.empty:
-                col1.metric("Сегодня", f"{int(today_data['intensity'].sum())} ТС")
-            else:
-                col1.metric("Сегодня", "Нет данных")
-            if not yesterday_data.empty:
-                col2.metric("Вчера", f"{int(yesterday_data['intensity'].sum())} ТС")
-            else:
-                col2.metric("Вчера", "Нет данных")
-            if not week_data.empty:
-                col3.metric("За неделю", f"{int(week_data['intensity'].sum())} ТС")
-            else:
-                col3.metric("За неделю", "Нет данных")</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The comparison row adds context, which is often the difference between a flashy metric board and a genuinely useful traffic panel.</p>
-<p>One current number can create urgency, but comparison windows create judgment. They help the operator ask whether today's load is ordinary, whether yesterday looked healthier and whether the last week suggests a broader pattern.</p>
-<h3>The chart pair turns the filtered slice into trend and composition</h3>
+<h3>The trend chart starts by grouping intensity into an hourly rhythm</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Анализ трафика и структуры")
             col1, col2 = st.columns(2)
             hourly = df_filtered.groupby(df_filtered['report_hour'].dt.hour)['intensity'].mean().reset_index()
             hourly.columns = ['часы', 'Интенсивность']
             col1.plotly_chart(px.line(hourly, x='часы', y='Интенсивность', title="Загруженность по часам"),
-                              use_container_width=True)
-            peak_hours = hourly.nlargest(3, 'Интенсивность')['часы'].tolist()
-            col1.info(f"Часы пик: {', '.join([f'{int(h)}:00' for h in peak_hours])}")
-
+                              use_container_width=True)</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The line chart keeps the visual story attached to the same filtered dataframe, which helps the page feel explanatory rather than ornamental.</p>
+<p>That matters because hourly grouping is where the dashboard starts showing shape instead of just totals. The operator can begin to see cadence, not merely volume.</p>
+<h3>Peak-hour notes and vehicle mix keep the visual layer grounded</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            peak_hours = hourly.nlargest(3, 'Интенсивность')['часы'].tolist() 
+            col1.info(f"Часы пик: {', '.join([f'{h}:00' for h in peak_hours])}")
             structure = df_filtered.groupby('vehicle_type')['intensity'].sum().reset_index()
             col2.plotly_chart(
                 px.pie(structure, values='intensity', names='vehicle_type', title="Доли транспорта", hole=0.4),
                 use_container_width=True)</pre></div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This final slice in the post is where the dashboard gets visual without losing its relationship to the same filtered dataframe.</p>
-<p>The pairing is effective because it answers two different questions with one glance. The line chart explains how load changes across the day, while the pie chart explains what that load is made of. Together they make the page feel substantially more complete than a KPI board ever could on its own.</p>
-<ul><li>The fifth `sql` post now carries the KPI, comparison and chart layer from `dashbash.txt` in correct order.</li><li>The code blocks are medium-sized and keep one visual idea per slice.</li><li>Emoji were removed from the shown UI strings so the snippets stay cleaner inside the article.</li></ul>
-<blockquote class="tr_bq">A dashboard starts sounding intelligent when its numbers, comparisons and charts all describe the same slice of reality.</blockquote>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This slice adds just enough annotation and composition detail to keep the chart section from becoming anonymous.</p>
+<p>The pairing is effective because it answers two different questions with one glance. The peak-hour note explains where the busiest moments cluster, while the pie chart explains what the traffic mix is made of.</p>
+<h3>The page opens a forecast section once the descriptive view is in place</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Оценка эффективности модели прогнозирования")
+           
+            full_df = load_data()  
+            if len(full_df) &gt; 10:
+                full_df['hour'] = pd.to_datetime(full_df['report_hour']).dt.hour
+                train = full_df.iloc[:int(len(full_df) * 0.8)]
+                test = full_df.iloc[int(len(full_df) * 0.8):]</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The post closes right where the dashboard stops being purely descriptive and begins preparing a small validation run.</p>
+<p>That is a satisfying handoff because it shows the code changing posture without changing data sources. The same history table that fed the charts is now about to feed the model check.</p>
+<ul><li>The fifth `sql` post now carries the KPI, chart and forecast handoff layer from `not.txt` in correct order.</li><li>The code blocks are medium-sized and keep one visual idea per slice.</li><li>The sequence now ends exactly where the validation run is about to start.</li></ul>
+<blockquote class="tr_bq">A dashboard starts sounding intelligent when its numbers, charts and validation cues all describe the same slice of reality.</blockquote>
 </div>
 <div class="post-labels">
 <div class="label-head Label">

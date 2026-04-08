@@ -677,6 +677,7 @@ Keep an Upsert Window Calm While Streamlit and Docker Layers Continue to Poll
 <p>That closeness is worth calling out because many articles treat overlay code as purely cosmetic. In real systems it often acts as a trust layer. If the on-screen label, track id and estimated speed look plausible, people become much more willing to believe the database rows that arrive a moment later.</p>
 <h3>The write path is deliberately plain and repetitive</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">def push_to_database(cur, conn, data_list):
+    """Load: Save data"""
     for row in data_list:
         try:
             cur.execute("""

@@ -1,0 +1,204 @@
+import cv2
+from ultralytics import YOLO
+from PIL import Image, ImageDraw, ImageFont
+import psycopg2
+import datetime
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import threading
+import time
+import plotly.graph_objects as go
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error
+import numpy as np
+
+MODEL_NAME = "yolov8x.pt"
+db_config = {
+    "dbname": "faf",
+    "user": "postgres",
+    "password": "12345",
+    "host": "localhost",
+    "port": "5432"
+}
+
+def get_raw_frame(cap):
+    """Extract: Read frame"""
+    success, frame = cap.read()
+    if not success:
+        cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        return None
+    return frame
+
+def process_and_draw(frame, model, track_history, font):
+    results = model.track(frame, persist=True, classes=[2, 5, 7],
+                          conf=0.3, iou=0.5, imgsz=1280, verbose=False)
+    db_rows = []
+    if results[0].boxes.id is not None:
+        boxes = results[0].boxes.xyxy.int().cpu().numpy()
+        ids = results[0].boxes.id.int().cpu().tolist()
+        clss = results[0].boxes.cls.int().cpu().tolist()
+        centers = results[0].boxes.xywh.cpu().numpy()
+        img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_pil)
+        for box, track_id, cls, center in zip(boxes, ids, clss, centers):
+            x1, y1 = box[0], box[1]
+            x_c, y_c = int(center[0]), int(center[1])
+            label = model.names[cls].upper()
+            speed = round(abs(y_c - track_history.get(track_id, y_c)) * 2.5, 1)
+            track_history[track_id] = y_c
+            db_rows.append(('Cam_01', label, int(track_id), float(x_c), float(y_c), float(speed)))
+            time_str = datetime.datetime.now().strftime("%H:%M:%S")
+            display_text = f" {label} ID:{track_id} | {time_str} | {speed} km/h "
+            tw, th = draw.textbbox((0, 0), display_text, font=font)[2:]
+            draw.rectangle([x1, y1 - th - 10, x1 + tw, y1], fill=(255, 100, 0))
+            draw.text((x1, y1 - th - 7), display_text, font=font, fill=(255, 255, 255))
+
+        frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+    return db_rows, frame
+
+def push_to_database(cur, conn, data_list):
+    """Load: Save data"""
+    for row in data_list:
+        try:
+            cur.execute("""
+                INSERT INTO mart.current_traffic 
+                (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+            """, (row[0], row[1], row[2], row[3], row[4], row[5], 1))
+            conn.commit()
+        except:
+            conn.rollback()
+
+def run_streaming_pipeline():
+    while True:
+        try:
+            conn = psycopg2.connect(**db_config)
+            cur = conn.cursor()
+            cur.execute("""
+                INSERT INTO mart.traffic_history (report_hour, camera_id, vehicle_type, avg_speed, intensity, density)
+                SELECT date_trunc('hour', last_update), camera_id, vehicle_type, AVG(avg_speed), COUNT(*), AVG(count)
+                FROM mart.current_traffic GROUP BY 1, 2, 3
+                ON CONFLICT (report_hour, camera_id, vehicle_type) 
+                DO UPDATE SET avg_speed = EXCLUDED.avg_speed, intensity = EXCLUDED.intensity, density = EXCLUDED.density;
+            """)
+            conn.commit()
+            cur.close()
+            conn.close()
+            time.sleep(5)
+        except:
+            time.sleep(5)
+
+def process_video():
+    model = YOLO(MODEL_NAME)
+    cap = cv2.VideoCapture("test.MP4")
+    track_history = {}
+    try:
+        font = ImageFont.truetype("arial.ttf", 20)
+    except:
+        font = ImageFont.load_default()
+    while cap.isOpened():
+        conn = psycopg2.connect(**db_config)
+        cur = conn.cursor()
+        frame = get_raw_frame(cap)
+        if frame is not None:
+            db_data, frame = process_and_draw(frame, model, track_history, font)
+            if db_data:
+                push_to_database(cur, conn, db_data)
+        cur.close()
+        conn.close()
+
+if 'video_thread_started' not in st.session_state:
+    threading.Thread(target=process_video, daemon=True).start()
+    threading.Thread(target=run_streaming_pipeline, daemon=True).start()
+    st.session_state.video_thread_started = True
+
+st.set_page_config(page_title="ITS Analytics Hub", layout="wide")
+st.title("ITS Analytics Dashboard")
+@st.cache_data(ttl=5)
+def load_data():
+    conn = psycopg2.connect(**db_config)
+    df = pd.read_sql("SELECT * FROM mart.traffic_history ORDER BY report_hour DESC LIMIT 1000", conn)
+    conn.close()
+    return df
+try:
+    df = load_data()
+    if df.empty:
+        st.info("Waiting for data...")
+    else:
+        df['report_hour'] = pd.to_datetime(df['report_hour'])
+        st.sidebar.header("Filters")
+        selected_camera = st.sidebar.selectbox("Camera", df['camera_id'].unique())
+        selected_types = st.sidebar.multiselect("Vehicle Types", df['vehicle_type'].unique(),
+                                                default=df['vehicle_type'].unique())
+        df_filtered = df[(df['camera_id'] == selected_camera) & (df['vehicle_type'].isin(selected_types))]
+        
+        if not df_filtered.empty:
+            last = df_filtered.iloc[0]  
+           
+            st.subheader("Current Status and Forecast")
+            c1, c2, c3, c4, c5 = st.columns(5)
+            c1.metric("Intensity", f"{int(last['intensity'])} veh/h")
+            c2.metric("Avg. Speed", f"{last['avg_speed']:.0f} km/h")
+            c3.metric("30 min Forecast", f"{int(last['intensity'] * 1.15)} veh")
+            c4.metric("60 min Forecast", f"{int(last['intensity'] * 1.25)} veh")
+            c5.metric("120 min Forecast", f"{int(last['intensity'] * 1.35)} veh")
+           
+            st.subheader("Traffic Analysis and Composition")
+            col1, col2 = st.columns(2)
+            hourly = df_filtered.groupby(df_filtered['report_hour'].dt.hour)['intensity'].mean().reset_index()
+            hourly.columns = ['hour', 'Intensity']  
+            col1.plotly_chart(px.line(hourly, x='hour', y='Intensity', title="Traffic Load by Hour"),
+                              use_container_width=True)
+            peak_hours = hourly.nlargest(3, 'Intensity')['hour'].tolist() 
+            col1.info(f"Peak hours: {', '.join([f'{h}:00' for h in peak_hours])}")
+            structure = df_filtered.groupby('vehicle_type')['intensity'].sum().reset_index()
+            col2.plotly_chart(
+                px.pie(structure, values='intensity', names='vehicle_type', title="Vehicle Mix", hole=0.4),
+                use_container_width=True)
+          
+            st.subheader("Forecast Model Evaluation")
+           
+            full_df = load_data()  
+            if len(full_df) > 10:
+                full_df['hour'] = pd.to_datetime(full_df['report_hour']).dt.hour
+                train = full_df.iloc[:int(len(full_df) * 0.8)]
+                test = full_df.iloc[int(len(full_df) * 0.8):]
+                model = GradientBoostingRegressor().fit(train[['hour']], train['intensity'])
+                pred = model.predict(test[['hour']])
+                c1, c2 = st.columns(2)
+                c1.metric("MAE", f"{mean_absolute_error(test['intensity'], pred):.1f}")
+                c2.metric("RMSE", f"{np.sqrt(mean_squared_error(test['intensity'], pred)):.1f}")
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(y=test['intensity'].values, name="Actual"))
+                fig.add_trace(go.Scatter(y=pred, name="Forecast", line=dict(dash='dash')))
+                fig.update_layout(
+                    title="Forecast vs Actual on Validation",
+                    xaxis_title="Time Intervals (Test Data Order)",
+                    yaxis_title="Traffic Intensity (veh/hour)"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+            else:
+                st.info(f"More data is needed to train the model (currently {len(full_df)} records)")
+            
+            # Dispatcher recommendations
+            st.subheader("Dispatcher Recommendations")
+            if last['intensity'] > 200:
+                st.warning("High density! Reduce speed to 40 km/h")
+            if last['avg_speed'] < 30:
+                st.error("Traffic jam detected! Activate the warning sign.")
+                
+                # Monitoring (without the hourly error metric)
+                st.sidebar.subheader("Monitoring")
+                conn = psycopg2.connect(**db_config)
+                cur = conn.cursor()
+                cur.execute("CREATE TABLE IF NOT EXISTS mart.quality_log (id SERIAL PRIMARY KEY, issue INT, ts TIMESTAMP DEFAULT NOW())")
+                cnt = pd.read_sql("SELECT COUNT(*) as c FROM mart.current_traffic", conn)['c'].iloc[0]
+                st.sidebar.metric("Records in Stream", cnt)
+                conn.close()
+    
+    time.sleep(5)
+    st.rerun()
+    
+except Exception as e:
+    st.error(f"Error: {e}")

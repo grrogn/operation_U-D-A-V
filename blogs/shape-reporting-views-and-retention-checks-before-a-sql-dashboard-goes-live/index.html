@@ -658,7 +658,7 @@ Shape Reporting Views and Retention Checks Before a Streamlit Dashboard Goes Liv
                 DO UPDATE SET avg_speed = EXCLUDED.avg_speed, intensity = EXCLUDED.intensity, density = EXCLUDED.density;
             """)</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This is the point where fleeting live detections become a reusable hourly history that later analytics can revisit.</p>
-<p>The query is compact, but it carries the emotional center of the pipeline. It says that the system values not only current state, but also a rolling memory of recent conditions. That one choice is what allows later charts, comparisons and forecasts to exist without re-reading the volatile table every time.</p>
+<p>The query is compact, but it carries the emotional center of the pipeline. It says that the system values not only current state, but also a rolling memory of recent conditions. That one choice is what allows later charts, KPI summaries and forecasts to exist without re-reading the volatile table every time.</p>
 <h3>The loop closes, sleeps and then hands off to video processing</h3>
 <div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            conn.commit()
             cur.close()
@@ -695,7 +695,7 @@ if 'video_thread_started' not in st.session_state:
     st.session_state.video_thread_started = True</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This closing slice makes the runtime topology explicit: one thread keeps the video pipeline alive while another keeps the history rollup fresh.</p>
 <p>That is where the whole script starts to feel assembled rather than merely written. The file is no longer just a collection of capabilities. It now contains a live arrangement that explains why the dashboard layer later on will have both current and historical data to work with.</p>
-<ul><li>The third `sql` post now covers the worker section of `dashbash.txt`, from aggregation loop to threaded startup.</li><li>The code remains in strict source order, with no jumps into later Streamlit blocks.</li><li>The article text slows the reader down just enough to make the background runtime feel intentional.</li></ul>
+<ul><li>The third `sql` post now covers the worker section of `not.txt`, from aggregation loop to threaded startup.</li><li>The code remains in strict source order, with no jumps into later Streamlit blocks.</li><li>The article text slows the reader down just enough to make the background runtime feel intentional.</li></ul>
 <blockquote class="tr_bq">A script becomes a system when its loops start cooperating on time instead of merely existing in the same file.</blockquote>
 </div>
 <div class="post-labels">
