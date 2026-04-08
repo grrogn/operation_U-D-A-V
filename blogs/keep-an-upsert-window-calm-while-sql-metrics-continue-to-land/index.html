@@ -629,91 +629,68 @@ Keep an Upsert Window Calm While Streamlit and Docker Layers Continue to Poll
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="SQL upsert flow landing into summary tables" border="0" src="./asset-streamlit-docker-bridge-hs2v.jpg" title="SQL upsert flow landing into summary tables"></td>
+<td style="text-align:center;"><img alt="Object tracking flow bridging video and database writes" border="0" src="./asset-streamlit-docker-bridge-hs2v.jpg" title="Object tracking flow bridging video and database writes"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a summarized SQL flow where raw counts are folded into hourly totals with one calm conflict rule and a small audit trail nearby.</td>
+<td class="tr-caption">Suggested cover: a vision pipeline where bounding boxes, track ids and database inserts sit close together instead of being hidden behind abstractions.</td>
 </tr>
 </tbody>
 </table>
-<h2>An upsert routine should read like a business rule, not a dare</h2>
-<p>The moment a team begins summarizing incoming rows into a reporting table, the vocabulary shifts again. Words like <em>merge</em>, <em>upsert</em> and <em>conflict target</em> sound procedural, but what they really describe is trust: can the same batch land twice without turning the table into fiction.</p>
-<p>This is where a lot of SQL articles become strangely dramatic. They rush straight into clever syntax and skip the softer explanation that people actually need. A calm upsert window is less about showing off features and more about making repeated execution unsurprising.</p>
-<p>If a Streamlit page is pulling KPI cards every minute, and a docker cron is landing fresh rows every few minutes, the aggregation layer has one social job: be boring enough that nobody wonders whether the totals changed because of new data or because the merge logic reinvented itself.</p>
-<table><thead><tr><th>Merge term</th><th>Meaning</th><th>Why it matters in ordinary work</th></tr></thead><tbody><tr><td>Upsert</td><td>An insert that updates the existing row when the key already exists.</td><td>It lets summary tables stay current without demanding that upstream jobs perfectly deduplicate themselves.</td></tr><tr><td>Conflict target</td><td>The key PostgreSQL uses to decide whether a row is new or already represented.</td><td>It turns a vague idea of sameness into a stable technical rule.</td></tr><tr><td>Watermark</td><td>A recent boundary that limits how much history is reconsidered during a merge.</td><td>It keeps recomputation cheap enough to repeat frequently.</td></tr></tbody></table>
-<h3>A summary table needs one calm key before anything else</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">CREATE TABLE IF NOT EXISTS mart.hourly_vehicle_totals (
-    bucket_hour TIMESTAMPTZ NOT NULL,
-    camera_code TEXT NOT NULL,
-    vehicle_type TEXT NOT NULL,
-    total_count INTEGER NOT NULL DEFAULT 0,
-    avg_speed NUMERIC(8,2),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    PRIMARY KEY (bucket_hour, camera_code, vehicle_type)
-);</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This opening block keeps the whole article grounded. Before talking about clever merge behavior, it defines what one accepted hourly fact actually is.</p>
-<p>That is more useful than it sounds. When the primary key feels obvious, readers stop wasting energy on wondering what the table thinks a duplicate means.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">INSERT INTO mart.hourly_vehicle_totals (
-    bucket_hour,
-    camera_code,
-    vehicle_type,
-    total_count,
-    avg_speed,
-    updated_at
-)
-SELECT
-    date_trunc('hour', event_ts) AS bucket_hour,
-    camera_code,
-    vehicle_type,
-    SUM(total_count) AS total_count,
-    ROUND(AVG(avg_speed), 2) AS avg_speed,
-    NOW() AS updated_at
-FROM staging.camera_counts_raw
-WHERE event_ts &gt;= NOW() - INTERVAL '6 hours'
-GROUP BY 1, 2, 3
-ON CONFLICT (bucket_hour, camera_code, vehicle_type)
-DO UPDATE SET
-    total_count = EXCLUDED.total_count,
-    avg_speed = EXCLUDED.avg_speed,
-    updated_at = EXCLUDED.updated_at;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first marked slice contains the real merge rule: aggregate a short window, then let the key decide whether this batch is adding a row or refreshing an existing one.</p>
-<p>That shape is handy precisely because it is not trying to be dramatic. It recomputes a small recent horizon, which means a dashboard can stay fresh without pretending that the entire warehouse must be rebuilt every time new events land.</p>
-<p>It also leaves room for slower consumers. A Streamlit page reading the final table and a nightly export job in docker do not have to coordinate their feelings about freshness if the merge logic already defines the rhythm.</p>
-<h3>Alternative component: keep the merge window visible to humans</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">WITH bounds AS (
-    SELECT
-        COALESCE(MAX(updated_at), NOW() - INTERVAL '1 day') AS last_merge_at
-    FROM mart.hourly_vehicle_totals
-)
-SELECT
-    last_merge_at,
-    NOW() AS merge_started_at,
-    NOW() - last_merge_at AS observed_gap
-FROM bounds;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This side query is not complicated, and that is exactly why it earns its place. It turns an operational hunch about freshness into a visible measurement.</p>
-<p>Programming terms are more useful when they carry a simple picture. Here the picture is just a gap between the present moment and the last successful merge, which is often enough to tell you whether the loader is late or fine.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">def refresh_hourly_vehicle_totals(conn):
-    with conn.cursor() as cur:
-        cur.execute(UPSERT_SQL)
-        cur.execute(
-            '''
-            INSERT INTO ops.merge_audit (run_label, status, finished_at)
-            VALUES (%s, %s, NOW())
-            ''',
-            ('hourly_vehicle_totals', 'ok')
-        )
-    conn.commit()</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second marked slice keeps the orchestration wrapper short. The point is not to invent another abstraction tower, only to let the SQL rule travel through the application with a small audit footprint.</p>
-<ul><li>Choose one conflict target early so the rest of the merge discussion stops being philosophical.</li><li>Use a visible recent window to keep recomputation affordable and frequent.</li><li>Let audit rows narrate the merge outcome so operators are not forced to read raw logs first.</li></ul>
-<blockquote class="tr_bq">An upsert becomes readable the moment the table key, the time window and the audit story all agree on what one run means.</blockquote>
+<h2>The first real workload arrives when frames start turning into rows</h2>
+<p>After the imports and configuration settle down, the script stops introducing itself and begins to work. One function asks the detector for tracked objects, another annotates the frame and another pushes a simplified record into PostgreSQL. None of those steps are exotic in isolation, but together they define the central bargain of the whole system: visual motion must become structured data without losing too much context on the way.</p>
+<p>That is why this section benefits from a little extra space around the code. Terms like <em>tracking state</em>, <em>overlay pass</em> and <em>write path</em> become easier to feel once the reader sees that the script is not simply detecting objects. It is assigning identities, estimating movement, formatting a human-facing label and preparing a row suitable for storage.</p>
+<p>The hard part is not only running a model. The hard part is deciding what details survive the journey from frame to database table and what details remain local to rendering. Good engineering articles usually become memorable right at that boundary.</p>
+<table><thead><tr><th>Tracking term</th><th>Meaning</th><th>Why it helps the reader</th></tr></thead><tbody><tr><td>Tracking state</td><td>The in-memory record that lets one frame relate to the next.</td><td>It explains how a lightweight speed estimate can exist without a heavier motion model.</td></tr><tr><td>Overlay pass</td><td>The drawing step that turns machine output into a readable operator frame.</td><td>It shows where observability is being created, not just stored.</td></tr><tr><td>Write path</td><td>The section of code that takes computed facts and makes them durable.</td><td>It clarifies where the system stops being visual and starts becoming analytical.</td></tr></tbody></table>
+<h3>The tracking function opens by defining what counts as an observable object</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">def process_and_draw(frame, model, track_history, font):
+    results = model.track(frame, persist=True, classes=[2, 5, 7],
+                          conf=0.3, iou=0.5, imgsz=1280, verbose=False)
+    db_rows = []
+    if results[0].boxes.id is not None:
+        boxes = results[0].boxes.xyxy.int().cpu().numpy()
+        ids = results[0].boxes.id.int().cpu().tolist()
+        clss = results[0].boxes.cls.int().cpu().tolist()
+        centers = results[0].boxes.xywh.cpu().numpy()
+        img_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        draw = ImageDraw.Draw(img_pil)</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The function begins by locking in detection settings and then unpacking just enough geometry to support both rendering and database writes.</p>
+<p>That opening tells us something subtle but important: the script is not treating tracking as an opaque library trick. It is immediately reshaping the result into data structures the rest of the file can reason about. This is the kind of moment where a technical article starts to feel solid, because the reader can see the bridge forming between model output and application logic.</p>
+<h3>The inner loop turns geometry into a compact event record</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">        for box, track_id, cls, center in zip(boxes, ids, clss, centers):
+            x1, y1 = box[0], box[1]
+            x_c, y_c = int(center[0]), int(center[1])
+            label = model.names[cls].upper()
+            speed = round(abs(y_c - track_history.get(track_id, y_c)) * 2.5, 1)
+            track_history[track_id] = y_c
+            db_rows.append(('Cam_01', label, int(track_id), float(x_c), float(y_c), float(speed)))</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This middle slice is where the runtime stops merely observing and starts declaring facts about identity, position and speed.</p>
+<p>There is a pleasing economy here. The script does not try to save everything. Instead it selects the camera id, class label, track id, coordinates and a lightweight speed estimate. That restraint matters. Good analytical pipelines often feel substantial not because they store more, but because they store the right small set of facts consistently.</p>
+<h3>The overlay pass keeps the live frame readable before it returns</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            time_str = datetime.datetime.now().strftime("%H:%M:%S")
+            display_text = f" {label} ID:{track_id} | {time_str} | {speed} km/h "
+            tw, th = draw.textbbox((0, 0), display_text, font=font)[2:]
+            draw.rectangle([x1, y1 - th - 10, x1 + tw, y1], fill=(255, 100, 0))
+            draw.text((x1, y1 - th - 7), display_text, font=font, fill=(255, 255, 255))
+        frame = cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+    return db_rows, frame</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The frame annotation remains close to the structured output, which helps the live operator and the database pipeline keep telling the same story.</p>
+<p>That closeness is worth calling out because many articles treat overlay code as purely cosmetic. In real systems it often acts as a trust layer. If the on-screen label, track id and estimated speed look plausible, people become much more willing to believe the database rows that arrive a moment later.</p>
+<h3>The write path is deliberately plain and repetitive</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">def push_to_database(cur, conn, data_list):
+    for row in data_list:
+        try:
+            cur.execute("""
+                INSERT INTO mart.current_traffic 
+                (camera_id, vehicle_type, track_id, x_coord, y_coord, avg_speed, count, last_update) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+            """, (row[0], row[1], row[2], row[3], row[4], row[5], 1))
+            conn.commit()
+        except:
+            conn.rollback()</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The database writer is intentionally literal, which makes the persistence boundary easy to identify even in a busy mixed-purpose file.</p>
+<p>Not every operationally important function needs to look clever. Sometimes the most useful thing a write path can do is remain legible enough that a teammate immediately sees what table is being populated, what columns are being trusted and where rollback behavior begins.</p>
+<ul><li>The second `sql` post now covers the real transition from tracked frame data into database-ready rows.</li><li>The code blocks stay medium-sized so the movement from detection to storage remains easy to reconstruct.</li><li>The surrounding text does more explanatory lifting without inventing extra helper functions.</li></ul>
+<blockquote class="tr_bq">A pipeline starts feeling real the moment a frame stops being just an image and becomes a row someone can query later.</blockquote>
 </div>
 <div class="post-labels">
 <div class="label-head Label">

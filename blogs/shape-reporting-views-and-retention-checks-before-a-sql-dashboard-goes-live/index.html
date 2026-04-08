@@ -629,82 +629,74 @@ Shape Reporting Views and Retention Checks Before a Streamlit Dashboard Goes Liv
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="SQL reporting view prepared for dashboard use" border="0" src="./asset-streamlit-dashboard-signal-rp6m.jpg" title="SQL reporting view prepared for dashboard use"></td>
+<td style="text-align:center;"><img alt="Background workers keeping traffic history and video processing alive" border="0" src="./asset-streamlit-dashboard-signal-rp6m.jpg" title="Background workers keeping traffic history and video processing alive"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a SQL reporting layer where summary views, freshness checks and retention rules are arranged before a dashboard starts depending on them.</td>
+<td class="tr-caption">Suggested cover: a live operations screen where one worker aggregates traffic history while another keeps reading video and feeding the database.</td>
 </tr>
 </tbody>
 </table>
-<h2>A reporting view is a promise to everyone downstream</h2>
-<p>Once raw data is staged and hourly totals are stable, the system enters a different kind of responsibility. Now the question is no longer how rows arrive, but how other people are allowed to understand them. That is what a reporting view really is: a promise about shape, naming and timing.</p>
-<p>People often underestimate how much comfort a simple view can create. A downstream analyst, a Streamlit page or an export script does not necessarily want all the warehouse detail. It wants a sentence the database can repeat consistently, even after the source tables keep evolving.</p>
-<p>This is also where terms like <em>retention window</em>, <em>freshness check</em> and <em>materialized view</em> stop sounding decorative. They become small governance tools. In a healthy system they tell everyone what gets kept, what gets summarized and when a dashboard should admit that it is reading stale information.</p>
-<table><thead><tr><th>Reporting term</th><th>Meaning</th><th>Why it earns its keep</th></tr></thead><tbody><tr><td>Reporting view</td><td>A stable query interface that reshapes warehouse tables for readers.</td><td>It gives downstream tools a reliable surface even if internal tables keep changing.</td></tr><tr><td>Retention window</td><td>A rule for how long detailed rows remain stored before cleanup.</td><td>It protects performance and storage costs without making cleanup feel arbitrary.</td></tr><tr><td>Freshness check</td><td>A small status query that compares expected recency with actual recency.</td><td>It turns dashboard confidence into something measurable instead of emotional.</td></tr></tbody></table>
-<h3>A daily summary view is a gentle first promise</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">CREATE OR REPLACE VIEW analytics.camera_daily_summary AS
-SELECT
-    date_trunc('day', bucket_hour) AS report_day,
-    camera_code,
-    SUM(total_count) AS vehicles_seen,
-    ROUND(AVG(avg_speed), 2) AS avg_speed
-FROM mart.hourly_vehicle_totals
-GROUP BY 1, 2;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This first helper is small, but it introduces the main reporting idea clearly: rename the grain, collapse the facts and present a surface that other tools can read without touching warehouse internals.</p>
-<p>That clarity is worth more than people expect. A dashboard can be redesigned later, but a sloppy query contract tends to leak into every screenshot, notebook and recurring export almost immediately.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">CREATE MATERIALIZED VIEW IF NOT EXISTS analytics.vehicle_mix_last_7_days AS
-SELECT
-    camera_code,
-    vehicle_type,
-    SUM(total_count) AS total_count,
-    ROUND(
-        100.0 * SUM(total_count)
-        / NULLIF(SUM(SUM(total_count)) OVER (PARTITION BY camera_code), 0),
-        2
-    ) AS share_pct
-FROM mart.hourly_vehicle_totals
-WHERE bucket_hour &gt;= NOW() - INTERVAL '7 days'
-GROUP BY camera_code, vehicle_type;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first marked slice moves closer to dashboard language. It is still just SQL, but now the output already resembles the kind of comparative shape a reader expects from a chart legend or a summary card.</p>
-<p>This is the point where a Streamlit front end starts feeling easy rather than fragile. The app no longer needs to improvise percentage math on every refresh because the warehouse has already decided what the reusable summary looks like.</p>
-<p>That decision also gives room for operations. A docker-based refresh job can rebuild the materialized view on its own schedule without forcing the dashboard layer to invent last-minute transformations.</p>
-<h3>Alternative component: retention should sound like policy, not punishment</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">DELETE FROM staging.camera_counts_raw
-WHERE event_ts &lt; NOW() - INTERVAL '45 days';
+<h2>Background loops are where a script stops being a demo and becomes a system</h2>
+<p>By the time this section begins, the code has already shown us how one frame becomes one database-ready record. The next question is harder and more operational: how does that work continue without a person pressing a button for every step. This is where the script grows into a living process. It introduces a loop that continuously rolls current data into historical aggregates and another loop that keeps the video pipeline alive.</p>
+<p>There is a lot of engineering texture in that shift. Words like <em>daemon thread</em>, <em>aggregation cadence</em> and <em>continuous ingestion</em> are not decorative labels here. They describe the social reality of the code. One part of the file is concerned with seeing vehicles now, another is concerned with preserving an hourly memory of what just happened, and both have to coexist without making the Streamlit layer feel frozen.</p>
+<p>These loops are short, but short loops can still carry a surprising amount of responsibility. They decide the rhythm of data freshness, the survival behavior after transient errors and the overall tone of the runtime under constant motion.</p>
+<table><thead><tr><th>Pipeline term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>Aggregation cadence</td><td>The interval at which recent operational data is rolled into historical form.</td><td>It determines how quickly the dashboard stops showing raw turbulence and starts showing reusable history.</td></tr><tr><td>Daemon thread</td><td>A background worker that runs without becoming the main control path of the application.</td><td>It lets live processing continue while the UI remains responsive.</td></tr><tr><td>Loop resilience</td><td>The ability of a repeated task to keep functioning through ordinary transient failures.</td><td>It prevents the whole runtime from feeling brittle the first time a connection or read stumbles.</td></tr></tbody></table>
+<h3>The historical rollup loop begins by claiming a steady rhythm</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">def run_streaming_pipeline():
+    while True:
+        try:
+            conn = psycopg2.connect(**db_config)
+            cur = conn.cursor()
+            cur.execute("""</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The opening is spare on purpose: one endless loop, one connection, one cursor and then an aggregation query that takes over the real work.</p>
+<p>The complexity does not come from fancy syntax. It comes from the promise that this little loop is expected to keep showing up, keep connecting and keep translating the recent operational table into a calmer historical layer.</p>
+<h3>The aggregation query keeps the history table refreshed in place</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                INSERT INTO mart.traffic_history (report_hour, camera_id, vehicle_type, avg_speed, intensity, density)
+                SELECT date_trunc('hour', last_update), camera_id, vehicle_type, AVG(avg_speed), COUNT(*), AVG(count)
+                FROM mart.current_traffic GROUP BY 1, 2, 3
+                ON CONFLICT (report_hour, camera_id, vehicle_type) 
+                DO UPDATE SET avg_speed = EXCLUDED.avg_speed, intensity = EXCLUDED.intensity, density = EXCLUDED.density;
+            """)</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This is the point where fleeting live detections become a reusable hourly history that later analytics can revisit.</p>
+<p>The query is compact, but it carries the emotional center of the pipeline. It says that the system values not only current state, but also a rolling memory of recent conditions. That one choice is what allows later charts, comparisons and forecasts to exist without re-reading the volatile table every time.</p>
+<h3>The loop closes, sleeps and then hands off to video processing</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            conn.commit()
+            cur.close()
+            conn.close()
+            time.sleep(5)
+        except:
+            time.sleep(5)
 
-VACUUM ANALYZE staging.camera_counts_raw;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This neighboring block is intentionally blunt. Retention queries read better when they admit what they are doing instead of hiding cleanup behind vague maintenance language.</p>
-<p>That honesty helps discussions with non-specialists too. A retention window is not an act of data cruelty; it is a declared tradeoff between detail, performance and storage. Once phrased that way, the rule feels easier to defend.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">WITH freshness AS (
-    SELECT MAX(updated_at) AS last_update
-    FROM mart.hourly_vehicle_totals
-),
-row_budget AS (
-    SELECT COUNT(*) AS recent_rows
-    FROM mart.hourly_vehicle_totals
-    WHERE bucket_hour &gt;= NOW() - INTERVAL '24 hours'
-)
-SELECT
-    freshness.last_update,
-    NOW() - freshness.last_update AS lag,
-    row_budget.recent_rows,
-    CASE
-        WHEN freshness.last_update &gt;= NOW() - INTERVAL '15 minutes' THEN 'ready'
-        ELSE 'stale'
-    END AS dashboard_status
-FROM freshness
-CROSS JOIN row_budget;</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second marked slice is the release check that ties the whole article together. It asks one simple question: is the reporting layer recent enough to deserve a dashboard.</p>
-<ul><li>Use views to give downstream readers a stable sentence instead of exposing every warehouse detail.</li><li>Write retention rules as explicit policy so cleanup feels governed rather than accidental.</li><li>Put a freshness check near the dashboard launch path because confidence should be queryable.</li></ul>
-<blockquote class="tr_bq">A reporting layer becomes trustworthy when its summaries, cleanup rules and freshness checks all tell the same operational story.</blockquote>
+def process_video():
+    model = YOLO(MODEL_NAME)
+    cap = cv2.VideoCapture("test.MP4")
+    track_history = {}</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The end of one loop folds directly into the setup of another, which makes the file read like a relay rather than a bag of unrelated functions.</p>
+<p>The resilience is intentionally modest. On failure the loop simply waits and tries again. Then the next function prepares the model and capture object for the continuous vision path. It is not theatrical error handling, but it is enough to make the runtime feel patient instead of brittle.</p>
+<h3>The video worker and bootstrap threads complete the live handoff</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">    try:
+        font = ImageFont.truetype("arial.ttf", 20)
+    except:
+        font = ImageFont.load_default()
+    while cap.isOpened():
+        conn = psycopg2.connect(**db_config)
+        cur = conn.cursor()
+        frame = get_raw_frame(cap)
+        if frame is not None:
+            db_data, frame = process_and_draw(frame, model, track_history, font)
+            if db_data:
+                push_to_database(cur, conn, db_data)
+        cur.close()
+        conn.close()
+
+if 'video_thread_started' not in st.session_state:
+    threading.Thread(target=process_video, daemon=True).start()
+    threading.Thread(target=run_streaming_pipeline, daemon=True).start()
+    st.session_state.video_thread_started = True</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This closing slice makes the runtime topology explicit: one thread keeps the video pipeline alive while another keeps the history rollup fresh.</p>
+<p>That is where the whole script starts to feel assembled rather than merely written. The file is no longer just a collection of capabilities. It now contains a live arrangement that explains why the dashboard layer later on will have both current and historical data to work with.</p>
+<ul><li>The third `sql` post now covers the worker section of `dashbash.txt`, from aggregation loop to threaded startup.</li><li>The code remains in strict source order, with no jumps into later Streamlit blocks.</li><li>The article text slows the reader down just enough to make the background runtime feel intentional.</li></ul>
+<blockquote class="tr_bq">A script becomes a system when its loops start cooperating on time instead of merely existing in the same file.</blockquote>
 </div>
 <div class="post-labels">
 <div class="label-head Label">

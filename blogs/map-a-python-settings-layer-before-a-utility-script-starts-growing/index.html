@@ -629,50 +629,78 @@ Map Python Language Defaults Before a Utility Script Starts Growing
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="Python settings layout sketched before a script grows" border="0" src="./asset-python-language-surface-mq7p.webp" title="Python settings layout sketched before a script grows"></td>
+<td style="text-align:center;"><img alt="Dashboard bootstrap with cached loaders and filters" border="0" src="./asset-python-language-surface-mq7p.webp" title="Dashboard bootstrap with cached loaders and filters"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a Python utility moving from a handful of constants toward a more deliberate settings layer with room for growth.</td>
+<td class="tr-caption">Suggested cover: a dashboard bootstrap scene where page setup, cache boundaries and sidebar filters are all visible before the interface fills with metrics.</td>
 </tr>
 </tbody>
 </table>
-<h2>Settings deserve structure before the script starts collecting habits</h2>
-<p>A lot of Python tools begin in a very innocent way: one file, a few constants near the top, one command and a feeling that the script will probably stay small forever. That feeling is useful for momentum, but it is rarely a sound architectural forecast.</p>
-<p>The moment a script needs a second environment, a different log path or a background docker run with slightly different parameters, configuration stops being a convenience and becomes a language problem. The code is still doing the same work, but now it needs a better sentence for where its decisions come from.</p>
-<p>That is why people keep talking about <em>settings layers</em>, <em>runtime defaults</em> and <em>environment boundaries</em>. These phrases are not there to sound mature. They exist because a Python file gets easier to maintain when it stops pretending that every value deserves to live forever as a hard-coded constant.</p>
-<table><thead><tr><th>Python term</th><th>Meaning</th><th>Why it becomes useful in real work</th></tr></thead><tbody><tr><td>Runtime default</td><td>A value the program can safely use when no external setting overrides it.</td><td>It keeps local runs friendly without making production behavior mysterious.</td></tr><tr><td>Environment boundary</td><td>The point where shell variables, config files or deployment choices enter the application.</td><td>It makes it easier to explain which values belong to code and which belong to operations.</td></tr><tr><td>Settings layer</td><td>A small structure that gathers configuration into one readable place.</td><td>It prevents the script from developing dozens of tiny hidden assumptions.</td></tr></tbody></table>
-<h3>A placeholder block for the future settings snippet</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 01
-Reserved for the Python settings example.
-This block will be replaced later with the real snippet.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">For now this block is intentionally empty of real code. It marks the exact place where the settings example will go once you decide what the final implementation should look like.</p>
-<p>That still makes it useful in the article. The placeholder lets the narrative keep its pacing while leaving room for a concrete example later instead of forcing a fake solution too early.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 02
-Future section for environment parsing.
-Keep this area aligned with the text about defaults and overrides.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This first marked slice is really a reservation for the override story. When we refill it later, it will sit exactly where the article moves from abstract vocabulary into a more practical runtime example.</p>
-<p>The reason this matters is simple: readers rarely struggle with the idea that settings exist. They struggle with deciding which values should stay close to the code and which ones should travel through environment variables, config files or container startup commands.</p>
-<p>A Streamlit helper, a cron-like maintenance task or a docker wrapper all ask that question in slightly different accents, but the architectural tension is the same.</p>
-<h3>Alternative component: keep naming calm before behavior gets complicated</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 03
-This space is reserved for a naming example.
-Later it can show how one settings object replaces scattered constants.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This neighboring block stays small on purpose. It will probably become the gentle bridge between plain constants and a more deliberate settings object once the final code arrives.</p>
-<p>Programming terminology can feel overly ceremonial until it solves a naming mess. The phrase <em>configuration surface</em> sounds lofty right up to the moment a teammate asks where a timeout comes from and the honest answer becomes three different files and a shell export.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 04
-Reserved for the final bootstrap example.
-This block will be repopulated when the concrete Python code is ready.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second marked slice holds the future bootstrap piece. It is parked here so the article can already describe the design pressure without pretending that the final snippet has been chosen.</p>
-<ul><li>Move settings into one visible layer before the script gains too many reasons to keep secrets.</li><li>Treat defaults and overrides as part of the program story, not as separate operational folklore.</li><li>Leave room for a later snippet instead of filling the page with code you already know will be replaced.</li></ul>
-<blockquote class="tr_bq">A settings layer is not overengineering when it arrives just before confusion, not six months after it.</blockquote>
+<h2>The Streamlit layer becomes readable when the bootstrap stays honest</h2>
+<p>After the background threads are launched, the file changes mood again. It moves out of infrastructure and into presentation. This is the point where many mixed-purpose scripts become messy, because page configuration, cached loaders and sidebar controls all arrive at once. In a real internal tool that combination becomes the exact place where future readers decide whether the dashboard has a stable front door or just a pile of side effects that happen to render in the browser.</p>
+<p>That is why the bootstrap deserves a patient explanation. Terms like <em>cache TTL</em>, <em>data access boundary</em> and <em>filter surface</em> are doing real work here. The dashboard is not merely showing data; it is defining how often expensive reads happen, how current traffic differs from historical traffic and how the operator is allowed to cut the visible slice before charts and KPIs begin speaking.</p>
+<p>A good front section does not need to be fancy. It only needs to make the page feel predictable. When the user understands where the page starts, where the data comes from and how filters narrow the scope, the rest of the article can become more ambitious without becoming tiring.</p>
+<table><thead><tr><th>Dashboard term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>Cache TTL</td><td>The freshness window Streamlit uses before recomputing cached data.</td><td>It decides whether the app feels responsive, stale or wasteful.</td></tr><tr><td>Data access boundary</td><td>The moment where the UI stops being layout code and starts reading the database.</td><td>It keeps operational questions easy to answer because the read path is explicit.</td></tr><tr><td>Filter surface</td><td>The set of controls that shape the currently visible slice of data.</td><td>It gives the dashboard a clear contract with the person using it.</td></tr></tbody></table>
+<h3>The page setup and first loader establish the dashboard's main contract</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">st.set_page_config(page_title="ITS Analytics Hub", layout="wide")
+st.title("Аналитическая панель ITS")
+
+@st.cache_data(ttl=5)
+def load_data():
+    conn = psycopg2.connect(**db_config)
+    df = pd.read_sql("SELECT * FROM mart.traffic_history ORDER BY report_hour DESC LIMIT 1000", conn)
+    conn.close()
+    return df</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first visible slice keeps page identity and historical loading together, which makes the dashboard's opening contract easy to understand.</p>
+<p>This is a good example of how a mixed file can still feel disciplined. The page title tells the operator what screen they are on, and the cached loader immediately explains what historical dataset the rest of the interface will depend on.</p>
+<h3>The second loader draws a line between history and live state</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">@st.cache_data(ttl=10)
+def load_current_data():
+    try:
+        conn = psycopg2.connect(**db_config)
+        df = pd.read_sql("""
+            SELECT camera_id, vehicle_type, AVG(avg_speed) as avg_speed, COUNT(*) as intensity
+            FROM mart.current_traffic
+            WHERE last_update > NOW() - INTERVAL '5 minutes'
+            GROUP BY camera_id, vehicle_type
+        """, conn)
+        conn.close()
+        return df
+    except:
+        return pd.DataFrame()</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">A second cached loader gives the app a separate lane for near-real-time state instead of forcing one dataset to pretend it can be both live and historical.</p>
+<p>That distinction is important because dashboards start to feel slippery when all reads are treated as if they have the same freshness. Here the file makes a healthier promise. One loader represents history, the other represents the recent operational window.</p>
+<h3>The main try block opens with data loading and operator controls</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">try:
+    df = load_data()
+    if df.empty:
+        st.info("Ожидание данных...")
+    else:
+        df['report_hour'] = pd.to_datetime(df['report_hour'])
+        st.sidebar.header("Фильтры")
+        selected_camera = st.sidebar.selectbox("Камера", df['camera_id'].unique())
+        selected_types = st.sidebar.multiselect("Типы ТС", df['vehicle_type'].unique(),
+                                                default=df['vehicle_type'].unique())
+        hours = st.sidebar.slider("Часы суток", 0, 23, (0, 23))</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This block does the most important user-facing setup: load the data, admit when it is empty and then expose the first meaningful controls.</p>
+<p>The script does not pretend the dashboard is always ready. It explicitly handles the empty case, then turns historical data into a datetime field and only after that offers the camera, vehicle type and hour filters.</p>
+<h3>The filtered slice prepares the handoff into KPI rendering</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">        df_filtered = df[
+            (df['camera_id'] == selected_camera) &amp;
+            (df['vehicle_type'].isin(selected_types)) &amp;
+            (df['report_hour'].dt.hour &gt;= hours[0]) &amp;
+            (df['report_hour'].dt.hour &lt;= hours[1])
+        ]
+        if not df_filtered.empty:
+            last = df_filtered.iloc[0]
+            current_df = load_current_data()
+            if not current_df.empty:
+                current_filtered = current_df[current_df['camera_id'] == selected_camera]
+                if not current_filtered.empty:</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final bootstrap slice narrows the active dataframe and then leaves the page poised right at the threshold of KPI output.</p>
+<p>This is a useful place to pause because it shows how the dashboard earns the right to display metrics. It establishes a filtered slice, selects the most recent row, pulls the current-state frame and then checks whether a camera-specific live subset exists.</p>
+<ul><li>The fourth `sql` post now covers the Streamlit bootstrap exactly where the dashboard begins in `dashbash.txt`.</li><li>The snippets keep the code in order and stop right before the first KPI section starts rendering.</li><li>The pink code blocks stay the same, while the text gives the page setup more breathing room.</li></ul>
+<blockquote class="tr_bq">A dashboard feels calmer when its page setup, cache rules and filters are visible before its metrics start talking loudly.</blockquote>
 </div>
 <div class="post-labels">
 <div class="label-head Label">

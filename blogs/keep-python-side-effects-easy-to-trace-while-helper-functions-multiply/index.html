@@ -629,50 +629,74 @@ Keep Python Side Effects Easy to Trace While Utility Helpers Multiply
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="Python helpers and state transitions sketched as notes" border="0" src="./asset-python-helper-portrait-vc4n.jfif" title="Python helpers and state transitions sketched as notes"></td>
+<td style="text-align:center;"><img alt="KPI and chart layer of a traffic analytics dashboard" border="0" src="./asset-python-helper-portrait-vc4n.jfif" title="KPI and chart layer of a traffic analytics dashboard"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a growing Python file where helpers, logging and side effects are being named carefully before they start hiding each other.</td>
+<td class="tr-caption">Suggested cover: a dashboard mid-section with KPI cards, comparison tiles and paired charts that all feel busy but still structured.</td>
 </tr>
 </tbody>
 </table>
-<h2>Helper functions are only helpful while their side effects stay visible</h2>
-<p>Python makes it wonderfully easy to split a large file into smaller functions. That is one of its charms. It is also how people accidentally create a maze of tiny helpers where each function looks innocent on its own while the actual state changes quietly slip out of sight.</p>
-<p>This is why the phrase <em>side effect</em> matters so much. It sounds academic until a helper both writes a file, updates a cache, changes global state and emits a log line while still keeping a nice friendly name like <code>prepare_data</code>.</p>
-<p>The issue is rarely that helper functions exist. The issue is that their names stop matching their consequences. Once that drift begins, a Python program becomes tiring to trust, especially when a Streamlit page or a background automation task depends on the same shared state.</p>
-<table><thead><tr><th>Tracing term</th><th>Meaning</th><th>Why readers care</th></tr></thead><tbody><tr><td>Side effect</td><td>A function behavior that changes state outside the value it returns.</td><td>It is the main reason a small helper can still be operationally important.</td></tr><tr><td>Call chain</td><td>The path of function calls that leads from one visible action to another.</td><td>It helps explain why a small change in one place can still disturb distant behavior.</td></tr><tr><td>Observability hint</td><td>A log, metric or trace-friendly signal that clarifies what just changed.</td><td>It reduces guessing when multiple helpers participate in one workflow.</td></tr></tbody></table>
-<h3>A placeholder block for the future function boundary example</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 01
-Reserved for the future helper-boundary snippet.
-This will later show where state should remain explicit.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This block stays deliberately text-only for now. It marks the exact slot where the first concrete example of a safer helper boundary will be inserted later.</p>
-<p>The placeholder is still doing real narrative work. It lets the article talk honestly about function responsibilities without pretending we already know what the final implementation needs to optimize for.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 02
-Future example for logging and tracing notes.
-This section will be replaced when the concrete flow is chosen.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first marked slice is reserved for the observability part of the story. Later it can become a real snippet that shows how logs or traces make a multi-step workflow easier to follow.</p>
-<p>That part matters because visibility is not just for production incidents. It also changes how confidently someone can refactor a growing file. When the state transitions are easier to observe, the file feels less haunted.</p>
-<p>This becomes especially obvious once helpers start multiplying around retry logic, background uploads or docker-driven worker runs that only surface their behavior indirectly.</p>
-<h3>Alternative component: names should advertise consequences, not intentions</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 03
-Reserved for a naming comparison.
-Later this block can contrast vague names with explicit ones.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This side block will eventually carry the simplest lesson in the post: a helper name should hint at what it changes, not only at what it hopes to accomplish.</p>
-<p>A surprising amount of clarity comes from that one habit. The function body may still be imperfect, but at least the reader is not entering it under false pretenses.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 04
-Reserved for the later orchestration example.
-This part will be repopulated once the final Python flow is approved.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second marked slice holds the future orchestration example. It stays blank for now because we already know you want to refill these code sections later with something more concrete.</p>
-<ul><li>Let helper functions stay small, but do not let their consequences become invisible.</li><li>Name side effects plainly so refactors feel investigative rather than mystical.</li><li>Use placeholders where code will change anyway instead of inventing temporary snippets you already plan to replace.</li></ul>
-<blockquote class="tr_bq">Small functions improve readability only when the reader can still tell where the world changes.</blockquote>
+<h2>The middle of the dashboard is where the file starts speaking to humans</h2>
+<p>Once the bootstrap is complete and the filtered slice exists, the script can finally begin saying something useful to an operator. This is where many dashboards either become persuasive or start drifting into decorative noise. Metrics, comparison panels and charts may all look familiar, yet the interesting question is whether they are fed by a coherent slice of data and whether the visual rhythm helps a person reason about current conditions instead of merely admiring layout.</p>
+<p>That is why these blocks matter so much. They are the portion of the file where database results, forecast heuristics and visual composition all get translated into managerial language. Words like <em>KPI row</em>, <em>comparison window</em> and <em>chart pair</em> become useful here because the dashboard is no longer just computing values. It is constructing a story about the current road situation, the recent past and the shape of the traffic mix.</p>
+<p>This is also the part people screenshot, reference in meetings and remember during incidents. It deserves more than a thin caption and one lonely code block.</p>
+<table><thead><tr><th>Interface term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>KPI row</td><td>A compact set of headline values designed for fast scanning.</td><td>It sets the emotional tone of the dashboard before deeper charts appear.</td></tr><tr><td>Comparison window</td><td>A structured look at today, yesterday and week-level context.</td><td>It helps prevent one current metric from being interpreted in isolation.</td></tr><tr><td>Chart pair</td><td>Two adjacent visual summaries that explain shape, not just totals.</td><td>It lets the operator compare trend and composition without switching context.</td></tr></tbody></table>
+<h3>The live KPI block begins with the current-state summary</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                    st.subheader("Текущее состояние")
+                    col1, col2, col3 = st.columns(3)
+                    col1.metric("Средняя скорость", f"{current_filtered['avg_speed'].mean():.0f} км/ч")
+                    col2.metric("Интенсивность", f"{int(current_filtered['intensity'].sum())} ТС/мин")
+                    col3.metric("Активных ТС", f"{len(current_filtered)}")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first visible panel stays tight and operator-friendly, which makes the dashboard feel immediately useful before any forecasting rhetoric appears.</p>
+<p>This block earns its place because it gives the page a present tense. The metrics are not about abstract warehouse history. They are about what the selected camera is showing right now, and that distinction helps the entire screen feel grounded instead of decorative.</p>
+<h3>The next row expands from present state into a lightweight forecast view</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Текущее состояние и прогноз")
+            c1, c2, c3, c4, c5 = st.columns(5)
+            c1.metric("Интенсивность", f"{int(last['intensity'])} ТС/ч")
+            c2.metric("Ср. Скорость", f"{last['avg_speed']:.0f} км/ч")
+            c3.metric("Прогноз 30м", f"{int(last['intensity'] * 1.15)} ТС")
+            c4.metric("Прогноз 60м", f"{int(last['intensity'] * 1.25)} ТС")
+            c5.metric("Прогноз 120м", f"{int(last['intensity'] * 1.35)} ТС")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This slice takes one recent row and stretches it into a quick planning view, which is exactly how many real dashboards earn attention from non-technical readers.</p>
+<p>There is practical psychology in that row. People like seeing one current figure, one speed figure and then a few forward-looking estimates beside them. Even a lightweight forecast heuristic can help the page feel more decision-oriented, provided it stays visibly tied to the latest filtered observation.</p>
+<h3>The comparison panel slows the reader down in a good way</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Сравнение с прошлыми периодами")
+            today_data = df_filtered[df_filtered['report_hour'].dt.date == datetime.now().date()]
+            yesterday_data = df_filtered[df_filtered['report_hour'].dt.date == (datetime.now() - timedelta(days=1)).date()]
+            week_data = df_filtered[df_filtered['report_hour'].dt.date >= (datetime.now() - timedelta(days=7)).date()]
+            col1, col2, col3 = st.columns(3)
+            if not today_data.empty:
+                col1.metric("Сегодня", f"{int(today_data['intensity'].sum())} ТС")
+            else:
+                col1.metric("Сегодня", "Нет данных")
+            if not yesterday_data.empty:
+                col2.metric("Вчера", f"{int(yesterday_data['intensity'].sum())} ТС")
+            else:
+                col2.metric("Вчера", "Нет данных")
+            if not week_data.empty:
+                col3.metric("За неделю", f"{int(week_data['intensity'].sum())} ТС")
+            else:
+                col3.metric("За неделю", "Нет данных")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The comparison row adds context, which is often the difference between a flashy metric board and a genuinely useful traffic panel.</p>
+<p>One current number can create urgency, but comparison windows create judgment. They help the operator ask whether today's load is ordinary, whether yesterday looked healthier and whether the last week suggests a broader pattern.</p>
+<h3>The chart pair turns the filtered slice into trend and composition</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Анализ трафика и структуры")
+            col1, col2 = st.columns(2)
+            hourly = df_filtered.groupby(df_filtered['report_hour'].dt.hour)['intensity'].mean().reset_index()
+            hourly.columns = ['часы', 'Интенсивность']
+            col1.plotly_chart(px.line(hourly, x='часы', y='Интенсивность', title="Загруженность по часам"),
+                              use_container_width=True)
+            peak_hours = hourly.nlargest(3, 'Интенсивность')['часы'].tolist()
+            col1.info(f"Часы пик: {', '.join([f'{int(h)}:00' for h in peak_hours])}")
+
+            structure = df_filtered.groupby('vehicle_type')['intensity'].sum().reset_index()
+            col2.plotly_chart(
+                px.pie(structure, values='intensity', names='vehicle_type', title="Доли транспорта", hole=0.4),
+                use_container_width=True)</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This final slice in the post is where the dashboard gets visual without losing its relationship to the same filtered dataframe.</p>
+<p>The pairing is effective because it answers two different questions with one glance. The line chart explains how load changes across the day, while the pie chart explains what that load is made of. Together they make the page feel substantially more complete than a KPI board ever could on its own.</p>
+<ul><li>The fifth `sql` post now carries the KPI, comparison and chart layer from `dashbash.txt` in correct order.</li><li>The code blocks are medium-sized and keep one visual idea per slice.</li><li>Emoji were removed from the shown UI strings so the snippets stay cleaner inside the article.</li></ul>
+<blockquote class="tr_bq">A dashboard starts sounding intelligent when its numbers, comparisons and charts all describe the same slice of reality.</blockquote>
 </div>
 <div class="post-labels">
 <div class="label-head Label">

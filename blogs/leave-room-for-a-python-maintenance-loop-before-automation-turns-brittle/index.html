@@ -629,50 +629,81 @@ Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="Python maintenance flow drafted before automation hardens" border="0" src="./asset-python-runtime-routine-xk8d.jpg" title="Python maintenance flow drafted before automation hardens"></td>
+<td style="text-align:center;"><img alt="Forecast and operator guidance section of a live analytics dashboard" border="0" src="./asset-python-runtime-routine-xk8d.jpg" title="Forecast and operator guidance section of a live analytics dashboard"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a Python automation loop being thought through in terms of retries, cleanup and operational kindness before it hardens into daily routine.</td>
+<td class="tr-caption">Suggested cover: a more serious dashboard view where validation metrics, operator guidance and a quiet refresh tail all sit below the main charts.</td>
 </tr>
 </tbody>
 </table>
-<h2>Maintenance loops become brittle when nobody designs the boring parts</h2>
-<p>Automation has a public side and a private side. The public side is what the script accomplishes. The private side is everything it has to survive: stale files, half-finished retries, noisy logs, cleanup timing and the uncomfortable reality that background jobs rarely fail in neat educational ways.</p>
-<p>Python is especially good at encouraging useful little maintenance loops. A few standard-library modules and a little confidence can get you very far. But that same convenience can trick people into postponing the design of the boring parts until the automation is already in daily use.</p>
-<p>That is when words like <em>retry policy</em>, <em>backoff</em>, <em>cleanup pass</em> and <em>idempotent maintenance</em> stop sounding ornamental. They become the practical vocabulary that separates a dependable job from a script people are afraid to rerun.</p>
-<table><thead><tr><th>Maintenance term</th><th>Meaning</th><th>Why it matters to future you</th></tr></thead><tbody><tr><td>Retry policy</td><td>A rule for when and how the job should attempt the same work again.</td><td>It stops transient failures from turning into manual cleanup rituals.</td></tr><tr><td>Cleanup pass</td><td>A deliberate phase where temporary or stale artifacts are removed.</td><td>It keeps automation from leaving behind confusing evidence of old runs.</td></tr><tr><td>Idempotent action</td><td>An action that can be repeated safely without producing a different final state.</td><td>It makes reruns emotionally and operationally cheaper.</td></tr></tbody></table>
-<h3>A placeholder block for the future maintenance loop skeleton</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 01
-Reserved for the later maintenance-loop scaffold.
-This section will be replaced with real Python logic on request.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This opening placeholder holds the eventual loop structure. It stays intentionally abstract for now because you already know these code blocks are temporary waypoints.</p>
-<p>That is still enough to support the article rhythm. The text can explain the operational pressure first, then accept real code later when you decide which version of the loop you actually want to publish.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 02
-Future section for retry and backoff behavior.
-Keep this space open for the concrete policy example.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first marked slice reserves space for the retry story. Once repopulated, it should make the job's failure behavior feel explicit rather than improvised.</p>
-<p>This matters because maintenance work is really a matter of tone. A script with a clear retry policy feels patient. A script without one feels moody, especially after a few interrupted runs or network hiccups.</p>
-<p>That tone also affects surrounding systems. A docker scheduler, a small admin page or a Streamlit control surface all become easier to reason about when the loop beneath them has readable failure behavior.</p>
-<h3>Alternative component: cleanup deserves its own little moment</h3>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 03
-Reserved for the cleanup example.
-Later this block can show how temporary state gets removed safely.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This neighboring block will later carry the cleanup pass. It belongs beside the retry section because cleanup is often what makes retries safe rather than reckless.</p>
-<p>People sometimes treat cleanup as a low-status concern, but it is one of the most generous things a script can do for the next person who has to rerun it.</p>
-<div class="is-dark">
-<pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">Placeholder fragment 04
-Reserved for the final orchestration snippet.
-This block will be repopulated after you choose the exact Python flow.</pre>
-</div>
-<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The second marked slice is saved for the final orchestration example. It will eventually tie retries, cleanup and completion signaling into one readable loop.</p>
-<ul><li>Design retries before the first flaky run teaches the job bad habits.</li><li>Treat cleanup as part of the happy path, not as punishment for failure.</li><li>Leave placeholder blocks where the real code will soon change anyway.</li></ul>
-<blockquote class="tr_bq">Automation stays kind when rerunning it feels normal rather than risky.</blockquote>
+<h2>The lower part of the page is where the dashboard proves it can think and react</h2>
+<p>By the time the file reaches this final section, the operator has already seen filters, KPI cards and charts. What remains is the layer that often decides whether the screen feels impressive for one minute or genuinely useful over time. This is where the script evaluates a forecasting model, surfaces dispatcher-style recommendations, exposes a small monitoring counter and finally decides when to sleep and rerun.</p>
+<p>The vocabulary changes again here, and for good reason. Terms like <em>validation metric</em>, <em>operator guidance</em> and <em>refresh tail</em> belong together because they all answer the same higher-level question: can the interface support judgment rather than just observation. Once a dashboard begins scoring a model, warning about density and quietly refreshing itself, it stops being a static report and starts behaving like a workstation.</p>
+<p>This tail end also carries a lot of emotional weight. It is where the page either earns trust or starts overpromising. That is why the blocks below need to stay orderly and source-faithful. The last part of the file should feel like a clear landing.</p>
+<table><thead><tr><th>Ops term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>Validation metric</td><td>A numeric check on how well the forecasting model matches held-out data.</td><td>It tells the reader whether the predictive layer deserves confidence.</td></tr><tr><td>Operator guidance</td><td>A rule-based message aimed at a dispatcher or monitoring person.</td><td>It translates numerical conditions into practical action.</td></tr><tr><td>Refresh tail</td><td>The final sleep-and-rerun path that keeps the dashboard alive.</td><td>It defines the tempo of the whole screen after every render cycle.</td></tr></tbody></table>
+<h3>The forecasting section opens by preparing train, test and model export</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Оценка эффективности модели прогнозирования")
+            full_df = load_data()
+            if len(full_df) &gt; 10:
+                full_df['hour'] = pd.to_datetime(full_df['report_hour']).dt.hour
+                train = full_df.iloc[:int(len(full_df) * 0.8)]
+                test = full_df.iloc[int(len(full_df) * 0.8):]
+                model = GradientBoostingRegressor().fit(train[['hour']], train['intensity'])
+                pred = model.predict(test[['hour']])
+                try:
+                    os.makedirs('models', exist_ok=True)
+                    joblib.dump(model, 'models/traffic_model.pkl')
+                except:
+                    joblib.dump(model, 'traffic_model.pkl')</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The evaluation section starts with a very practical gesture: only train when there is enough data, and save the fitted model where later runs can find it.</p>
+<p>That makes the predictive layer feel grounded. The file is not pretending that forecasting is magic. It turns the historical frame into hour-level features, splits the sample, fits a simple regressor and then preserves the artifact.</p>
+<h3>The validation panel turns predictions into something a person can judge</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">                col1, col2 = st.columns(2)
+                col1.metric("MAE", f"{mean_absolute_error(test['intensity'], pred):.1f}")
+                col2.metric("RMSE", f"{np.sqrt(mean_squared_error(test['intensity'], pred)):.1f}")
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(y=test['intensity'].values, name="Факт"))
+                fig.add_trace(go.Scatter(y=pred, name="Прогноз", line=dict(dash='dash')))
+                fig.update_layout(
+                    title="Прогноз vs Факт на валидации",
+                    xaxis_title="Временные интервалы",
+                    yaxis_title="Интенсивность движения (ТС/час)"
+                )
+                st.plotly_chart(fig, use_container_width=True)
+            else:
+                st.info(f"Нужно больше данных для обучения модели (сейчас {len(full_df)} записей)")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">MAE, RMSE and the fact-vs-prediction chart give the forecast section a visible conscience instead of asking the reader to trust it blindly.</p>
+<p>This is the kind of addition that makes a dashboard feel mature. It does not just emit a prediction. It shows how that prediction behaves against held-out data and admits when the sample is still too small to deserve training.</p>
+<h3>The recommendation block translates numbers into action language</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.subheader("Рекомендации диспетчеру")
+            if last['intensity'] &gt; 200:
+                st.warning("Высокая плотность! Снизить скорость до 40 км/ч")
+            elif last['intensity'] &gt; 150:
+                st.info("Повышенная нагрузка. Мониторинг усилен.")
+
+            if last['avg_speed'] &lt; 30:
+                st.error("Затор обнаружен! Активировать табло оповещения.")
+            elif last['avg_speed'] &lt; 50:
+                st.warning("Замедление движения. Возможны локальные заторы.")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This section is where the analytics screen starts sounding like a colleague instead of a report, because the values are translated into plain operator-facing messages.</p>
+<p>Numbers alone can be ambiguous during a busy shift. Simple threshold-based guidance, even if conservative, helps the dashboard participate in decision-making without pretending it is a fully autonomous control system.</p>
+<h3>The sidebar monitor and refresh tail close the file in full view</h3>
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">            st.sidebar.subheader("Мониторинг")
+            try:
+                conn = psycopg2.connect(**db_config)
+                cnt = pd.read_sql("SELECT COUNT(*) as c FROM mart.current_traffic", conn)['c'].iloc[0]
+                st.sidebar.metric("Записей в потоке", f"{cnt:,}")
+                conn.close()
+            except:
+                st.sidebar.warning("Нет данных мониторинга")
+    time.sleep(5)
+    st.rerun()
+except Exception as e:
+    st.error(f"Ошибка: {e}")</pre></div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final visible code block keeps the monitor counter, rerun cadence and top-level exception path together, which is exactly how the file really ends.</p>
+<p>This closing order is important. It means the series now ends where `dashbash.txt` ends: after the page has rendered, after the sidebar counter has had a chance to update and right where the runtime decides to sleep briefly and draw again.</p>
+<ul><li>The sixth `sql` post now contains the true tail of `dashbash.txt`, from forecast evaluation to rerun loop.</li><li>The code still flows strictly in order, and the last block is the actual end of the file.</li><li>Emoji were removed from the visible UI strings here as well, so the article styling stays cleaner.</li></ul>
+<blockquote class="tr_bq">A live dashboard earns long-term trust when it can evaluate itself, advise a human and then quietly prepare for the next pass.</blockquote>
 </div>
 <div class="post-labels">
 <div class="label-head Label">
