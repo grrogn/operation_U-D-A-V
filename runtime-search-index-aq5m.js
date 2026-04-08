@@ -33,6 +33,15 @@
       '/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/',
       '/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/',
       '/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/'
+    ],
+    sqlite: [
+      '/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/',
+      '/blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/',
+      '/blogs/let-an-auto-refresh-loop-breathe-before-the-whole-page-turns-restless/',
+      '/blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/',
+      '/blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/',
+      '/blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/',
+      '/blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/'
     ]
   };
 
@@ -145,6 +154,41 @@
         "title": "Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle",
         "url": "/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/",
         "meta": "/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/"
+      },
+    {
+        "title": "Shape a Streamlit Filter Bar Before the Refresh Loop Starts Rushing",
+        "url": "/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/",
+        "meta": "/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/"
+      },
+    {
+        "title": "Cache a Small Analytics Window Without Letting Fresh State Go Missing",
+        "url": "/blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/",
+        "meta": "/blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/"
+      },
+    {
+        "title": "Keep KPI Cards Honest While a Live Dashboard Keeps Moving",
+        "url": "/blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/",
+        "meta": "/blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/"
+      },
+    {
+        "title": "Group a Time Series for Plotly Without Tangling the Main View",
+        "url": "/blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/",
+        "meta": "/blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/"
+      },
+    {
+        "title": "Give a Distribution Chart a Stable Color Contract Before It Starts Shouting",
+        "url": "/blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/",
+        "meta": "/blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/"
+      },
+    {
+        "title": "Let an Auto-Refresh Loop Breathe Before the Whole Page Turns Restless",
+        "url": "/blogs/let-an-auto-refresh-loop-breathe-before-the-whole-page-turns-restless/",
+        "meta": "/blogs/let-an-auto-refresh-loop-breathe-before-the-whole-page-turns-restless/"
+      },
+    {
+        "title": "Finish With a Recent Events Table So Operators Can Verify the Story",
+        "url": "/blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/",
+        "meta": "/blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/"
       }
   ];
 

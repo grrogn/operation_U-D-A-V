@@ -1,0 +1,119 @@
+import streamlit as st
+import pandas as pd
+import psycopg2
+from datetime import datetime, timedelta
+
+# ========== ПОДКЛЮЧЕНИЕ ==========
+def get_connection():
+    return psycopg2.connect(
+        dbname="CAR",
+        user="postgres",
+        password="1234",
+        host="localhost",
+        port="5432"
+    )
+
+st.set_page_config(page_title="Traffic Dashboard", layout="wide")
+st.title("🚦 Traffic Monitoring Dashboard")
+
+# ========== САЙДБАР ==========
+with st.sidebar:
+    st.header("📊 Filters")
+    hours = st.slider("Show last N hours", 1, 24, 6)
+    auto_refresh = st.checkbox("Auto refresh (every 10 sec)", value=False)
+
+# ========== ЗАГРУЗКА ДАННЫХ ==========
+@st.cache_data(ttl=10)
+def load_data(hours):
+    conn = get_connection()
+    cutoff = datetime.now() - timedelta(hours=hours)
+    
+    query = """
+        SELECT 
+            sm.time,
+            vt.name as vehicle_type,
+            sm.intensity,
+            sm.avg_speed
+        FROM stream_metrics sm
+        JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id
+        WHERE sm.time >= %s
+        ORDER BY sm.time DESC
+        LIMIT 500
+    """
+    
+    df = pd.read_sql(query, conn, params=(cutoff,))
+    conn.close()
+    
+    if not df.empty:
+        df['time'] = pd.to_datetime(df['time'])
+    
+    return df
+
+# ========== ОСНОВНОЙ КОД ==========
+placeholder = st.empty()
+
+while True:
+    df = load_data(hours)
+    
+    with placeholder.container():
+        if df.empty:
+            st.warning("⚠️ No data in database. Please run video processing first.")
+        else:
+            # KPI в верхней части
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("🚗 Total Vehicles", f"{df['intensity'].sum():,}")
+            col2.metric("📊 Average Speed", f"{df['avg_speed'].mean():.1f} px/sec")
+            col3.metric("📈 Max Intensity", f"{df['intensity'].max():,}")
+            col4.metric("📋 Total Records", f"{len(df):,}")
+            
+            # Два графика рядом: линейный и круговой
+            col5, col6 = st.columns(2)
+            
+            with col5:
+                st.subheader("📈 Traffic Intensity Over Time")
+                chart_data = df.set_index('time').groupby('time')['intensity'].sum()
+                st.line_chart(chart_data)
+            
+            with col6:
+                st.subheader("🥧 Distribution by Vehicle Type")
+                pie_data = df.groupby('vehicle_type')['intensity'].sum()
+                
+                # Цвета для круговой диаграммы
+                colors = {
+                    'car': '#4CAF50',
+                    'motorcycle': '#FFC107',
+                    'bus': '#2196F3',
+                    'truck': '#F44336'
+                }
+                
+                # Кастомная круговая диаграмма через plotly
+                import plotly.express as px
+                pie_df = pd.DataFrame({
+                    'Vehicle Type': pie_data.index,
+                    'Count': pie_data.values
+                })
+                fig = px.pie(
+                    pie_df, 
+                    values='Count', 
+                    names='Vehicle Type',
+                    title='Vehicle Distribution',
+                    color='Vehicle Type',
+                    color_discrete_map=colors,
+                    hole=0.4  # Сделать пончиком (опционально)
+                )
+                fig.update_traces(textposition='inside', textinfo='percent+label')
+                fig.update_layout(showlegend=True, height=400)
+                st.plotly_chart(fig, use_container_width=True)
+            
+            # Таблица внизу
+            st.subheader("📋 Recent Events")
+            st.dataframe(
+                df.head(20)[['time', 'vehicle_type', 'intensity', 'avg_speed']],
+                use_container_width=True
+            )
+
+    if not auto_refresh:
+        break
+
+    import time
+    time.sleep(10)

@@ -59,6 +59,13 @@ server {
     rewrite ^/post19\.html$ /blogs/map-a-python-settings-layer-before-a-utility-script-starts-growing/ permanent;
     rewrite ^/post20\.html$ /blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/ permanent;
     rewrite ^/post21\.html$ /blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/ permanent;
+    rewrite ^/post22\.html$ /blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/ permanent;
+    rewrite ^/post23\.html$ /blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/ permanent;
+    rewrite ^/post24\.html$ /blogs/let-an-auto-refresh-loop-breathe-before-the-whole-page-turns-restless/ permanent;
+    rewrite ^/post25\.html$ /blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/ permanent;
+    rewrite ^/post26\.html$ /blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/ permanent;
+    rewrite ^/post27\.html$ /blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/ permanent;
+    rewrite ^/post28\.html$ /blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/ permanent;
 
     rewrite ^/blogs/([^/]+)$ /blogs/$1/ permanent;
 
@@ -128,6 +135,13 @@ server {
     rewrite ^/post19\.html$ /blogs/map-a-python-settings-layer-before-a-utility-script-starts-growing/ permanent;
     rewrite ^/post20\.html$ /blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/ permanent;
     rewrite ^/post21\.html$ /blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/ permanent;
+    rewrite ^/post22\.html$ /blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/ permanent;
+    rewrite ^/post23\.html$ /blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/ permanent;
+    rewrite ^/post24\.html$ /blogs/let-an-auto-refresh-loop-breathe-before-the-whole-page-turns-restless/ permanent;
+    rewrite ^/post25\.html$ /blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/ permanent;
+    rewrite ^/post26\.html$ /blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/ permanent;
+    rewrite ^/post27\.html$ /blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/ permanent;
+    rewrite ^/post28\.html$ /blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/ permanent;
 
     rewrite ^/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill$ /blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/ permanent;
     rewrite ^/blogs/persist-live-detections-and-roll-them-into-an-hourly-martt$ /blogs/persist-live-detections-and-roll-them-into-an-hourly-martt/ permanent;

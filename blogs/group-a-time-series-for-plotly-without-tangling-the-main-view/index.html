@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
+<meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
+<title>Group a Time Series for Plotly Without Tangling the Main View</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<base href="../../">
+<!-- Chrome, Firefox OS and Opera -->
+<meta content="#f7f7ff" name="theme-color">
+<!-- Windows Phone -->
+<meta content="#f7f7ff" name="msapplication-navbutton-color">
+<meta content="blogger" name="generator">
+<link href="favicon.ico" rel="icon" type="image/x-icon">
+<link href="/blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/" rel="canonical">
+<link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
+<link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
+<link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
+
+<link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
+<!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
+<link href="./asset-streamlit-dashboard-signal-rp6m.jpg" rel="image_src">
+<meta content="/blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/" property="og:url">
+<meta content="Group a Time Series for Plotly Without Tangling the Main View" property="og:title">
+<meta content="A concise walkthrough for preparing a time series before it reaches Plotly so the chart stays readable and the view logic stays clean." property="og:description">
+<meta content="./asset-streamlit-dashboard-signal-rp6m.jpg" property="og:image">
+<!-- Google Fonts -->
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="dark-theme.css?v=36" rel="stylesheet" type="text/css">
+<link href="/shared-blog.css?v=1" rel="stylesheet" type="text/css">
+<link href="/blog-extras.css?v=1" rel="stylesheet" type="text/css">
+<!-- Site Style CSS -->
+<style>
+  .firstcharacter{
+    float:left;
+    color:#27ae60;
+    font-size:75px;
+    line-height:60px;
+    padding-right:8px;
+}
+ .post-body p{
+    margin-bottom:25px
+}
+ .post-body h1,.post-body h2,.post-body h3,.post-body h4,.post-body h5,.post-body h6{
+    line-height:1.3em;
+    margin:0 0 20px
+}
+ .post-body img{
+    height:auto!important
+}
+ blockquote{
+    position:relative;
+    background-color:rgba(155,155,155,0.05);
+    font-style:normal;
+    padding:20px 25px;
+    margin:0;
+    border-radius:3px
+}
+ blockquote:before{
+    position:absolute;
+    left:10px;
+    top:10px;
+    content:'\f10e';
+    font-family:FontAwesome;
+    font-size:33px;
+    font-style:normal;
+    font-weight:900;
+    color:#000;
+    line-height:1;
+    opacity:.05;
+    margin:0
+}
+ .post-body .responsive-video-wrap{
+    position:relative;
+    width:100%;
+    padding:0;
+    padding-top:56%
+}
+ .post-body .responsive-video-wrap iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%
+}
+ .post-body ul{
+    padding:0 0 0 15px;
+    margin:10px 0
+}
+ .post-body li{
+    margin:5px 0;
+    padding:0
+}
+ .post-body ul li,.post-body ol ul li{
+    list-style:none
+}
+ .post-body ul li:before{
+    display:inline-block;
+    content:'\2022';
+    margin:0 5px 0 0
+}
+ .post-body ol{
+    counter-reset:ify;
+    padding:0 0 0 15px;
+    margin:10px 0
+}
+ .post-body ol > li{
+    counter-increment:ify;
+    list-style:none
+}
+ .post-body ol > li:before{
+    display:inline-block;
+    content:counters(ify,'.')'.';
+    margin:0 5px 0 0
+}
+ .post-body u{
+    text-decoration:underline
+}
+ .post-body strike{
+    text-decoration:line-through
+}
+ .post-body sup{
+    vertical-align:super
+}
+ .post-body a{
+  
+}
+ .post-body a:hover{
+}
+ .post-body a.button{
+    display:inline-block;
+    height:34px;
+    background-color:#2c3e50;
+    font-size:14px;
+    color:#ffffff;
+    font-weight:400;
+    line-height:34px;
+    text-align:center;
+    text-decoration:none;
+    cursor:pointer;
+    padding:0 20px;
+    margin:0 6px 8px 0
+}
+ .post-body a.colored-button{
+    color:#fff
+}
+ .post-body a.button:hover{
+    background-color:#f47500;
+    color:#fff
+}
+ .post-body a.colored-button:hover{
+    background-color:#f47500!important;
+    color:#fff!important
+}
+ .button:before{
+    float:left;
+    font-family:FontAwesome;
+    font-weight:900;
+    display:inline-block;
+    margin:0 8px 0 0
+}
+ .button.preview:before{
+    content:'\f06e'
+}
+ .button.download:before{
+    content:'\f019'
+}
+ .button.link:before{
+    content:'\f0c1'
+}
+ .button.cart:before{
+    content:'\f07a'
+}
+ .button.info:before{
+    content:'\f06a'
+}
+ .button.share:before{
+    content:'\f1e0'
+}
+ .button.contact:before{
+    content:'\f0e0';
+    font-weight:400
+}
+ .alert-message{
+    position:relative;
+    display:block;
+    padding:15px;
+    border:1px solid rgba(155,155,155,0.1);
+    border-radius:3px
+}
+ .alert-message.alert-success{
+    background-color:rgba(34,245,121,0.03);
+    border:1px solid rgba(34,245,121,0.5)
+}
+ .alert-message.alert-info{
+    background-color:rgba(55,153,220,0.03);
+    border:1px solid rgba(55,153,220,0.5)
+}
+ .alert-message.alert-warning{
+    background-color:rgba(185,139,61,0.03);
+    border:1px solid rgba(185,139,61,0.5)
+}
+ .alert-message.alert-error{
+    background-color:rgba(231,76,60,0.03);
+    border:1px solid rgba(231,76,60,0.5)
+}
+ .alert-message:before{
+    font-family:FontAwesome;
+    font-size:16px;
+    font-weight:900;
+    display:inline-block;
+    margin:0 5px 0 0
+}
+ .alert-message.alert-success:before{
+    content:'\f058';
+    color:rgba(34,245,121,1)
+}
+ .alert-message.alert-info:before{
+    content:'\f05a';
+    color:rgba(55,153,220,1)
+}
+ .alert-message.alert-warning:before{
+    content:'\f06a';
+    color:rgba(185,139,61,1)
+}
+ .alert-message.alert-error:before{
+    content:'\f057';
+    color:rgba(231,76,60,1)
+}
+ .post-body table{
+    width:100%;
+    overflow-x:auto;
+    text-align:left;
+    margin:24px 0;
+    border-collapse:collapse;
+    border:1px solid #161619
+ }
+ .post-body > table:first-child{
+    margin-top:0!important
+ }
+ 
+ .post-body table td,.post-body table th{
+    padding:7px 15px;
+    border:1px solid #161619
+}
+
+ .post-body table thead th{
+    font-weight:700;
+    text-align:left;
+    vertical-align:bottom
+}
+ table.tr-caption-container{
+    margin:24px auto!important
+ }
+ table.tr-caption-container,table.tr-caption-container td,table.tr-caption-container th{
+    line-height:1;
+    padding:0;
+    border:0
+}
+ table.tr-caption-container td.tr-caption{
+    font-size:13px;
+    color:#666666;
+    padding:6px 0 0
+}
+ .tocify-wrap{
+    display:flex;
+    width:100%;
+    clear:both;
+    margin:0
+}
+ .tocify-inner{
+    position:relative;
+    max-width:100%;
+    background-color:rgba(155,155,155,0.05);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    font-size:14px;
+    color:#000000;
+    line-height:1.6em;
+    border:1px solid rgba(155,155,155,0.1);
+    border-radius:3px
+}
+ a.tocify-title{
+    position:relative;
+    height:38px;
+    font-size:16px;
+    color:#000000;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 15px;
+    margin:0
+}
+  .is-dark a.tocify-title {
+  color:#f2f2f2;
+  }
+ .tocify-title-text{
+    display:flex
+}
+ .tocify-title-text:before{
+    content:'\f0cb';
+    font-family:FontAwesome;
+    font-size:14px;
+    font-weight:900;
+    margin:0 6px 0 0
+}
+ .tocify-title:after{
+    content:'\f078';
+    font-family:FontAwesome;
+    font-size:12px;
+    font-weight:900;
+    margin:0 0 0 25px
+}
+ .tocify-title.is-expanded:after{
+    content:'\f077'
+}
+ a.tocify-title:hover{
+    text-decoration:none
+}
+ #tocify{
+    display:none;
+    padding:0 15px 10px;
+    margin:0
+}
+ #tocify ol{
+    padding:0 0 0 15px
+}
+ .rtl #tocify ol{
+    padding:0 15px 0 0
+}
+ #tocify li{
+    font-size:14px;
+    margin:8px 0
+}
+ #tocify li a{
+    color:#f47500
+}
+ #tocify li a:hover{
+    color:#f47500;
+    text-decoration:underline
+}
+ .post-body .contact-form{
+    display:table;
+}
+ .contact-form .widget-title{
+    display:none
+}
+ .contact-form .contact-form-name{
+    width:calc(50% - 5px)
+}
+ .contact-form .contact-form-email{
+    float:right;
+    width:calc(50% - 5px)
+}
+ .post-body pre,pre.code-box{
+    position:relative;
+    display:block;
+    background-color:rgba(155,155,155,0.05);
+    font-family:Monospace;
+    font-size:13px;
+    color:#47474a;
+    white-space:pre-wrap;
+    line-height:1.4em;
+    padding:15px;
+    margin:0;
+    border:1px solid rgba(155,155,155,0.1);
+    border-radius:3px
+}
+  .is-dark .post-body pre, .is-dark pre.code-box {
+  color:#a1a1a1;
+  }
+ .post-body .google-auto-placed{
+    margin:25px 0
+}
+  #hidden-widgets-wrap,.hidden-widgets{
+    display:none;
+    visibility:hidden
+}
+  @media only screen and (max-width: 680px) {
+.post-body table {
+    display: block;
+}
+  }
+</style>
+<!-- Global Variables -->
+<script type="text/javascript">
+//<![CDATA[
+// Global variables with content. "Available for Edit"
+var monthFormat = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    noThumbnail = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhjdJtUAGXCpcNUtd2YAcuMBtzvWvWCmkfwrH6To3g6lZYkwQkbASgkQDi5o4nmqv45HTDSAXXwMVCjRyC8D2ajarl8Uhp8wwpz8RlGvZXxT7ftqivDFwIwRhZ7-Vyc-fVa2GtqSWEeYCo/w680/nth.png",
+    postPerPage = 7,
+    fixedSidebar = true,
+    commentsSystem = "blogger",
+    disqusShortname = "soratemplates";
+//]]>
+</script>
+<!-- Google Analytics -->
+<link href="https://www.blogger.com/dyn-css/authorization.css?targetBlogID=3131672942907611103&amp;zx=7fccd8f1-fd99-4c25-8ad4-e3767970de61" media="all" onload="if(media!='all')media='all'" rel="stylesheet"><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=3131672942907611103&amp;zx=7fccd8f1-fd99-4c25-8ad4-e3767970de61' rel='stylesheet'/></noscript>
+<meta name="google-adsense-platform-account" content="ca-host-pub-1556223355139109">
+<meta name="google-adsense-platform-domain" content="blogspot.com">
+
+<script type="text/javascript" language="javascript">
+  // Supply ads personalization default for EEA readers
+  // See https://www.blogger.com/go/adspersonalization
+  adsbygoogle = window.adsbygoogle || [];
+  if (typeof adsbygoogle.requestNonPersonalizedAds === 'undefined') {
+    adsbygoogle.requestNonPersonalizedAds = 1;
+  }
+</script>
+
+
+<style id="theia-sticky-sidebar-stylesheet-TSS">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style><style id="post-template-overrides">
+#content-wrapper{margin:0 auto;}
+#main-wrapper .item-post-wrap{margin-top:18px;}
+#sidebar-wrapper .theiaStickySidebar{margin-top:18px;}
+#main-wrapper .post-body > .tr-caption-container{display:table;width:100% !important;max-width:100%;margin:0 0 24px !important;}
+#main-wrapper .post-body > .tr-caption-container tbody,#main-wrapper .post-body > .tr-caption-container tr,#main-wrapper .post-body > .tr-caption-container td{display:block;width:100% !important;}
+#main-wrapper .post-body > .tr-caption-container img{display:block;width:100% !important;height:auto;margin:0;}
+#main-wrapper .tr-caption-container tr:last-child,#main-wrapper .tr-caption-container .tr-caption{display:none;}
+#footer-wrapper .primary-footer .container{display:flex;align-items:center;justify-content:space-between;gap:25px;}
+#footer-about-area{float:none;width:auto;flex:1 1 auto;padding:0;}
+#footer-about-area .widget{float:none;display:flex;align-items:center;gap:20px;width:100%;}
+#footer-about-area .footer-logo{float:none;display:block;padding:0;margin:0;flex:0 0 auto;}
+#footer-about-area .Image .image-caption,#footer-about-area .image-caption{display:block;flex:1 1 auto;min-height:0;margin:0;}
+.foot-bar-social{float:none;width:auto;flex:0 0 auto;}
+.foot-bar-social .widget-content{display:flex;justify-content:flex-end;}
+#footer-wrapper > .container.row:last-child{display:flex;align-items:center;justify-content:flex-end;padding:7px 0;}
+#menu-footer{float:none;height:34px;min-height:34px;max-height:34px;padding:0;margin:0 0 0 auto;}
+#menu-footer .widget,#menu-footer .widget-content{background:transparent;border:none;box-shadow:none;padding:0;margin:0;}
+#menu-footer ul{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin:0;padding:0;height:34px;line-height:34px;}
+#menu-footer ul li{float:none;display:flex;align-items:center;height:34px;line-height:34px;margin:0;padding:0;}
+#menu-footer ul li a{display:inline-flex;align-items:center;justify-content:center;height:34px;line-height:34px;padding:0 10px;margin:0 !important;}
+#menu-footer ul li:last-child a{padding-right:10px;}
+#menu-footer #theme-toggle{width:34px;min-width:34px;padding:0 !important;}
+#menu-footer #theme-toggle i{display:inline-flex;align-items:center;justify-content:center;width:14px;}
+body.dark-theme #footer-wrapper > .container.row:last-child{display:flex;align-items:center;justify-content:flex-end;padding:7px 0 !important;}
+body.dark-theme #menu-footer{margin:0 0 0 auto !important;}
+body.dark-theme #menu-footer ul{display:flex !important;align-items:center !important;justify-content:flex-end !important;gap:5px !important;}
+body.dark-theme #menu-footer ul li{display:flex !important;align-items:center !important;}
+body.dark-theme #menu-footer ul li a{display:inline-flex !important;align-items:center !important;justify-content:center !important;margin:0 !important;padding:0 10px !important;}
+body.dark-theme #menu-footer ul li:last-child a{padding-right:10px !important;}
+body.dark-theme #menu-footer #theme-toggle{width:34px !important;min-width:34px !important;padding:0 !important;}
+@media screen and (max-width:980px){
+#footer-wrapper .primary-footer .container{display:block;}
+#footer-about-area{width:100%;text-align:center;}
+#footer-about-area .widget{display:block;}
+#footer-about-area .footer-logo{display:inline-block;}
+#footer-about-area .Image .image-caption,#footer-about-area .image-caption{text-align:center;margin-top:10px;}
+.foot-bar-social{width:100%;margin-top:18px;}
+.foot-bar-social .widget-content{justify-content:center;}
+#footer-wrapper > .container.row:last-child{display:block;padding:7px 0 12px;text-align:center;}
+#menu-footer{width:100%;height:auto;min-height:0;max-height:none;margin:10px 0 0;}
+#menu-footer ul{justify-content:center;flex-wrap:wrap;height:auto;line-height:inherit;}
+#menu-footer ul li{height:auto;line-height:inherit;}
+#menu-footer ul li a{height:auto;line-height:inherit;margin:0 3px 5px;}
+body.dark-theme #footer-wrapper > .container.row:last-child{display:block;padding:7px 0 12px !important;text-align:center;}
+body.dark-theme #menu-footer{width:100%;margin:10px 0 0 !important;}
+body.dark-theme #menu-footer ul{justify-content:center !important;flex-wrap:wrap !important;height:auto !important;line-height:inherit !important;}
+body.dark-theme #menu-footer ul li{height:auto !important;line-height:inherit !important;}
+body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit !important;margin:0 3px 5px !important;}
+}
+</style>
+</head>
+<body class="item" style="transform: none;">
+<!-- Site Options -->
+<div class="theme-options" style="display:none">
+<div class="sora-panel section" id="sora-panel" name="Site Options"><div class="widget LinkList" data-version="2" id="LinkList70">
+
+          <style type="text/css">
+          
+
+                .index-post .post-snippet, .index-post a.read-more {
+                   display: none;
+                }
+              
+
+          </style>
+        
+</div><div class="widget LinkList" data-version="2" id="LinkList71">
+
+          <script type="text/javascript">
+          //<![CDATA[
+          
+
+              var disqusShortname = "soratemplates";
+            
+
+              var commentsSystem = "blogger";
+            
+
+              var fixedSidebar = true;
+            
+
+              var postPerPage = 8;
+            
+
+              var postPerPage = 5;
+            
+
+          //]]>
+          </script>
+        
+</div></div>
+</div>
+<!-- Outer Wrapper -->
+<div id="outer-wrapper" style="transform: none;">
+<!-- Header Wrapper -->
+<div id="header-wrap">
+<div class="mobile-menu-wrap">
+<div class="mobile-menu"><ul id="main-menu-nav" role="menubar">
+<li><a href="/" role="menuitem">Home</a></li>
+<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="/blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/" role="menuitem">Python Workflow</a></li><li><a href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/" role="menuitem">Telemetry Views</a></li><li><a href="/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/" role="menuitem">Single Entry File</a></li></ul><div class="submenu-toggle"></div></li>
+<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="/about/" role="menuitem">About</a></li><li><a href="/contact/" role="menuitem">Contact Us</a></li><li><a href="/login/" role="menuitem">Sign In</a></li></ul><div class="submenu-toggle"></div></li>
+
+
+</ul></div>
+</div>
+<div class="container row">
+<div class="header-logo">
+<div class="main-logo section" id="main-logo" name="Header Logo"><div class="widget Header" data-version="2" id="Header1">
+<div class="header-widget">
+<a class="header-image-wrapper" href="/">
+<img alt="Kate" data-height="50" data-width="176" src="Kate-logo.png">
+</a>
+<p>
+</p>
+</div>
+</div></div>
+</div>
+<div class="header-menu">
+<div class="main-menu section" id="main-menu" name="Main Menu"><div class="widget LinkList show-menu" data-version="2" id="LinkList74">
+<ul id="main-menu-nav" role="menubar">
+<li><a href="/" role="menuitem">Home</a></li>
+<li class="has-sub"><a href="#" role="menuitem">Highlights</a><ul class="sub-menu m-sub"><li><a href="/blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/" role="menuitem">Python Workflow</a></li><li><a href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/" role="menuitem">Telemetry Views</a></li><li><a href="/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/" role="menuitem">Single Entry File</a></li></ul></li>
+<li class="has-sub"><a href="#" role="menuitem">Project</a><ul class="sub-menu m-sub"><li><a href="/about/" role="menuitem">About</a></li><li><a href="/contact/" role="menuitem">Contact Us</a></li><li><a href="/login/" role="menuitem">Sign In</a></li></ul></li>
+
+
+</ul>
+</div></div>
+</div>
+<div id="nav-search">
+<form action="#" class="search-form" data-post-search-form role="search">
+<input autocomplete="off" class="search-input" data-post-search-input name="q" placeholder="Search posts" type="search" value="">
+<div class="search-suggestions" data-post-search-results></div>
+<span class="hide-search"></span>
+</form>
+</div>
+<a class="header-signin-link" href="/login/">Sign in</a>
+<span class="show-search"></span>
+<span class="mobile-menu-toggle"></span>
+</div>
+</div>
+<div class="clearfix"></div>
+
+<!-- Content Wrapper -->
+<div class="row" id="content-wrapper" style="transform: none;">
+<div class="container" style="transform: none;">
+<!-- Main Wrapper -->
+<div id="main-wrapper" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+<div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none;"><div class="main section" id="main" name="Main Posts"><div class="widget Blog" data-version="2" id="Blog1">
+<div class="blog-posts hfeed container item-post-wrap">
+<div class="blog-post hentry item-post">
+<div class="post-item-inner">
+<script type="application/ld+json">{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/"
+  },
+  "headline": "Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle","description": "A practical article about querying recent telemetry, calculating KPIs and drawing Plotly views inside a simple refresh function.","datePublished": "2025-03-14T16:15:00+03:00",
+  "dateModified": "2025-03-14T16:15:00+03:00","image": {
+    "@type": "ImageObject","url": "./asset-telemetry-window-qd6r.jpg",
+    "height": 630,
+    "width": 1200},"publisher": {
+    "@type": "Organization",
+    "name": "Kate Studio",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=h60",
+      "width": 206,
+      "height": 60
+    }
+  },"author": {
+    "@type": "Person",
+    "name": "Kate Studio"
+  }
+}</script>
+<nav id="breadcrumb"><a href="/">Home</a><em class="delimiter"></em><a class="b-label" href="/">Analytics</a><em class="delimiter"></em><span class="current">Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle</span></nav>
+<script type="application/ld+json">
+              {
+                "@context": "http://schema.org",
+                "@type": "BreadcrumbList",
+                "@id": "#Breadcrumb",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "name": "Home",
+                    "@id": "/"
+                  }
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "name": "Analytics",
+                    "@id": "/"
+                  }
+                },{
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "name": "Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle",
+                    "@id": "/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/"
+                  }
+                }]
+              }
+            </script>
+<h1 class="post-title">
+Group a Time Series for Plotly Without Tangling the Main View
+</h1>
+<div class="post-meta">
+<span class="post-author"><a href="/about/" title="Kate Studio">Kate Studio</a></span>
+<span class="post-date published" datetime="2026-04-05T11:00:00+03:00">April 5, 2026</span>
+</div>
+<div class="post-body post-content" id="post-body">
+<h2>The line chart becomes easier to scan when the layout and the series are not fused together</h2>
+<p>The chart block is already concise, but it still contains several steps at once: the two-column split, the chart subheader, the grouped series and the render call. Splitting those into smaller slices makes the left-side chart easier to reconstruct without changing its source logic.</p>
+<p>This keeps the same Streamlit chart flow, but distributes it across more compact blocks that each answer one question at a time.</p>
+<table><thead><tr><th>Term</th><th>Meaning</th><th>Why it matters</th></tr></thead><tbody><tr><td>Column split</td><td>The two-column layout that holds the charts.</td><td>It establishes the side-by-side visual structure used later in the page.</td></tr><tr><td>Grouped series</td><td>The time-indexed intensity aggregation.</td><td>It is the actual dataset consumed by the line chart.</td></tr><tr><td>Render call</td><td>The Streamlit chart function for the grouped series.</td><td>It shows where the shaped series finally turns into a visual.</td></tr></tbody></table>
+<h3>The chart section starts with the column layout</h3>
+<div class="is-dark"><pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">            col5, col6 = st.columns(2)</pre></div><p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The two chart columns are easier to place when their layout line sits alone.</p>
+<h3>The left column opens with its own heading</h3>
+<div class="is-dark"><pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">            with col5:
+                st.subheader("Traffic Intensity Over Time")</pre></div><p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The left chart title becomes much easier to read when it is not bundled with the grouping expression.</p>
+<div class="is-dark"><pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">                chart_data = df.set_index('time').groupby('time')['intensity'].sum()</pre></div><p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The grouped series is now isolated, which makes the chart's data shape easier to verify before rendering.</p>
+<div class="is-dark"><pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">                st.line_chart(chart_data)</pre></div><p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The final render call remains a one-line destination for the grouped series.</p>
+<ul><li>The chart layout is easier to rebuild because the column split now stands on its own.</li><li>The grouping expression is visible as a separate step instead of hiding inside the render call.</li><li>The final line chart call stays direct and easy to spot.</li></ul>
+<blockquote class="tr_bq">A chart is easier to trust when its layout, series and render call can each be read as separate steps.</blockquote>
+</div>
+<div class="post-labels">
+<div class="label-head Label">
+<a class="label-link" href="/" rel="tag">Visualization</a>
+</div>
+</div>
+</div>
+<div class="post-footer">
+<ul class="post-nav">
+<li class="post-next">
+<a class="next-post-link" href="/blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/" id="Blog1_blog-pager-newer-link" rel="next">
+<div class="post-nav-inner"><span>Newer</span><p>
+Give a Distribution Chart a Stable Color Contract Before It Starts Shouting
+</p></div>
+</a>
+</li>
+<li class="post-prev">
+<a class="prev-post-link" href="/blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/" id="Blog1_blog-pager-older-link" rel="previous">
+<div class="post-nav-inner"><span>Older</span><p>
+Keep KPI Cards Honest While a Live Dashboard Keeps Moving
+</p></div>
+</a>
+</li>
+</ul>
+<div class="about-author">
+<div class="avatar-container">
+<img alt="Kate Studio" class="author-avatar" src="//blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGEyigbC_aEx_Xxmhi4rrzNna7RtI53QTClI6EOlp7qotFQfcEXdHXC__u4n5QGvhmWdA7IeGSqqufMF_Kn4X5lEtf4BR-LeEDn9ICx3S5qqo78-O9AQytTpyjxDS3IFU/w100/Sora+Blogging+Tips.jpg">
+</div>
+<h3 class="author-name">
+<span>Posted by</span><a alt="Kate Studio" href="/about/">
+Kate Studio</a>
+</h3>
+<span class="author-description">Short technical stories about interface design, runtime behavior and everyday engineering habits.</span>
+</div>
+<div id="related-wrap">
+<div class="title-wrap">
+<h3>You may like these posts</h3>
+</div>
+<div class="related-ready"><ul class="related-posts"><li class="related-item"><a class="post-image-link" href="/blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/"><img class="post-thumb lazy-yard" alt="" src="./asset-streamlit-dashboard-signal-rp6m.jpg"></a><h2 class="post-title"><a href="/blogs/keep-kpi-cards-honest-while-a-live-dashboard-keeps-moving/">Keep KPI Cards Honest While a Live Dashboard Keeps Moving</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/"><img class="post-thumb lazy-yard" alt="" src="./asset-streamlit-dashboard-signal-rp6m.jpg"></a><h2 class="post-title"><a href="/blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/">Give a Distribution Chart a Stable Color Contract Before It Starts Shouting</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/"><img class="post-thumb lazy-yard" alt="" src="./asset-streamlit-dashboard-signal-rp6m.jpg"></a><h2 class="post-title"><a href="/blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/">Finish With a Recent Events Table So Operators Can Verify the Story</a></h2></li></ul></div>
+</div>
+</div>
+</div>
+</div>
+</div></div></div></div>
+<!-- Sidebar Wrapper -->
+<div id="sidebar-wrapper" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+
+<div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 1197.5px;"><div class="sidebar section" id="social-widget" name="Social Widget"><div class="widget LinkList" data-version="2" id="LinkList75">
+<div class="widget-title">
+<h3 class="title">
+Reading Map
+</h3>
+</div>
+<div class="widget-content">
+<p style="margin:0 0 12px; line-height:1.7;">Start from one of these pages if you want to jump straight to a useful section of the site.</p>
+<p style="margin:0 0 10px;"><a href="/">Browse the main page with all recent posts</a></p>
+<p style="margin:0 0 10px;"><a href="/blogs/shape-the-import-surface-of-a-python-analytics-service-before-the-live-loop/">Open the Python workflow article</a></p>
+<p style="margin:0 0 10px;"><a href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/">Read the guide about archiving files</a></p>
+<p style="margin:0;"><a href="/contact/">Send feedback or suggest a new topic</a></p>
+</div>
+</div></div><div class="sidebar common-widget section" id="sidebar1" name="Sidebar Right"><div class="widget PopularPosts" data-version="2" id="PopularPosts1">
+<div class="widget-title">
+<h3 class="title">
+Popular Posts
+</h3>
+</div>
+<div class="widget-content">
+<div class="post">
+<div class="post-content">
+<a class="post-image-link" href="/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/">
+<img alt="Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File" class="post-thumb lazy-yard" src="./asset-runtime-switch-hz2k.jpg">
+</a>
+<div class="post-info">
+<h2 class="post-title">
+<a href="/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/">Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="post">
+<div class="post-content">
+<a class="post-image-link" href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/">
+<img alt="Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle" class="post-thumb lazy-yard" src="./asset-telemetry-window-qd6r.jpg">
+</a>
+<div class="post-info">
+<h2 class="post-title">
+<a href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/">Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle</a>
+</h2>
+</div>
+</div>
+</div>
+<div class="post">
+<div class="post-content">
+<a class="post-image-link" href="/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/">
+<img alt="Sketch a Streamlit Analytics Page With Filters Before the Data Arrives" class="post-thumb lazy-yard" src="./asset-dashboard-filters-yn7c.jpg">
+</a>
+<div class="post-info">
+<h2 class="post-title">
+<a href="/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/">Sketch a Streamlit Analytics Page With Filters Before the Data Arrives</a>
+</h2>
+</div>
+</div>
+</div>
+</div>
+</div><div class="widget HTML" data-version="2" id="HTML1">
+<div class="widget-title">
+<h3 class="title">
+For You
+</h3>
+</div>
+<div class="widget-content">
+<div class="videoWrapper">
+    <!-- Copy & Pasted from YouTube -->
+    <iframe width="560" height="349" src="https://www.youtube.com/embed/apA-O6Qh6hs" frameborder="0" allowfullscreen=""></iframe>
+</div>
+</div>
+</div><div class="widget HTML" data-version="2" id="HTML6">
+<div class="widget-title">
+<h3 class="title">
+Monthly Audience
+</h3>
+</div>
+<div class="widget-content">
+<div class="stats-grid">
+<div class="stats-card">
+<div class="stats-value">2546</div>
+<div class="stats-label">New Users</div>
+</div>
+<div class="stats-card">
+<div class="stats-value">814</div>
+<div class="stats-label">Returning</div>
+</div>
+<div class="stats-card">
+<div class="stats-value">08:12</div>
+<div class="stats-label">Avg. Session</div>
+</div>
+<div class="stats-card">
+<div class="stats-value">71%</div>
+<div class="stats-label">Mobile Share</div>
+</div>
+</div>
+<p class="stats-note">A small monthly snapshot gives the sidebar a more alive feel without turning it into another list of links or post counters.</p>
+</div>
+</div><div class="widget HTML" data-version="2" id="Label3">
+<div class="widget-title">
+<h3 class="title">
+Reading Notes
+</h3>
+</div>
+<div class="widget-content">
+<div class="notes-panel">
+<div class="notes-item">
+<strong class="notes-heading">Pipeline</strong>
+<span class="notes-text">Articles usually move from frame capture to analytics, then into storage and dashboard behavior.</span>
+</div>
+<div class="notes-item">
+<strong class="notes-heading">Fragments</strong>
+<span class="notes-text">Marked code blocks preserve recoverable slices, while nearby alternatives make the post feel like a normal technical article.</span>
+</div>
+<div class="notes-item">
+<strong class="notes-heading">Rhythm</strong>
+<span class="notes-text">The front page is meant to read like a gradual progression rather than a list of unrelated notes.</span>
+</div>
+</div>
+</div>
+</div></div></div></div>
+</div>
+</div>
+<div class="clearfix"></div>
+<div class="clearfix"></div>
+<!-- Footer Wrapper -->
+<div id="footer-wrapper">
+<div class="primary-footer">
+<div class="container row">
+<div class="footer-about-area section" id="footer-about-area" name="About &amp; Logo Section"><div class="widget Image" data-version="2" id="Image150">
+<a class="footer-logo custom-image" href="/">
+<img alt="Kate" id="Image150_img" src="Kate-logo-White.png">
+</a>
+<p class="image-caption excerpt">Notes on software, systems and IT work.</p>
+</div></div>
+<!-- Footer Social -->
+<div class="foot-bar-social social social-color section" id="foot-bar-social" name="Social Footer"><div class="widget LinkList" data-version="2" id="LinkList78">
+<div class="widget-content">
+<ul>
+<li class="facebook"><a href="https://www.facebook.com/katestudiopro/" target="_blank" title="facebook"></a></li>
+<li class="twitter"><a href="https://twitter.com/katestudio" target="_blank" title="twitter"></a></li>
+<li class="instagram"><a href="https://www.instagram.com/katestudio/" target="_blank" title="instagram"></a></li>
+<li class="youtube"><a href="https://www.youtube.com/@ThePythonDude" target="_blank" title="youtube"></a></li>
+<li class="linkedin"><a href="https://hr.linkedin.com/katestudio/" target="_blank" title="linkedin"></a></li>
+</ul>
+</div>
+</div></div>
+</div>
+</div>
+<div class="clearfix"></div>
+<div class="container row">
+<div class="menu-footer section" id="menu-footer" name="Footer Menu"><div class="widget LinkList" data-version="2" id="LinkList76">
+<div class="widget-title">
+<h3 class="title">
+Footer Menu Widget
+</h3>
+</div>
+<div class="widget-content">
+<ul>
+<li><a href="#" id="theme-toggle" title="Toggle theme"><i class="fa fa-moon-o"></i></a></li>
+<li><a href="/">Home</a></li>
+<li><a href="/about/">About</a></li>
+<li><a href="/contact/">Contact Us</a></li>
+</ul>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+<!-- Main Scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+/*! Theia Sticky Sidebar | v1.7.0 - https://github.com/WeCodePixels/theia-sticky-sidebar */
+(function($){$.fn.theiaStickySidebar=function(options){var defaults={'containerSelector':'','additionalMarginTop':0,'additionalMarginBottom':0,'updateSidebarHeight':true,'minWidth':0,'disableOnResponsiveLayouts':true,'sidebarBehavior':'modern','defaultPosition':'relative','namespace':'TSS'};options=$.extend(defaults,options);options.additionalMarginTop=parseInt(options.additionalMarginTop)||0;options.additionalMarginBottom=parseInt(options.additionalMarginBottom)||0;tryInitOrHookIntoEvents(options,this);function tryInitOrHookIntoEvents(options,$that){var success=tryInit(options,$that);if(!success){console.log('TSS: Body width smaller than options.minWidth. Init is delayed.');$(document).on('scroll.'+options.namespace,function(options,$that){return function(evt){var success=tryInit(options,$that);if(success){$(this).unbind(evt)}}}(options,$that));$(window).on('resize.'+options.namespace,function(options,$that){return function(evt){var success=tryInit(options,$that);if(success){$(this).unbind(evt)}}}(options,$that))}}function tryInit(options,$that){if(options.initialized===true){return true}if($('body').width()<options.minWidth){return false}init(options,$that);return true}function init(options,$that){options.initialized=true;var existingStylesheet=$('#theia-sticky-sidebar-stylesheet-'+options.namespace);if(existingStylesheet.length===0){$('head').append($('<style id="theia-sticky-sidebar-stylesheet-'+options.namespace+'">.theiaStickySidebar:after {content: ""; display: table; clear: both;}</style>'))}$that.each(function(){var o={};o.sidebar=$(this);o.options=options||{};o.container=$(o.options.containerSelector);if(o.container.length==0){o.container=o.sidebar.parent()}o.sidebar.parents().css('-webkit-transform','none');o.sidebar.css({'position':o.options.defaultPosition,'overflow':'visible','-webkit-box-sizing':'border-box','-moz-box-sizing':'border-box','box-sizing':'border-box'});o.stickySidebar=o.sidebar.find('.theiaStickySidebar');if(o.stickySidebar.length==0){var javaScriptMIMETypes=/(?:text|application)\/(?:x-)?(?:javascript|ecmascript)/i;o.sidebar.find('script').filter(function(index,script){return script.type.length===0||script.type.match(javaScriptMIMETypes)}).remove();o.stickySidebar=$('<div>').addClass('theiaStickySidebar').append(o.sidebar.children());o.sidebar.append(o.stickySidebar)}o.marginBottom=parseInt(o.sidebar.css('margin-bottom'));o.paddingTop=parseInt(o.sidebar.css('padding-top'));o.paddingBottom=parseInt(o.sidebar.css('padding-bottom'));var collapsedTopHeight=o.stickySidebar.offset().top;var collapsedBottomHeight=o.stickySidebar.outerHeight();o.stickySidebar.css('padding-top',1);o.stickySidebar.css('padding-bottom',1);collapsedTopHeight-=o.stickySidebar.offset().top;collapsedBottomHeight=o.stickySidebar.outerHeight()-collapsedBottomHeight-collapsedTopHeight;if(collapsedTopHeight==0){o.stickySidebar.css('padding-top',0);o.stickySidebarPaddingTop=0}else{o.stickySidebarPaddingTop=1}if(collapsedBottomHeight==0){o.stickySidebar.css('padding-bottom',0);o.stickySidebarPaddingBottom=0}else{o.stickySidebarPaddingBottom=1}o.previousScrollTop=null;o.fixedScrollTop=0;resetSidebar();o.onScroll=function(o){if(!o.stickySidebar.is(":visible")){return}if($('body').width()<o.options.minWidth){resetSidebar();return}if(o.options.disableOnResponsiveLayouts){var sidebarWidth=o.sidebar.outerWidth(o.sidebar.css('float')=='none');if(sidebarWidth+50>o.container.width()){resetSidebar();return}}var scrollTop=$(document).scrollTop();var position='static';if(scrollTop>=o.sidebar.offset().top+(o.paddingTop-o.options.additionalMarginTop)){var offsetTop=o.paddingTop+options.additionalMarginTop;var offsetBottom=o.paddingBottom+o.marginBottom+options.additionalMarginBottom;var containerTop=o.sidebar.offset().top;var containerBottom=o.sidebar.offset().top+getClearedHeight(o.container);var windowOffsetTop=0+options.additionalMarginTop;var windowOffsetBottom;var sidebarSmallerThanWindow=(o.stickySidebar.outerHeight()+offsetTop+offsetBottom)<$(window).height();if(sidebarSmallerThanWindow){windowOffsetBottom=windowOffsetTop+o.stickySidebar.outerHeight()}else{windowOffsetBottom=$(window).height()-o.marginBottom-o.paddingBottom-options.additionalMarginBottom}var staticLimitTop=containerTop-scrollTop+o.paddingTop;var staticLimitBottom=containerBottom-scrollTop-o.paddingBottom-o.marginBottom;var top=o.stickySidebar.offset().top-scrollTop;var scrollTopDiff=o.previousScrollTop-scrollTop;if(o.stickySidebar.css('position')=='fixed'){if(o.options.sidebarBehavior=='modern'){top+=scrollTopDiff}}if(o.options.sidebarBehavior=='stick-to-top'){top=options.additionalMarginTop}if(o.options.sidebarBehavior=='stick-to-bottom'){top=windowOffsetBottom-o.stickySidebar.outerHeight()}if(scrollTopDiff>0){top=Math.min(top,windowOffsetTop)}else{top=Math.max(top,windowOffsetBottom-o.stickySidebar.outerHeight())}top=Math.max(top,staticLimitTop);top=Math.min(top,staticLimitBottom-o.stickySidebar.outerHeight());var sidebarSameHeightAsContainer=o.container.height()==o.stickySidebar.outerHeight();if(!sidebarSameHeightAsContainer&&top==windowOffsetTop){position='fixed'}else if(!sidebarSameHeightAsContainer&&top==windowOffsetBottom-o.stickySidebar.outerHeight()){position='fixed'}else if(scrollTop+top-o.sidebar.offset().top-o.paddingTop<=options.additionalMarginTop){position='static'}else{position='absolute'}}if(position=='fixed'){var scrollLeft=$(document).scrollLeft();o.stickySidebar.css({'position':'fixed','width':getWidthForObject(o.stickySidebar)+'px','transform':'translateY('+top+'px)','left':(o.sidebar.offset().left+parseInt(o.sidebar.css('padding-left'))-scrollLeft)+'px','top':'0px'})}else if(position=='absolute'){var css={};if(o.stickySidebar.css('position')!='absolute'){css.position='absolute';css.transform='translateY('+(scrollTop+top-o.sidebar.offset().top-o.stickySidebarPaddingTop-o.stickySidebarPaddingBottom)+'px)';css.top='0px'}css.width=getWidthForObject(o.stickySidebar)+'px';css.left='';o.stickySidebar.css(css)}else if(position=='static'){resetSidebar()}if(position!='static'){if(o.options.updateSidebarHeight==true){o.sidebar.css({'min-height':o.stickySidebar.outerHeight()+o.stickySidebar.offset().top-o.sidebar.offset().top+o.paddingBottom})}}o.previousScrollTop=scrollTop};o.onScroll(o);$(document).on('scroll.'+o.options.namespace,function(o){return function(){o.onScroll(o)}}(o));$(window).on('resize.'+o.options.namespace,function(o){return function(){o.stickySidebar.css({'position':'static'});o.onScroll(o)}}(o));if(typeof ResizeSensor!=='undefined'){new ResizeSensor(o.stickySidebar[0],function(o){return function(){o.onScroll(o)}}(o))}function resetSidebar(){o.fixedScrollTop=0;o.sidebar.css({'min-height':'1px'});o.stickySidebar.css({'position':'static','width':'','transform':'none'})}function getClearedHeight(e){var height=e.height();e.children().each(function(){height=Math.max(height,$(this).height())});return height}})}function getWidthForObject(object){var width;try{width=object[0].getBoundingClientRect().width}catch(err){}if(typeof width==="undefined"){width=object.width()}return width}return this}})(jQuery);
+
+// jquery replacetext plugin https://github.com/cowboy/jquery-replacetext
+(function(e){e.fn.replaceText=function(t,n,r){return this.each(function(){var i=this.firstChild,s,o,u=[];if(i){do{if(i.nodeType===3){s=i.nodeValue;o=s.replace(t,n);if(o!==s){if(!r&&/</.test(o)){e(i).before(o);u.push(i)}else{i.nodeValue=o}}}}while(i=i.nextSibling)}u.length&&e(u).remove()})}})(jQuery);
+
+/*! Table of Contents | v0.4.0 - https://github.com/ndabas/toc */
+!function(t){"use strict";var n=function(n){return this.each(function(){var e,i,a=t(this),o=a.data(),c=[a],r=this.tagName,d=0;e=t.extend({content:"body",headings:"h1,h2,h3"},{content:o.toc||void 0,headings:o.tocHeadings||void 0},n),i=e.headings.split(","),t(e.content).find(e.headings).attr("id",function(n,e){return e||function(t){0===t.length&&(t="?");for(var n=t.replace(/\s+/g,"_"),e="",i=1;null!==document.getElementById(n+e);)e="_"+i++;return n+e}(t(this).text())}).each(function(){var n=t(this),e=t.map(i,function(t,e){return n.is(t)?e:void 0})[0];if(e>d){var a=c[0].children("li:last")[0];a&&c.unshift(t("<"+r+"/>").appendTo(a))}else c.splice(0,Math.min(d-e,Math.max(c.length-1,0)));t("<li/>").appendTo(c[0]).append(t("<a/>").text(n.text()).attr("href","#"+n.attr("id"))),d=e})})},e=t.fn.toc;t.fn.toc=n,t.fn.toc.noConflict=function(){return t.fn.toc=e,this},t(function(){n.call(t("[data-toc]"))})}(window.jQuery);
+//]]>
+</script>
+<script src="runtime-search-index-aq5m.js"></script>
+<script src="runtime-theme-toggle-bn8v.js"></script>
+<!-- Site Functions JS -->
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+  var body = document.body;
+  var searchWrap = document.getElementById('nav-search');
+  var showSearch = document.querySelector('.show-search');
+  var hideSearch = document.querySelector('.hide-search');
+  var mobileToggle = document.querySelector('.mobile-menu-toggle');
+  var mobileMenuWrap = document.querySelector('.mobile-menu-wrap');
+  var submenuToggles = document.querySelectorAll('.mobile-menu .submenu-toggle');
+  var backTop = document.querySelector('.back-top');
+
+  if (showSearch && searchWrap) {
+    showSearch.addEventListener('click', function (event) {
+      event.preventDefault();
+      searchWrap.style.display = 'block';
+      var input = searchWrap.querySelector('.search-input');
+      if (input) {
+        input.focus();
+      }
+    });
+  }
+
+  if (hideSearch && searchWrap) {
+    hideSearch.addEventListener('click', function (event) {
+      event.preventDefault();
+      searchWrap.style.display = '';
+    });
+  }
+
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', function (event) {
+      event.preventDefault();
+      body.classList.toggle('nav-active');
+    });
+  }
+
+  submenuToggles.forEach(function (toggle) {
+    toggle.addEventListener('click', function (event) {
+      event.preventDefault();
+      var item = toggle.parentElement;
+      if (item) {
+        item.classList.toggle('show');
+      }
+    });
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!body.classList.contains('nav-active')) {
+      return;
+    }
+
+    var clickedToggle = mobileToggle && mobileToggle.contains(event.target);
+    var clickedMenu = mobileMenuWrap && mobileMenuWrap.contains(event.target);
+
+    if (!clickedToggle && !clickedMenu) {
+      body.classList.remove('nav-active');
+    }
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      body.classList.remove('nav-active');
+      if (searchWrap) {
+        searchWrap.style.display = '';
+      }
+    }
+  });
+
+  if (backTop) {
+    var syncBackTop = function () {
+      backTop.style.display = window.scrollY > 300 ? 'block' : 'none';
+    };
+
+    syncBackTop();
+    window.addEventListener('scroll', syncBackTop, { passive: true });
+    backTop.addEventListener('click', function (event) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+});
+</script>
+<!-- Overlay and Back To Top -->
+<div class="back-top" title="Back to Top" style="display: none;"></div>
+<!--Va\u0161a je odgovornost obavijestiti posjetitelje o kola\u010di\u0107ima koje upotrebljavate na svom blogu i podacima koje tamo prikupljate. Blogger nudi standardnu obavijest koju mo\u017eete upotrijebiti na blogu, no mo\u017eete je i prilagoditi ili zamijeniti vlastitom. Ako vas zanimaju dodatne pojedinosti, pro\u010ditajte http://www.blogger.com/go/cookiechoices.-->
+<script defer="" src="/js/cookienotice.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function(event) {
+      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+          (window.cookieOptions && cookieOptions.msg) || 'Ova web-lokacija upotrebljava Googleove kola\u010di\u0107e radi pru\u017eanja svojih usluga i analize prometa. Va\u0161a IP adresa i korisni\u010dki agent te mjerni podaci o uspje\u0161nosti i sigurnosti dijele se s Googleom radi odr\u017eavanja kvalitete usluge, generiranja statistike upotrebe te otkrivanja i rje\u0161avanja zloupotrebe.',
+          (window.cookieOptions && cookieOptions.close) || 'Shva\u0107am',
+          (window.cookieOptions && cookieOptions.learn) || 'Saznajte vi\u0161e',
+          (window.cookieOptions && cookieOptions.link) || 'https://www.blogger.com/go/blogspot-cookies');
+    });
+  </script>
+<script src="runtime-code-palette-cx4t.js"></script>
+<script src="/runtime-code-copy-dm7k.js"></script>
+</body></html>
+
+
+
+
+
+
+
+
+
