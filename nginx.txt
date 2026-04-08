@@ -53,6 +53,12 @@ server {
     rewrite ^/post13\.html$ /blogs/start-the-workers-once-and-cache-the-first-history-pull/ permanent;
     rewrite ^/post14\.html$ /blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/ permanent;
     rewrite ^/post15\.html$ /blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/ permanent;
+    rewrite ^/post16\.html$ /blogs/outline-a-staging-sql-table-before-the-first-sync-gets-loud/ permanent;
+    rewrite ^/post17\.html$ /blogs/keep-an-upsert-window-calm-while-sql-metrics-continue-to-land/ permanent;
+    rewrite ^/post18\.html$ /blogs/shape-reporting-views-and-retention-checks-before-a-sql-dashboard-goes-live/ permanent;
+    rewrite ^/post19\.html$ /blogs/map-a-python-settings-layer-before-a-utility-script-starts-growing/ permanent;
+    rewrite ^/post20\.html$ /blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/ permanent;
+    rewrite ^/post21\.html$ /blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/ permanent;
 
     rewrite ^/blogs/([^/]+)$ /blogs/$1/ permanent;
 
@@ -116,6 +122,12 @@ server {
     rewrite ^/post13\.html$ /blogs/start-the-workers-once-and-cache-the-first-history-pull/ permanent;
     rewrite ^/post14\.html$ /blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/ permanent;
     rewrite ^/post15\.html$ /blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/ permanent;
+    rewrite ^/post16\.html$ /blogs/outline-a-staging-sql-table-before-the-first-sync-gets-loud/ permanent;
+    rewrite ^/post17\.html$ /blogs/keep-an-upsert-window-calm-while-sql-metrics-continue-to-land/ permanent;
+    rewrite ^/post18\.html$ /blogs/shape-reporting-views-and-retention-checks-before-a-sql-dashboard-goes-live/ permanent;
+    rewrite ^/post19\.html$ /blogs/map-a-python-settings-layer-before-a-utility-script-starts-growing/ permanent;
+    rewrite ^/post20\.html$ /blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/ permanent;
+    rewrite ^/post21\.html$ /blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/ permanent;
 
     rewrite ^/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill$ /blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/ permanent;
     rewrite ^/blogs/persist-live-detections-and-roll-them-into-an-hourly-martt$ /blogs/persist-live-detections-and-roll-them-into-an-hourly-martt/ permanent;
