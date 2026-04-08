@@ -186,6 +186,22 @@ body.dark-theme .item-post .post-body {
   color: #b0b0b0;
 }
 
+body.dark-theme .post-body table:not(.tr-caption-container) {
+  background-color: #2a2a2a;
+  border-color: #3a3a3a;
+}
+
+body.dark-theme .post-body table:not(.tr-caption-container) td,
+body.dark-theme .post-body table:not(.tr-caption-container) th {
+  border-color: #3a3a3a;
+  color: #d2d2d2;
+}
+
+body.dark-theme .post-body table:not(.tr-caption-container) thead th {
+  background-color: #303030;
+  color: #ffffff;
+}
+
 body.dark-theme .item-post .post-body h1,
 body.dark-theme .item-post .post-body h2,
 body.dark-theme .item-post .post-body h3,

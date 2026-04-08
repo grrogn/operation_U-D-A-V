@@ -17,6 +17,10 @@
       '/blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/',
       '/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/'
     ],
+    sql2: [
+      '/blogs/run-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/',
+      '/blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/'
+    ],
     python: [
       '/blogs/lay-out-a-traffic-intelligence-file-before-the-first-frame-arrives/',
       '/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/',
@@ -139,6 +143,16 @@
         "title": "Shape Reporting Views and Retention Checks Before a Streamlit Dashboard Goes Live",
         "url": "/blogs/shape-reporting-views-and-retention-checks-before-a-sql-dashboard-goes-live/",
         "meta": "/blogs/shape-reporting-views-and-retention-checks-before-a-sql-dashboard-goes-live/"
+      },
+    {
+        "title": "Run Streaming and Batch Traffic Circuits Before Hourly Metrics Start Piling Up",
+        "url": "/blogs/run-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/",
+        "meta": "/blogs/run-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/"
+      },
+    {
+        "title": "Model Short-Horizon Traffic Forecasts Before a Live Dashboard Starts Guessing",
+        "url": "/blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/",
+        "meta": "/blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/"
       },
     {
         "title": "Map Python Language Defaults Before a Utility Script Starts Growing",
