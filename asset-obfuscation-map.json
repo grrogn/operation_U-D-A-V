@@ -1,70 +1,94 @@
-﻿[
-    {
-        "old_name":  "111.png",
-        "obfuscated_name":  "asset-panel-vector-mk1q.png"
-    },
-    {
-        "old_name":  "12.png",
-        "obfuscated_name":  "asset-frame-overlay-np4r.png"
-    },
-    {
-        "old_name":  "222.jpeg",
-        "obfuscated_name":  "asset-cache-snapshot-vt7m.jpeg"
-    },
-    {
-        "old_name":  "api.jpg",
-        "obfuscated_name":  "asset-runtime-switch-hz2k.jpg"
-    },
-    {
-        "old_name":  "image_8.jfif",
-        "obfuscated_name":  "asset-warning-signal-rx8p.jfif"
-    },
-    {
-        "old_name":  "image_10.jfif",
-        "obfuscated_name":  "asset-bootstrap-layout-cw5n.jfif"
-    },
-    {
-        "old_name":  "images13.jfif",
-        "obfuscated_name":  "asset-storage-rollup-jm6d.jfif"
-    },
-    {
-        "old_name":  "photo_1.jpg",
-        "obfuscated_name":  "asset-metrics-overlay-fq3x.jpg"
-    },
-    {
-        "old_name":  "photo_2.jpg",
-        "obfuscated_name":  "asset-import-surface-lb9v.jpg"
-    },
-    {
-        "old_name":  "photo_3.jpg",
-        "obfuscated_name":  "asset-detection-buckets-pt4s.jpg"
-    },
-    {
-        "old_name":  "photo_4.jpg",
-        "obfuscated_name":  "asset-dashboard-filters-yn7c.jpg"
-    },
-    {
-        "old_name":  "photo_6.jpg",
-        "obfuscated_name":  "asset-worker-bootstrap-ks2h.jpg"
-    },
-    {
-        "old_name":  "photo_7.jpg",
-        "obfuscated_name":  "asset-telemetry-window-qd6r.jpg"
-    },
-    {
-        "old_name":  "post-search.js",
-        "obfuscated_name":  "runtime-search-index-aq5m.js"
-    },
-    {
-        "old_name":  "theme-toggle.js",
-        "obfuscated_name":  "runtime-theme-toggle-bn8v.js"
-    },
-    {
-        "old_name":  "post-code-theme.js",
-        "obfuscated_name":  "runtime-code-palette-cx4t.js"
-    },
-    {
-        "old_name":  "blogs/code-copy.js",
-        "obfuscated_name":  "blogs/runtime-code-copy-dm7k.js"
-    }
+[
+  {
+    "old_name": "111.png",
+    "obfuscated_name": "asset-panel-vector-mk1q.png"
+  },
+  {
+    "old_name": "12.png",
+    "obfuscated_name": "asset-frame-overlay-np4r.png"
+  },
+  {
+    "old_name": "222.jpeg",
+    "obfuscated_name": "asset-cache-snapshot-vt7m.jpeg"
+  },
+  {
+    "old_name": "api.jpg",
+    "obfuscated_name": "asset-runtime-switch-hz2k.jpg"
+  },
+  {
+    "old_name": "image_8.jfif",
+    "obfuscated_name": "asset-warning-signal-rx8p.jfif"
+  },
+  {
+    "old_name": "image_10.jfif",
+    "obfuscated_name": "asset-bootstrap-layout-cw5n.jfif"
+  },
+  {
+    "old_name": "images13.jfif",
+    "obfuscated_name": "asset-storage-rollup-jm6d.jfif"
+  },
+  {
+    "old_name": "photo_1.jpg",
+    "obfuscated_name": "asset-metrics-overlay-fq3x.jpg"
+  },
+  {
+    "old_name": "photo_2.jpg",
+    "obfuscated_name": "asset-import-surface-lb9v.jpg"
+  },
+  {
+    "old_name": "photo_3.jpg",
+    "obfuscated_name": "asset-detection-buckets-pt4s.jpg"
+  },
+  {
+    "old_name": "photo_4.jpg",
+    "obfuscated_name": "asset-dashboard-filters-yn7c.jpg"
+  },
+  {
+    "old_name": "photo_6.jpg",
+    "obfuscated_name": "asset-worker-bootstrap-ks2h.jpg"
+  },
+  {
+    "old_name": "photo_7.jpg",
+    "obfuscated_name": "asset-telemetry-window-qd6r.jpg"
+  },
+  {
+    "old_name": "post-search.js",
+    "obfuscated_name": "runtime-search-index-aq5m.js"
+  },
+  {
+    "old_name": "theme-toggle.js",
+    "obfuscated_name": "runtime-theme-toggle-bn8v.js"
+  },
+  {
+    "old_name": "post-code-theme.js",
+    "obfuscated_name": "runtime-code-palette-cx4t.js"
+  },
+  {
+    "old_name": "blogs/code-copy.js",
+    "obfuscated_name": "blogs/runtime-code-copy-dm7k.js"
+  },
+  {
+    "old_name": "advantages_of_python_language.webp",
+    "obfuscated_name": "asset-python-language-surface-mq7p.webp"
+  },
+  {
+    "old_name": "data-science dashboard photo.jpg",
+    "obfuscated_name": "asset-data-dashboard-scene-tn5q.jpg"
+  },
+  {
+    "old_name": "python1.jfif",
+    "obfuscated_name": "asset-python-helper-portrait-vc4n.jfif"
+  },
+  {
+    "old_name": "python3.jpg",
+    "obfuscated_name": "asset-python-runtime-routine-xk8d.jpg"
+  },
+  {
+    "old_name": "steamlit.jpg",
+    "obfuscated_name": "asset-streamlit-dashboard-signal-rp6m.jpg"
+  },
+  {
+    "old_name": "steamlit docker.jpg",
+    "obfuscated_name": "asset-streamlit-docker-bridge-hs2v.jpg"
+  }
 ]

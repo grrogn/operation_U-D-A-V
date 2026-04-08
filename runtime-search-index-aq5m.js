@@ -117,32 +117,32 @@
         "meta": "/blogs/validate-a-forecasting-loop-and-surface-dispatcher-warnings-without-noise/"
       },
     {
-        "title": "Outline a Staging SQL Table Before the First Sync Gets Loud",
+        "title": "Outline a Staging Data Layer Before the First Sync Gets Loud",
         "url": "/blogs/outline-a-staging-sql-table-before-the-first-sync-gets-loud/",
         "meta": "/blogs/outline-a-staging-sql-table-before-the-first-sync-gets-loud/"
       },
     {
-        "title": "Keep an Upsert Window Calm While SQL Metrics Continue to Land",
+        "title": "Keep an Upsert Window Calm While Streamlit and Docker Layers Continue to Poll",
         "url": "/blogs/keep-an-upsert-window-calm-while-sql-metrics-continue-to-land/",
         "meta": "/blogs/keep-an-upsert-window-calm-while-sql-metrics-continue-to-land/"
       },
     {
-        "title": "Shape Reporting Views and Retention Checks Before a SQL Dashboard Goes Live",
+        "title": "Shape Reporting Views and Retention Checks Before a Streamlit Dashboard Goes Live",
         "url": "/blogs/shape-reporting-views-and-retention-checks-before-a-sql-dashboard-goes-live/",
         "meta": "/blogs/shape-reporting-views-and-retention-checks-before-a-sql-dashboard-goes-live/"
       },
     {
-        "title": "Map a Python Settings Layer Before a Utility Script Starts Growing",
+        "title": "Map Python Language Defaults Before a Utility Script Starts Growing",
         "url": "/blogs/map-a-python-settings-layer-before-a-utility-script-starts-growing/",
         "meta": "/blogs/map-a-python-settings-layer-before-a-utility-script-starts-growing/"
       },
     {
-        "title": "Keep Python Side Effects Easy to Trace While Helper Functions Multiply",
+        "title": "Keep Python Side Effects Easy to Trace While Utility Helpers Multiply",
         "url": "/blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/",
         "meta": "/blogs/keep-python-side-effects-easy-to-trace-while-helper-functions-multiply/"
       },
     {
-        "title": "Leave Room for a Python Maintenance Loop Before Automation Turns Brittle",
+        "title": "Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle",
         "url": "/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/",
         "meta": "/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/"
       }
@@ -298,5 +298,6 @@
     }
   });
 });
+
 
 
