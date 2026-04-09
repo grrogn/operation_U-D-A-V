@@ -42,6 +42,11 @@
       '/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/',
       '/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/'
     ],
+    dag: [
+      '/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/',
+      '/blogs/keep-a-dag-transformation-flow-readable-while-quality-checks-accumulate/',
+      '/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/'
+    ],
     sqlite: [
       '/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/',
       '/blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/',
@@ -182,6 +187,21 @@
         "title": "Leave Room for a Python Runtime Maintenance Loop Before Automation Turns Brittle",
         "url": "/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/",
         "meta": "/blogs/leave-room-for-a-python-maintenance-loop-before-automation-turns-brittle/"
+      },
+    {
+        "title": "Shape a DAG Ingestion Contract Before the ETL Loop Goes Live",
+        "url": "/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/",
+        "meta": "/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/"
+      },
+    {
+        "title": "Keep a DAG Transformation Flow Readable While Quality Checks Accumulate",
+        "url": "/blogs/keep-a-dag-transformation-flow-readable-while-quality-checks-accumulate/",
+        "meta": "/blogs/keep-a-dag-transformation-flow-readable-while-quality-checks-accumulate/"
+      },
+    {
+        "title": "Close a DAG Scheduler Loop With Watermarks, Audit Trails, and SQL Checks",
+        "url": "/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/",
+        "meta": "/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/"
       },
     {
         "title": "Shape a Streamlit Filter Bar Before the Refresh Loop Starts Rushing",
