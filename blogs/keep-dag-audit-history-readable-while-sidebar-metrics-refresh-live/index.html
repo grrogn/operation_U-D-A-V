@@ -676,42 +676,15 @@ Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries
 </tbody>
 </table>
 <div class="outline-post-body">
-<h2>Closing Half of G.txt</h2>
-<p><strong>This page restores the closing half of <code>G.txt</code> in sequence.</strong></p>
-<ul><li>The load phase appears first</li><li>The orchestration and automation section follows in the same order as in the source</li><li>The shade shifts toward operations and verification, so the same material reads like runtime closeout</li></ul>
-<h2>DAG Runtime Fragment</h2>
-<p class="section-step">Load to DWH through UPSERT</p>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">    # Load to DWH (UPSERT)
-    for _, r in df_enriched.iterrows():
-        cur.execute("""INSERT INTO mart.enriched_traffic(camera_id, vehicle_type, speed, hour, is_peak, weather, processed_at)
-                       VALUES(%s,%s,%s,%s,%s,%s,NOW()) ON CONFLICT DO NOTHING""",
-                    (r['camera_id'], r['vehicle_type'], r['avg_speed'], r['hour'], r['is_peak'], r.get('weather','unknown')))
-    conn.commit()</pre></div>
-<p class="section-step">Success log and watermark update</p>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">    # Success log + watermark update
-    cur.execute("INSERT INTO etl.quality_log(check_name, status, ts) VALUES('etl_cycle', 'success', NOW())")
-    cur.execute("INSERT INTO etl.watermark VALUES(NOW())")
-    conn.commit(); cur.close(); conn.close()
-    print(f"DAG run. Processed: {len(df_enriched)} rows.")</pre></div>
-<p class="section-step">Scheduler launch and validation SQL</p>
-<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6"># Schedule launch
-schedule.every(30).seconds.do(run_dag)
-print("Scheduler started. Press Ctrl+C to stop.")
-try:
-    while True: schedule.run_pending(); time.sleep(1)
-except KeyboardInterrupt: print("Stopped.")
-
-SELECT * FROM mart.enriched_traffic ORDER BY processed_at DESC LIMIT 3;
-SELECT * FROM etl.quality_log ORDER BY ts DESC LIMIT 3;
-SELECT * FROM etl.watermark;</pre></div>
+<h2>Продолжение текста из G.txt</h2>
+<p>Здесь идёт вторая часть текстового блока из <code>G.txt</code> в исходном порядке.</p>
+<p class="section-step"><span style="color:#7a9bc4">### 4. Выгрузка в DWH (Load)</span></p>
+<p><span style="color:#7a9bc4">Загрузка в целевую витрину `mart.enriched_traffic` выполняется через механизм UPSERT (`INSERT ... ON CONFLICT DO NOTHING`). Это гарантирует идемпотентность процесса: повторные запуски пайплайна не создают дубликатов, а обновляют только действительно новые записи. Данные сохраняются в структурированном виде, готовом для BI-отчётности.</span></p>
+<p class="section-step"><span style="color:#7a9bc4">### 5. Оркестрация и автоматизация (Г.2)</span></p>
+<p><span style="color:#7a9bc4">- **Расписание (Г.2.2):** Запуск пайплайна автоматизирован через планировщик `schedule` с интервалом 5 минут. Ручное вмешательство исключено.</span></p>
+<p><span style="color:#7a9bc4">- **Принципы DAG (Г.2.3):** Каждый узел имеет явное направление, зависимости строго последовательны, отсутствуют рекурсивные вызовы. Логирование успешности и обновление watermark фиксируются в конце цикла, обеспечивая воспроизводимость и отказоустойчивость.</span></p>
 <hr class="outline-divider">
-<h2>Load to DWH</h2>
-<p>Loading into the target mart <code>mart.enriched_traffic</code> is performed through the UPSERT mechanism <code>INSERT ... ON CONFLICT DO NOTHING</code>. This guarantees idempotency of the process: repeated launches of the pipeline do not create duplicates and keep only genuinely new rows in the analytical layer. Data is preserved in a structured form ready for BI reporting.</p>
-<h2>Orchestration and Automation</h2>
-<ul><li>Schedule: the pipeline launch is automated through the <code>schedule</code> planner with a fixed interval, which removes the need for manual intervention.</li><li>DAG principles: each node has an explicit direction, dependencies are strictly sequential, and recursive calls are absent. Success logging and watermark updates are recorded at the end of the cycle, which guarantees reproducibility and fault tolerance.</li></ul>
-<table><thead><tr><th>Closing fragment</th><th>Restored from source</th><th>Operational reading</th></tr></thead><tbody><tr><td>UPSERT block</td><td>Load phase</td><td>Idempotent landing of facts into the mart</td></tr><tr><td>Audit and watermark</td><td>End-of-cycle state update</td><td>Traceable boundary for the next run</td></tr><tr><td>Scheduler and SQL</td><td>Automation plus verification</td><td>Operational closeout and manual validation surface</td></tr></tbody></table>
-<h2>Conclusion</h2>
-<ul><li>This page restores the closing half of <code>G.txt</code> with code and explanation in source order</li><li>The shade emphasizes operations, reproducibility, and verification after the pipeline run</li><li>Together with the previous page, the two posts can be read in order to reconstruct the original file</li></ul>
+<p>Этим постом завершается текстовая часть <code>G.txt</code>; кодовые фрагменты остаются в первых трёх результатах поиска по <code>dag</code>.</p>
 </div>
 </div>
 <div class="post-labels">
