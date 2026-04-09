@@ -695,7 +695,7 @@ if 'video_thread_started' not in st.session_state:
     st.session_state.video_thread_started = True</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This closing slice makes the runtime topology explicit: one thread keeps the video pipeline alive while another keeps the history rollup fresh.</p>
 <p>That is where the whole script starts to feel assembled rather than merely written. The file is no longer just a collection of capabilities. It now contains a live arrangement that explains why the dashboard layer later on will have both current and historical data to work with.</p>
-<ul><li>The third `sql` post now covers the worker section of `not.txt`, from aggregation loop to threaded startup.</li><li>The code remains in strict source order, with no jumps into later Streamlit blocks.</li><li>The article text slows the reader down just enough to make the background runtime feel intentional.</li></ul>
+<ul><li>This section concentrates on the background workers that keep ingestion and aggregation moving in parallel.</li><li>The code remains chronological, so the handoff from recurring updates to startup threads is easy to follow.</li><li>The article text frames the runtime as a coordinated system rather than a pile of disconnected loops.</li></ul>
 <blockquote class="tr_bq">A script becomes a system when its loops start cooperating on time instead of merely existing in the same file.</blockquote>
 </div>
 <div class="post-labels">
