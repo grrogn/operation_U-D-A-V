@@ -21,6 +21,10 @@
       '/blogs/run-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/',
       '/blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/'
     ],
+    sqlite2: [
+      '/blogs/stage-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/',
+      '/blogs/tune-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/'
+    ],
     python: [
       '/blogs/lay-out-a-traffic-intelligence-file-before-the-first-frame-arrives/',
       '/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/',
@@ -153,6 +157,16 @@
         "title": "Model Short-Horizon Traffic Forecasts Before a Live Dashboard Starts Guessing",
         "url": "/blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/",
         "meta": "/blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/"
+      },
+    {
+        "title": "Stage Streaming and Batch Traffic Circuits Before Hourly Metrics Start Piling Up",
+        "url": "/blogs/stage-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/",
+        "meta": "/blogs/stage-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/"
+      },
+    {
+        "title": "Tune Short-Horizon Traffic Forecasts Before a Live Dashboard Starts Guessing",
+        "url": "/blogs/tune-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/",
+        "meta": "/blogs/tune-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/"
       },
     {
         "title": "Map Python Language Defaults Before a Utility Script Starts Growing",
