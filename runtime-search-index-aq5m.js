@@ -45,7 +45,9 @@
     dag: [
       '/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/',
       '/blogs/keep-a-dag-transformation-flow-readable-while-quality-checks-accumulate/',
-      '/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/'
+      '/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/',
+      '/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/',
+      '/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/'
     ],
     sqlite: [
       '/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/',
@@ -202,6 +204,16 @@
         "title": "Close a DAG Scheduler Loop With Watermarks, Audit Trails, and SQL Checks",
         "url": "/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/",
         "meta": "/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/"
+      },
+    {
+        "title": "Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment",
+        "url": "/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/",
+        "meta": "/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/"
+      },
+    {
+        "title": "Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries",
+        "url": "/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/",
+        "meta": "/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/"
       },
     {
         "title": "Shape a Streamlit Filter Bar Before the Refresh Loop Starts Rushing",
