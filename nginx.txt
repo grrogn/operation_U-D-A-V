@@ -66,6 +66,8 @@ server {
     rewrite ^/post26\.html$ /blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/ permanent;
     rewrite ^/post27\.html$ /blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/ permanent;
     rewrite ^/post28\.html$ /blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/ permanent;
+    rewrite ^/post29\.html$ /blogs/organize-streaming-and-batch-traffic-flows-before-hourly-rollups-start-stacking/ permanent;
+    rewrite ^/post30\.html$ /blogs/steady-short-horizon-traffic-forecast-windows-before-a-live-dashboard-starts-predicting/ permanent;
 
     rewrite ^/blogs/([^/]+)$ /blogs/$1/ permanent;
 
@@ -142,6 +144,8 @@ server {
     rewrite ^/post26\.html$ /blogs/group-a-time-series-for-plotly-without-tangling-the-main-view/ permanent;
     rewrite ^/post27\.html$ /blogs/give-a-distribution-chart-a-stable-color-contract-before-it-starts-shouting/ permanent;
     rewrite ^/post28\.html$ /blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/ permanent;
+    rewrite ^/post29\.html$ /blogs/organize-streaming-and-batch-traffic-flows-before-hourly-rollups-start-stacking/ permanent;
+    rewrite ^/post30\.html$ /blogs/steady-short-horizon-traffic-forecast-windows-before-a-live-dashboard-starts-predicting/ permanent;
 
     rewrite ^/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill$ /blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/ permanent;
     rewrite ^/blogs/persist-live-detections-and-roll-them-into-an-hourly-martt$ /blogs/persist-live-detections-and-roll-them-into-an-hourly-martt/ permanent;
