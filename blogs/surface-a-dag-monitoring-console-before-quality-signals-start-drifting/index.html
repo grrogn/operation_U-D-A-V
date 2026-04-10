@@ -676,19 +676,13 @@ Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment
 </tbody>
 </table>
 <div class="outline-post-body">
-<h2>The monitoring story starts with a readable flow of responsibilities</h2>
-<p>An engineering pipeline becomes much easier to trust when each stage has one visible job and the handoff between stages stays explicit instead of being buried in helper code.</p>
-<p>The runtime is organized as a directed sequence of stages: extract, transform, load, audit, and watermark. The flow remains linear, avoids internal cycles, and keeps the processing order predictable enough to reason about during support work or later scale-out.</p>
-<p>That discipline pays off outside data tooling as well. In ordinary application code, a straight pipeline is often the difference between tracing a bug in minutes and spending an afternoon guessing where state changed.</p>
-<h3>Incremental extraction keeps the cycle bounded</h3>
-<p>Rows are loaded from <code>mart.current_traffic</code> through an incremental pattern. The watermark table stores the timestamp of the last successful run, and each new execution requests only records newer than that saved boundary. On the first launch, a fallback timestamp opens the door to a full historical load without any manual bootstrap step.</p>
-<p>Developers use the same idea whenever they process only fresh events from a queue instead of replaying an entire history on every refresh. Small boundaries keep runtime behavior calm.</p>
-<h3>Normalization and cleanup protect the data shape</h3>
-<p>The transform stage normalizes <code>vehicle_type</code> into a canonical format, derives the hour from the event timestamp, filters out rows missing critical attributes, and removes duplicates based on the composite event key. That keeps malformed or repeated records from drifting into the mart.</p>
-<p>Once cleanup happens early, later code gets simpler. Dashboards, alerts, and SQL summaries all become easier to read when upstream stages already decided what counts as valid input.</p>
-<h3>Enrichment adds context without changing grain</h3>
-<p>Traffic rows are enriched with external context through a merge on the hour key. A peak-period flag is also derived for the busiest morning and evening windows, which gives reporting consumers a ready-made operational signal instead of forcing each chart or query to recreate the same business rule.</p>
-<p>From a programming perspective, that is the same as centralizing a shared calculation in one reliable place. It prevents every downstream widget from re-implementing the same logic with slightly different assumptions.</p>
+<h2>Описание логики ключевых трансформаций и работы ETL-пайплайна</h2>
+<p class="source-thread">Реализован автоматизированный конвейер обработки транспортных данных, построенный по принципам DAG (Directed Acyclic Graph). Процесс состоит из пяти последовательных узлов: Extract → Transform → Load → Audit → Watermark. Внутренние циклы отсутствуют, направление потока строго линейное, что обеспечивает предсказуемость и возможность параллельного масштабирования узлов.</p>
+<h3>Инкрементальная загрузка (Extract)</h3>
+<p class="source-thread">Загрузка данных из источника mart.current_traffic выполняется инкрементально. Механизм watermark (таблица etl.watermark) хранит timestamp последнего успешного выполнения пайплайна. При каждом запуске формируется запрос с условием WHERE last_update > %s, что позволяет обрабатывать только дельту данных. При первом старте используется значение '2000-01-01', обеспечивая полную историческую загрузку без ручных действий.</p>
+<h3>Нормализация и очистка (Transform)</h3>
+<p class="source-thread">Приведение к единому формату: Поле vehicle_type нормализуется методом .str.upper().str.strip(), временные метки преобразуются в час суток (dt.hour), числовые поля приводятся к типу float.</p>
+<p class="source-thread">Обработка несоответствий: Реализована фильтрация пропусков (dropna) по ключевым атрибутам и устранение дубликатов (drop_duplicates) по составному уникальному ключу (camera_id, vehicle_type, last_update). Это исключает попадание некорректных и повторных записей в витрину.</p>
 </div>
 </div>
 <div class="post-labels">

@@ -676,16 +676,13 @@ Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries
 </tbody>
 </table>
 <div class="outline-post-body">
-<h2>Stable loading turns transformed rows into reusable history</h2>
-<p>Once the middle of the flow has produced something clean, the next job is to land it in a way that stays calm under reruns, retries, and everyday operational interruptions.</p>
-<p>The destination mart is populated through an UPSERT pattern based on <code>INSERT ... ON CONFLICT DO NOTHING</code>. That makes the process idempotent: repeated runs do not create duplicates and only genuinely new rows are allowed to extend the analytical surface.</p>
-<p>That behavior mirrors good application design. A handler that can be retried safely is easier to support than one that invents extra state every time a timeout or restart gets in the way.</p>
-<h3>Automation makes the runtime dependable</h3>
-<p>The execution loop is automated through <code>schedule</code> on a fixed five-minute cadence, which removes the need for manual triggering and turns the script into a routine service instead of a one-off task.</p>
-<p>Programmers usually feel this immediately. A job with one obvious trigger is simpler to inspect than a workflow that depends on whoever remembered to run it last.</p>
-<h3>A directed graph is really a contract about state</h3>
-<p>Each stage keeps a clear direction, dependencies remain sequential, and recursive calls are excluded. Success logging and watermark updates are written at the end of the cycle, which preserves reproducibility and improves resilience when the system has to recover from a failed run.</p>
-<p>That final write-back step is what protects operational memory. Without it, the next run would have to guess where the previous one stopped, and the whole pipeline would start behaving more like a rumor than a program.</p>
+<h2>Обогащение внешними данными (Enrich)</h2>
+<p class="source-thread">К транспортным записям присоединяются внешние атрибуты (имитация API погодных условий/событий) через операцию merge по ключу hour. Дополнительно вычисляется бизнес-признак is_peak, отмечающий часы максимальной загруженности (07–09, 17–19). Обогащение выполняется по согласованному ключу временной привязки, что повышает аналитическую ценность данных.</p>
+<h3>Выгрузка в DWH (Load)</h3>
+<p class="source-thread">Загрузка в целевую витрину mart.enriched_traffic выполняется через механизм UPSERT (INSERT ... ON CONFLICT DO NOTHING). Это гарантирует идемпотентность процесса: повторные запуски пайплайна не создают дубликатов, а обновляют только действительно новые записи. Данные сохраняются в структурированном виде, готовом для BI-отчётности.</p>
+<h3>Оркестрация и автоматизация</h3>
+<p class="source-thread">Расписание: Запуск пайплайна автоматизирован через планировщик schedule с интервалом 5 минут. Ручное вмешательство исключено.</p>
+<p class="source-thread">Принципы DAG: Каждый узел имеет явное направление, зависимости строго последовательны, отсутствуют рекурсивные вызовы. Логирование успешности и обновление watermark фиксируются в конце цикла, обеспечивая воспроизводимость и отказоустойчивость.</p>
 </div>
 </div>
 <div class="post-labels">

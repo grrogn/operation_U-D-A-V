@@ -665,10 +665,9 @@ Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts
 </tr>
 </tbody>
 </table>
-<h2>A small sidebar can act like a control room when the log table is explicit</h2>
-<p>Operational dashboards usually fail not because they lack charts, but because the health signal arrives too late or too scattered to be trusted during a live incident.</p>
-<p class="source-thread">The monitoring module introduces a centralized interface inside the main Streamlit sidebar and gives the platform one visible place to inspect runtime health. Metrics are aggregated from <code>mart.quality_log</code>, refreshed in step with the interface cadence, and rendered through a safe tabular view with connection failures handled defensively.</p>
-<p>That same principle shows up in everyday programming. A single honest read model is usually more useful than five decorative widgets that each summarize a different version of the truth.</p>
+<h2>СИСТЕМА МОНИТОРИНГА</h2>
+<p class="source-thread">В рамках модуля реализован интерфейс централизованного мониторинга аналитической платформы. Компонент встроен в боковую панель (sidebar) основного дашборда Streamlit и обеспечивает визуальный контроль состояния системы.</p>
+<p class="source-thread">Архитектура построена по принципу единой точки сбора метрик: данные агрегируются из таблицы mart.quality_log и отображаются в реальном времени с частотой обновления интерфейса (5 секунд). Реализована безопасная обработка ошибок подключения и устойчивый вывод результатов через st.dataframe.</p>
 <div class="is-dark">
 <pre class="code-box">CREATE TABLE IF NOT EXISTS mart.quality_log (
     id SERIAL PRIMARY KEY,
@@ -678,12 +677,14 @@ Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts
     ts TIMESTAMP DEFAULT NOW()
 );</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">The first recoverable fragment defines the log surface itself, which is why the post leaves it literal.</p>
-<h3>Placement matters as much as the query</h3>
-<p class="source-thread">The sidebar fragment is meant to be inserted directly next to the congestion-detection branch rather than hidden inside a separate nested block, so the monitoring signal stays close to the runtime event that actually matters.</p>
-<p>Engineers often underestimate how much calmer maintenance becomes when observability code lives beside the branch it explains. Distance in the file usually turns into confusion at runtime.</p>
-<p class="source-thread">The dashboard highlights the metrics that matter for fast operational judgment: successful checks, failed states, the most recent timestamp, and the <code>cnt</code> aggregation that shows how often a validation ran during the reporting window. When that count grows steadily, the pipeline is alive; when it stalls, processing may have stopped.</p>
-<p>That is the kind of programming detail that makes an interface feel trustworthy. A panel does not need to be large if each number answers a real support question.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">Первый восстанавливаемый фрагмент определяет саму структуру журнала, поэтому пост оставляет его буквальным.</p>
+<h3>КЛЮЧЕВЫЕ МЕТРИКИ ПРОИЗВОДИТЕЛЬНОСТИ</h3>
+<p class="source-thread">На дашборде отображаются показатели, необходимые для оперативной оценки работоспособности платформы:</p>
+<p class="source-thread">• Успешные проверки (статус success) — индикатор штатной работы контуров обработки.<br>
+• Зафиксированные отклонения (статус failed) — сигнал о нарушении качества входящих данных или сбоях пайплайнов.<br>
+• Время последней фиксации (MAX(ts)) — контроль актуальности и своевременности обновления метрик.<br>
+• Поле cnt (количество срабатываний) показывает, сколько раз данная валидация была запущена за отчётный период. Это позволяет оценить частоту контроля и стабильность работы пайплайнов: если cnt растёт регулярно — система работает, если застыл — возможна остановка обработки.</p>
+<p class="source-thread">Метрики рассчитываются динамически на основе SQL-агрегации и не требуют ручного сбора логов.</p>
 <div class="is-dark">
 <pre class="code-box">st.sidebar.subheader("Monitoring")
 try:
@@ -693,11 +694,11 @@ try:
     conn.close()
 except: st.sidebar.warning("No data available")</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">The second literal fragment keeps the sidebar query and fallback behavior intact so the monitoring surface can still be reconstructed later.</p>
-<h3>Audit history gives the platform a memory</h3>
-<p class="source-thread">The log structure preserves a practical history of checks, their execution state, the observed counts in the grouped output, and the latest recorded timestamp. That history supports later analysis, manual pipeline verification, and routine data-quality reporting without asking operators to reconstruct events from memory.</p>
-<p>In plain programming terms, this is the difference between a system that can explain itself and one that only looks healthy until the first question arrives.</p>
-<ul><li>The page keeps two recoverable code fragments intact.</li><li>The colored paragraphs carry the translated source thread, while the surrounding prose keeps the article reading naturally.</li><li>The overall tone stays operational so the post feels like a monitoring field note rather than a code dump.</li></ul>
+<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">Второй буквальный фрагмент сохраняет запрос боковой панели и поведение отката, чтобы поверхность мониторинга могла быть восстановлена позже.</p>
+<h3>ЖУРНАЛ АУДИТА И СОХРАНЕНИЕ РЕЗУЛЬТАТОВ</h3>
+<p class="source-thread">Для фиксации результатов проверок создана таблица mart.quality_log со структурой: check_name (идентификатор проверки), status (результат выполнения), cnt (количество срабатываний), last (таймстамп). Данные группируются по типу и статусу проверки и выводятся в табличном виде на дашборде.</p>
+<p class="source-thread">Такая структура обеспечивает сохранение истории проверок для последующего анализа, ручной верификации работы пайплайнов и подготовки отчётности по качеству данных.</p>
+<ul><li>Страница сохраняет два восстанавливаемых фрагмента кода.</li><li>Цветные абзацы содержат переведённую исходную нить, в то время как окружающая проза сохраняет естественное чтение статьи.</li><li>Общий тон остаётся операционным, поэтому пост ощущается как полевая заметка по мониторингу, а не как дамп кода.</li></ul>
 </div>
 <div class="post-labels">
 <div class="label-head Label">
