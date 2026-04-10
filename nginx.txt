@@ -68,6 +68,15 @@ server {
     rewrite ^/post28\.html$ /blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/ permanent;
     rewrite ^/post29\.html$ /blogs/organize-streaming-and-batch-traffic-flows-before-hourly-rollups-start-stacking/ permanent;
     rewrite ^/post30\.html$ /blogs/steady-short-horizon-traffic-forecast-windows-before-a-live-dashboard-starts-predicting/ permanent;
+    rewrite ^/post31\.html$ /blogs/run-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/ permanent;
+    rewrite ^/post32\.html$ /blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/ permanent;
+    rewrite ^/post33\.html$ /blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/ permanent;
+    rewrite ^/post34\.html$ /blogs/keep-a-dag-transformation-flow-readable-while-quality-checks-accumulate/ permanent;
+    rewrite ^/post35\.html$ /blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/ permanent;
+    rewrite ^/post36\.html$ /blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/ permanent;
+    rewrite ^/post37\.html$ /blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/ permanent;
+    rewrite ^/post38\.html$ /blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/ permanent;
+    rewrite ^/post39\.html$ /blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby-copy/ permanent;
 
     rewrite ^/blogs/([^/]+)$ /blogs/$1/ permanent;
 
@@ -146,6 +155,15 @@ server {
     rewrite ^/post28\.html$ /blogs/finish-with-a-recent-events-table-so-operators-can-verify-the-story/ permanent;
     rewrite ^/post29\.html$ /blogs/organize-streaming-and-batch-traffic-flows-before-hourly-rollups-start-stacking/ permanent;
     rewrite ^/post30\.html$ /blogs/steady-short-horizon-traffic-forecast-windows-before-a-live-dashboard-starts-predicting/ permanent;
+    rewrite ^/post31\.html$ /blogs/run-streaming-and-batch-traffic-circuits-before-hourly-metrics-start-piling-up/ permanent;
+    rewrite ^/post32\.html$ /blogs/model-short-horizon-traffic-forecasts-before-a-live-dashboard-starts-guessing/ permanent;
+    rewrite ^/post33\.html$ /blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/ permanent;
+    rewrite ^/post34\.html$ /blogs/keep-a-dag-transformation-flow-readable-while-quality-checks-accumulate/ permanent;
+    rewrite ^/post35\.html$ /blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/ permanent;
+    rewrite ^/post36\.html$ /blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/ permanent;
+    rewrite ^/post37\.html$ /blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/ permanent;
+    rewrite ^/post38\.html$ /blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/ permanent;
+    rewrite ^/post39\.html$ /blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby-copy/ permanent;
 
     rewrite ^/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill$ /blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pill/ permanent;
     rewrite ^/blogs/persist-live-detections-and-roll-them-into-an-hourly-martt$ /blogs/persist-live-detections-and-roll-them-into-an-hourly-martt/ permanent;

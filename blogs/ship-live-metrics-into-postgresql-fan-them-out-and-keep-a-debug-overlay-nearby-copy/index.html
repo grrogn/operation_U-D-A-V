@@ -668,7 +668,7 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
 <h3>Infrastructure preparation with schema and table creation</h3>
 <div class="is-dark">
 <pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _init_infrastructure(self):
-        """Г.1.5: Подготовка DWH и служебных таблиц"""
+        """DWH and service tables preparation"""
         with self._db() as conn, conn.cursor() as cur:
             cur.execute("CREATE SCHEMA IF NOT EXISTS dwh; CREATE SCHEMA IF NOT EXISTS dwt;")
             cur.execute("""CREATE TABLE IF NOT EXISTS dwh.traffic_vitрина (
@@ -684,7 +684,7 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
 <h3>Incremental extraction with watermark boundary</h3>
 <div class="is-dark">
 <pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _extract(self, cur):
-        """Г.1.2: Инкрементальная загрузка по watermark"""
+        """Incremental loading by watermark"""
         cur.execute("SELECT COALESCE(MAX(ts), '2000-01-01') FROM dwt.wm")
         last_ts = cur.fetchone()[0]
         return pd.read_sql("""
@@ -697,10 +697,10 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
 <h3>Transform stage with quality checks and normalization</h3>
 <div class="is-dark">
 <pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _transform(self, df):
-        """Г.1.4: Контроль качества + нормализация"""
+        """Quality control + normalization"""
         if df.empty: return df
         df = df.drop_duplicates().dropna(subset=["intensity", "avg_speed"])
-        df = df[df["avg_speed"] <= df["avg_speed"].quantile(0.95)]  # отсечение выбросов
+        df = df[df["avg_speed"] <= df["avg_speed"].quantile(0.95)]  # outlier filtering
         df["ts"] = pd.to_datetime(df["time"])
         df["vehicle"] = df["name"].str.lower().str.strip()
         df["peak"] = df["ts"].dt.hour.isin([7,8,9,17,18,19]).astype(int)
@@ -711,7 +711,7 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
 <h3>Enrichment with external attributes</h3>
 <div class="is-dark">
 <pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _enrich(self, df):
-        """Г.1.1: Обогащение внешними атрибутами"""
+        """Enrichment with external attributes"""
         if df.empty: return df
         ext = pd.DataFrame({"hour": range(24), "weather": ["clear"]*8 + ["rain"]*8 + ["cloudy"]*8})
         return df.merge(ext, left_on=df["ts"].dt.hour, right_on="hour", how="left").drop(columns="hour")</pre>
@@ -722,7 +722,7 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
 <h3>UPSERT load pattern for idempotent writes</h3>
 <div class="is-dark">
 <pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _load(self, cur, df):
-        """Г.1.5: Выгрузка в DWH (UPSERT)"""
+        """Load to DWH (UPSERT)"""
         if df.empty: return 0
         query = """INSERT INTO dwh.traffic_vitрина(ts, vehicle, intensity, avg_speed, peak, weather)
                    VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING"""
@@ -734,7 +734,7 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
 <h3>DAG orchestration with error handling and logging</h3>
 <div class="is-dark">
 <pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def run(self):
-        """Оркестрация DAG: extract → transform → enrich → load"""
+        """DAG orchestration: extract → transform → enrich → load"""
         try:
             with self._db() as conn, conn.cursor() as cur:
                 df = self._extract(cur)
@@ -759,7 +759,7 @@ DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhos
         rpt = {"dag_steps": ["extract","quality","transform","enrich","load"], "rows_processed": rows, "ts": pd.Timestamp.now().isoformat()}
         with open("Report_G.json", "w") as f: json.dump(rpt, f, ensure_ascii=False)
 
-# Г.2.2: Расписание запуска
+# Scheduler setup
 if __name__ == "__main__":
     etl = TrafficETL(DB)
     schedule.every(10).seconds.do(etl.run)
