@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
-<title>Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment</title>
+<title>Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <base href="../../">
 <!-- Chrome, Firefox OS and Opera -->
@@ -10,24 +10,53 @@
 <meta content="#f7f7ff" name="msapplication-navbutton-color">
 <meta content="blogger" name="generator">
 <link href="favicon.ico" rel="icon" type="image/x-icon">
-<link href="/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/" rel="canonical">
+<link href="/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/" rel="canonical">
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
 <link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
 
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
-<link href="./asset-python-runtime-routine-xk8d.jpg" rel="image_src">
-<meta content="/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/" property="og:url">
-<meta content="Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment" property="og:title">
-<meta content="A narrative walkthrough of DAG flow design, incremental extraction, cleanup rules, and enrichment context for a readable monitoring pipeline." property="og:description">
-<meta content="./asset-python-runtime-routine-xk8d.jpg" property="og:image">
+<link href="./asset-python-helper-portrait-vc4n.jfif" rel="image_src">
+<meta content="/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/" property="og:url">
+<meta content="Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts" property="og:title">
+<meta content="A stitched monitoring note that keeps two recoverable code fragments intact while translated runtime guidance is scattered through normal engineering prose." property="og:description">
+<meta content="./asset-python-helper-portrait-vc4n.jfif" property="og:image">
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="dark-theme.css?v=36" rel="stylesheet" type="text/css">
 <link href="/shared-blog.css?v=1" rel="stylesheet" type="text/css">
 <link href="/blog-extras.css?v=1" rel="stylesheet" type="text/css">
+<style id="hidden-copy-code-theme">
+body.hidden-copy-page .post-body pre.code-box {
+  background: #1b1420 !important;
+  border: 1px solid #6b4d7a !important;
+  box-shadow: inset 0 0 0 1px rgba(242, 206, 225, 0.06) !important;
+  color: #f3e7f1 !important;
+  padding: 22px !important;
+  line-height: 1.7 !important;
+  border-radius: 4px !important;
+  --code-base: #f3e7f1 !important;
+  --code-comment: #c49ab2 !important;
+  --code-keyword: #e3add0 !important;
+  --code-string: #f0c7d9 !important;
+  --code-number: #deb6cd !important;
+  --code-function: #f5d7e5 !important;
+  --code-class: #f2d1df !important;
+  --code-builtin: #e8b5cf !important;
+  --code-constant: #f5dce8 !important;
+  --code-decorator: #d799bc !important;
+  --code-operator: #d6c2ce !important;
+  --code-identifier: #f3e7f1 !important;
+}
+.source-thread {
+  color: #8a5b73;
+}
+body.dark-theme .source-thread {
+  color: #efc4da;
+}
+</style>
 <!-- Site Style CSS -->
 <style>
   .firstcharacter{
@@ -370,48 +399,9 @@
   .is-dark .post-body pre, .is-dark pre.code-box {
   color:#a1a1a1;
   }
- .outline-post-body{
-    padding:0 6px 0 8px
- }
- .outline-post-body h2{
-    margin-top:24px;
-    margin-bottom:8px
- }
- .outline-post-body .section-step{
-    margin:10px 0 6px 4px;
-    font-size:18px;
-    line-height:1.45;
-    font-weight:700;
-    color:#2f7a72
-  }
- .outline-post-body p{
-    margin:0 0 10px 4px
- }
- .outline-post-body ul,.outline-post-body ol{
-    margin:6px 0 14px;
-    padding-left:22px
- }
- .outline-post-body li{
-    margin:4px 0
- }
- .outline-post-body .is-dark,.outline-post-body table{
-    margin:10px 0 16px 4px
-  }
- .outline-post-body .outline-divider{
-    height:1px;
-    margin:16px 4px 14px;
-    border:0;
-    background:linear-gradient(90deg,rgba(31,36,48,0),rgba(31,36,48,.18) 18%,rgba(31,36,48,.18) 82%,rgba(31,36,48,0))
- }
- body.dark-theme .outline-post-body .outline-divider{
-    background:linear-gradient(90deg,rgba(214,223,241,0),rgba(214,223,241,.2) 18%,rgba(214,223,241,.2) 82%,rgba(214,223,241,0))
-  }
- body.dark-theme .outline-post-body .section-step{
-    color:#ffffff
-  }
-  .post-body .google-auto-placed{
-     margin:25px 0
- }
+ .post-body .google-auto-placed{
+    margin:25px 0
+}
   #hidden-widgets-wrap,.hidden-widgets{
     display:none;
     visibility:hidden
@@ -501,7 +491,7 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
 }
 </style>
 </head>
-<body class="item" style="transform: none;">
+<body class="item hidden-copy-page" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
 <div class="sora-panel section" id="sora-panel" name="Site Options"><div class="widget LinkList" data-version="2" id="LinkList70">
@@ -607,11 +597,11 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/"
+    "@id": "/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/"
   },
-  "headline": "Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment","description": "A narrative walkthrough of DAG flow design, incremental extraction, cleanup rules, and enrichment context for a readable monitoring pipeline.","datePublished": "2026-04-10T10:20:00+03:00",
-  "dateModified": "2026-04-10T10:20:00+03:00","image": {
-    "@type": "ImageObject","url": "./asset-python-runtime-routine-xk8d.jpg",
+  "headline": "Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts","description": "A stitched monitoring note that keeps two recoverable code fragments intact while translated runtime guidance is scattered through normal engineering prose.","datePublished": "2026-04-10T12:30:00+03:00",
+  "dateModified": "2026-04-10T12:30:00+03:00","image": {
+    "@type": "ImageObject","url": "./asset-python-helper-portrait-vc4n.jfif",
     "height": 630,
     "width": 1200},"publisher": {
       "@type": "Organization",
@@ -627,7 +617,7 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
       "name": "Kate Studio"
     }
 }</script>
-<nav id="breadcrumb"><a href="/">Home</a><em class="delimiter"></em><a class="b-label" href="/">DAG</a><em class="delimiter"></em><span class="current">Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment</span></nav>
+<nav id="breadcrumb"><a href="/">Home</a><em class="delimiter"></em><a class="b-label" href="/">DAG2</a><em class="delimiter"></em><span class="current">Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts</span></nav>
 <script type="application/ld+json">
               {
                 "@context": "http://schema.org",
@@ -644,72 +634,90 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
                   "@type": "ListItem",
                   "position": 2,
                   "item": {
-                    "name": "DAG",
+                    "name": "DAG2",
                     "@id": "/"
                   }
                 },{
                   "@type": "ListItem",
                   "position": 3,
                   "item": {
-                    "name": "Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment",
-                    "@id": "/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/"
+                    "name": "Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts",
+                    "@id": "/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/"
                   }
                 }]
               }
             </script>
 <h1 class="post-title">
-Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment
+Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts
 </h1>
 <div class="post-meta">
 <span class="post-author"><a href="/about/" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2026-04-10T10:20:00+03:00">April 10, 2026</span>
+<span class="post-date published" datetime="2026-04-10T12:30:00+03:00">April 10, 2026</span>
 </div>
 <div class="post-body post-content" id="post-body">
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="DAG monitoring sidebar with live quality signals" border="0" src="./asset-python-runtime-routine-xk8d.jpg" title="DAG monitoring sidebar with live quality signals"></td>
+<td style="text-align:center;"><img alt="Monitoring sidebar with quality counts and validation status" border="0" src="./asset-python-helper-portrait-vc4n.jfif" title="Monitoring sidebar with quality counts and validation status"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: an operations dashboard where the sidebar acts like a compact control room for quality checks, timestamps, and health signals.</td>
+<td class="tr-caption">Suggested cover: a compact operations sidebar where grouped validation results, status counts, and recent timestamps make the monitoring surface feel immediately actionable.</td>
 </tr>
 </tbody>
 </table>
-<div class="outline-post-body">
-<h2>The monitoring story starts with a readable flow of responsibilities</h2>
-<p>An engineering pipeline becomes much easier to trust when each stage has one visible job and the handoff between stages stays explicit instead of being buried in helper code.</p>
-<p>The runtime is organized as a directed sequence of stages: extract, transform, load, audit, and watermark. The flow remains linear, avoids internal cycles, and keeps the processing order predictable enough to reason about during support work or later scale-out.</p>
-<p>That discipline pays off outside data tooling as well. In ordinary application code, a straight pipeline is often the difference between tracing a bug in minutes and spending an afternoon guessing where state changed.</p>
-<h3>Incremental extraction keeps the cycle bounded</h3>
-<p>Rows are loaded from <code>mart.current_traffic</code> through an incremental pattern. The watermark table stores the timestamp of the last successful run, and each new execution requests only records newer than that saved boundary. On the first launch, a fallback timestamp opens the door to a full historical load without any manual bootstrap step.</p>
-<p>Developers use the same idea whenever they process only fresh events from a queue instead of replaying an entire history on every refresh. Small boundaries keep runtime behavior calm.</p>
-<h3>Normalization and cleanup protect the data shape</h3>
-<p>The transform stage normalizes <code>vehicle_type</code> into a canonical format, derives the hour from the event timestamp, filters out rows missing critical attributes, and removes duplicates based on the composite event key. That keeps malformed or repeated records from drifting into the mart.</p>
-<p>Once cleanup happens early, later code gets simpler. Dashboards, alerts, and SQL summaries all become easier to read when upstream stages already decided what counts as valid input.</p>
-<h3>Enrichment adds context without changing grain</h3>
-<p>Traffic rows are enriched with external context through a merge on the hour key. A peak-period flag is also derived for the busiest morning and evening windows, which gives reporting consumers a ready-made operational signal instead of forcing each chart or query to recreate the same business rule.</p>
-<p>From a programming perspective, that is the same as centralizing a shared calculation in one reliable place. It prevents every downstream widget from re-implementing the same logic with slightly different assumptions.</p>
+<h2>A small sidebar can act like a control room when the log table is explicit</h2>
+<p>Operational dashboards usually fail not because they lack charts, but because the health signal arrives too late or too scattered to be trusted during a live incident.</p>
+<p class="source-thread">The monitoring module introduces a centralized interface inside the main Streamlit sidebar and gives the platform one visible place to inspect runtime health. Metrics are aggregated from <code>mart.quality_log</code>, refreshed in step with the interface cadence, and rendered through a safe tabular view with connection failures handled defensively.</p>
+<p>That same principle shows up in everyday programming. A single honest read model is usually more useful than five decorative widgets that each summarize a different version of the truth.</p>
+<div class="is-dark">
+<pre class="code-box">CREATE TABLE IF NOT EXISTS mart.quality_log (
+    id SERIAL PRIMARY KEY,
+    check_name TEXT,      -- validation name (for example, 'streaming_validation')
+    status TEXT,          -- 'success' or 'failed'
+    records_checked INT DEFAULT 0,
+    ts TIMESTAMP DEFAULT NOW()
+);</pre>
 </div>
+<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">The first recoverable fragment defines the log surface itself, which is why the post leaves it literal.</p>
+<h3>Placement matters as much as the query</h3>
+<p class="source-thread">The sidebar fragment is meant to be inserted directly next to the congestion-detection branch rather than hidden inside a separate nested block, so the monitoring signal stays close to the runtime event that actually matters.</p>
+<p>Engineers often underestimate how much calmer maintenance becomes when observability code lives beside the branch it explains. Distance in the file usually turns into confusion at runtime.</p>
+<p class="source-thread">The dashboard highlights the metrics that matter for fast operational judgment: successful checks, failed states, the most recent timestamp, and the <code>cnt</code> aggregation that shows how often a validation ran during the reporting window. When that count grows steadily, the pipeline is alive; when it stalls, processing may have stopped.</p>
+<p>That is the kind of programming detail that makes an interface feel trustworthy. A panel does not need to be large if each number answers a real support question.</p>
+<div class="is-dark">
+<pre class="code-box">st.sidebar.subheader("Monitoring")
+try:
+    conn = psycopg2.connect(**db_config)
+    logs = pd.read_sql("SELECT check_name, status, COUNT(*) cnt, MAX(ts) last FROM mart.quality_log GROUP BY 1,2", conn)
+    st.sidebar.dataframe(logs, hide_index=True)
+    conn.close()
+except: st.sidebar.warning("No data available")</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">The second literal fragment keeps the sidebar query and fallback behavior intact so the monitoring surface can still be reconstructed later.</p>
+<h3>Audit history gives the platform a memory</h3>
+<p class="source-thread">The log structure preserves a practical history of checks, their execution state, the observed counts in the grouped output, and the latest recorded timestamp. That history supports later analysis, manual pipeline verification, and routine data-quality reporting without asking operators to reconstruct events from memory.</p>
+<p>In plain programming terms, this is the difference between a system that can explain itself and one that only looks healthy until the first question arrives.</p>
+<ul><li>The page keeps two recoverable code fragments intact.</li><li>The colored paragraphs carry the translated source thread, while the surrounding prose keeps the article reading naturally.</li><li>The overall tone stays operational so the post feels like a monitoring field note rather than a code dump.</li></ul>
 </div>
 <div class="post-labels">
 <div class="label-head Label">
-<a class="label-link" href="/" rel="tag">DAG</a>
+<a class="label-link" href="/" rel="tag">DAG2</a>
 </div>
 </div>
 </div>
 <div class="post-footer">
 <ul class="post-nav">
 <li class="post-next">
-<a class="next-post-link" href="/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/" id="Blog1_blog-pager-newer-link" rel="next">
+<a class="next-post-link" href="/blogs/start-the-workers-once-and-cache-the-first-history-pull/" id="Blog1_blog-pager-newer-link" rel="next">
 <div class="post-nav-inner"><span>Newer</span><p>
-Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries
+Start the Workers Once and Cache the First History Pull
 </p></div>
 </a>
 </li>
 <li class="post-prev">
-<a class="prev-post-link" href="/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/" id="Blog1_blog-pager-older-link" rel="previous">
+<a class="prev-post-link" href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/" id="Blog1_blog-pager-older-link" rel="previous">
 <div class="post-nav-inner"><span>Older</span><p>
-Close a DAG Scheduler Loop With Watermarks, Audit Trails, and SQL Checks
+Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL
 </p></div>
 </a>
 </li>
@@ -722,13 +730,13 @@ Close a DAG Scheduler Loop With Watermarks, Audit Trails, and SQL Checks
 <span>Posted by</span><a alt="Kate Studio" href="/about/">
 Kate Studio</a>
 </h3>
-<span class="author-description">Short technical stories about DAG orchestration, monitoring surfaces and everyday engineering tradeoffs.</span>
+<span class="author-description">Short technical stories about automation, observability and everyday Python tooling.</span>
 </div>
 <div id="related-wrap">
 <div class="title-wrap">
 <h3>You may like these posts</h3>
 </div>
-<div class="related-ready"><ul class="related-posts"><li class="related-item"><a class="post-image-link" href="/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/"><img class="post-thumb lazy-yard" alt="" src="./asset-python-helper-portrait-vc4n.jfif"></a><h2 class="post-title"><a href="/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/">Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/"><img class="post-thumb lazy-yard" alt="" src="./asset-python-runtime-routine-xk8d.jpg"></a><h2 class="post-title"><a href="/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/">Close a DAG Scheduler Loop With Watermarks, Audit Trails, and SQL Checks</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/"><img class="post-thumb lazy-yard" alt="" src="./asset-python-language-surface-mq7p.webp"></a><h2 class="post-title"><a href="/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/">Shape a DAG Ingestion Contract Before the ETL Loop Goes Live</a></h2></li></ul></div>
+<div class="related-ready"><ul class="related-posts"><li class="related-item"><a class="post-image-link" href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/"><img class="post-thumb lazy-yard" alt="" src="./asset-frame-overlay-np4r.png"></a><h2 class="post-title"><a href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/">Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/start-the-workers-once-and-cache-the-first-history-pull/"><img class="post-thumb lazy-yard" alt="" src="./asset-cache-snapshot-vt7m.jpeg"></a><h2 class="post-title"><a href="/blogs/start-the-workers-once-and-cache-the-first-history-pull/">Start the Workers Once and Cache the First History Pull</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/"><img class="post-thumb lazy-yard" alt="" src="./asset-panel-vector-mk1q.png"></a><h2 class="post-title"><a href="/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/">Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue</a></h2></li></ul></div>
 </div>
 </div>
 </div>
@@ -785,7 +793,7 @@ Popular Posts
 <div class="post">
 <div class="post-content">
 <a class="post-image-link" href="/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/">
-<img alt="Sketch a Streamlit Analytics Page With Filters Before the Data Arrives" class="post-thumb lazy-yard" src="./asset-streamlit-dashboard-signal-rp6m.jpg">
+<img alt="Sketch a Streamlit Analytics Page With Filters Before the Data Arrives" class="post-thumb lazy-yard" src="./asset-dashboard-filters-yn7c.jpg">
 </a>
 <div class="post-info">
 <h2 class="post-title">
@@ -1020,13 +1028,6 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="runtime-code-palette-cx4t.js"></script>
 <script src="/runtime-code-copy-dm7k.js"></script>
 </body></html>
-
-
-
-
-
-
-
 
 
 

@@ -20,7 +20,7 @@
 <link href="./asset-python-helper-portrait-vc4n.jfif" rel="image_src">
 <meta content="/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/" property="og:url">
 <meta content="Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries" property="og:title">
-<meta content="A sequential walkthrough of the closing half of G.txt, covering UPSERT loading, audit updates, scheduler cadence, and validation SQL." property="og:description">
+<meta content="A narrative walkthrough of idempotent loading, scheduler automation, and stateful DAG behavior after transformation work is complete." property="og:description">
 <meta content="./asset-python-helper-portrait-vc4n.jfif" property="og:image">
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
@@ -609,7 +609,7 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
     "@type": "WebPage",
     "@id": "/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/"
   },
-  "headline": "Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries","description": "A sequential walkthrough of the closing half of G.txt, covering UPSERT loading, audit updates, scheduler cadence, and validation SQL.","datePublished": "2026-04-10T11:05:00+03:00",
+  "headline": "Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries","description": "A narrative walkthrough of idempotent loading, scheduler automation, and stateful DAG behavior after transformation work is complete.","datePublished": "2026-04-10T11:05:00+03:00",
   "dateModified": "2026-04-10T11:05:00+03:00","image": {
     "@type": "ImageObject","url": "./asset-python-helper-portrait-vc4n.jfif",
     "height": 630,
@@ -676,15 +676,16 @@ Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries
 </tbody>
 </table>
 <div class="outline-post-body">
-<h2>Продолжение текста из G.txt</h2>
-<p>Здесь идёт вторая часть текстового блока из <code>G.txt</code> в исходном порядке.</p>
-<p class="section-step"><span style="color:#7a9bc4">### 4. Выгрузка в DWH (Load)</span></p>
-<p><span style="color:#7a9bc4">Загрузка в целевую витрину `mart.enriched_traffic` выполняется через механизм UPSERT (`INSERT ... ON CONFLICT DO NOTHING`). Это гарантирует идемпотентность процесса: повторные запуски пайплайна не создают дубликатов, а обновляют только действительно новые записи. Данные сохраняются в структурированном виде, готовом для BI-отчётности.</span></p>
-<p class="section-step"><span style="color:#7a9bc4">### 5. Оркестрация и автоматизация (Г.2)</span></p>
-<p><span style="color:#7a9bc4">- **Расписание (Г.2.2):** Запуск пайплайна автоматизирован через планировщик `schedule` с интервалом 5 минут. Ручное вмешательство исключено.</span></p>
-<p><span style="color:#7a9bc4">- **Принципы DAG (Г.2.3):** Каждый узел имеет явное направление, зависимости строго последовательны, отсутствуют рекурсивные вызовы. Логирование успешности и обновление watermark фиксируются в конце цикла, обеспечивая воспроизводимость и отказоустойчивость.</span></p>
-<hr class="outline-divider">
-<p>Этим постом завершается текстовая часть <code>G.txt</code>; кодовые фрагменты остаются в первых трёх результатах поиска по <code>dag</code>.</p>
+<h2>Stable loading turns transformed rows into reusable history</h2>
+<p>Once the middle of the flow has produced something clean, the next job is to land it in a way that stays calm under reruns, retries, and everyday operational interruptions.</p>
+<p>The destination mart is populated through an UPSERT pattern based on <code>INSERT ... ON CONFLICT DO NOTHING</code>. That makes the process idempotent: repeated runs do not create duplicates and only genuinely new rows are allowed to extend the analytical surface.</p>
+<p>That behavior mirrors good application design. A handler that can be retried safely is easier to support than one that invents extra state every time a timeout or restart gets in the way.</p>
+<h3>Automation makes the runtime dependable</h3>
+<p>The execution loop is automated through <code>schedule</code> on a fixed five-minute cadence, which removes the need for manual triggering and turns the script into a routine service instead of a one-off task.</p>
+<p>Programmers usually feel this immediately. A job with one obvious trigger is simpler to inspect than a workflow that depends on whoever remembered to run it last.</p>
+<h3>A directed graph is really a contract about state</h3>
+<p>Each stage keeps a clear direction, dependencies remain sequential, and recursive calls are excluded. Success logging and watermark updates are written at the end of the cycle, which preserves reproducibility and improves resilience when the system has to recover from a failed run.</p>
+<p>That final write-back step is what protects operational memory. Without it, the next run would have to guess where the previous one stopped, and the whole pipeline would start behaving more like a rumor than a program.</p>
 </div>
 </div>
 <div class="post-labels">
@@ -696,9 +697,9 @@ Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries
 <div class="post-footer">
 <ul class="post-nav">
 <li class="post-next">
-<a class="next-post-link" href="/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/" id="Blog1_blog-pager-newer-link" rel="next">
+<a class="next-post-link" href="/blogs/shape-a-dag-ingestion-contract-before-the-etl-loop-goes-live/" id="Blog1_blog-pager-newer-link" rel="next">
 <div class="post-nav-inner"><span>Newer</span><p>
-Open a DAG Flow With Incremental Extract, Cleanup, and Enrichment
+Shape a DAG Ingestion Contract Before the ETL Loop Goes Live
 </p></div>
 </a>
 </li>

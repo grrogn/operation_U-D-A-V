@@ -49,6 +49,9 @@
       '/blogs/surface-a-dag-monitoring-console-before-quality-signals-start-drifting/',
       '/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/'
     ],
+    dag2: [
+      '/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/'
+    ],
     sqlite: [
       '/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/',
       '/blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/',
@@ -214,6 +217,11 @@
         "title": "Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries",
         "url": "/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/",
         "meta": "/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/"
+      },
+    {
+        "title": "Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts",
+        "url": "/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/",
+        "meta": "/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/"
       },
     {
         "title": "Shape a Streamlit Filter Bar Before the Refresh Loop Starts Rushing",

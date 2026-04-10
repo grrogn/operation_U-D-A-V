@@ -642,14 +642,14 @@ Shape a DAG Ingestion Contract Before the ETL Loop Goes Live
 <p>There is also a pragmatic elegance to keeping this part simple. One function, one connection, a few DDL statements, and one watermark query can still communicate a lot of operational maturity. The code below stays in the same order as <code>G.txt</code> and keeps the original fragment intact.</p>
 <table><thead><tr><th>DAG term</th><th>Meaning</th><th>Why it matters here</th></tr></thead><tbody><tr><td>Schema bootstrap</td><td>The creation of technical namespaces before any data movement starts.</td><td>It gives the pipeline an explicit storage perimeter for marts and ETL metadata.</td></tr><tr><td>Watermark</td><td>A persisted timestamp that marks the last successful cycle.</td><td>It turns the extract phase into a delta-based process instead of a full reread.</td></tr><tr><td>Incremental extract</td><td>A read pattern that loads only new or changed rows.</td><td>It keeps the DAG efficient, replayable, and easier to reason about under schedule pressure.</td></tr><tr><td>Enrichment stub</td><td>A lightweight stand-in for an external source such as weather or events.</td><td>It shows where feature augmentation will enter the graph before the real integration exists.</td></tr></tbody></table>
 <h3>The bootstrap defines the database perimeter before any business rows move</h3>
-<div class="is-dark"><pre class="code-box" style="background:#f6f8fb;border:1px solid #d9e2ec;color:#1f2933;padding:22px;line-height:1.7;border-radius:4px;overflow:auto;">import psycopg2, pandas as pd, schedule, time
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">import psycopg2, pandas as pd, schedule, time
 DB = {"dbname": "faf", "user": "postgres", "password": "", "host": "localhost", "port": "5432"}
 def run_dag():
     conn = psycopg2.connect(**DB); cur = conn.cursor()
     cur.execute("CREATE SCHEMA IF NOT EXISTS mart;")
     cur.execute("CREATE SCHEMA IF NOT EXISTS etl;")
     conn.commit()
-    # Г.1.5: Создание таблиц (если нет)
+    # Create tables if missing
     cur.execute("""
         CREATE TABLE IF NOT EXISTS mart.enriched_traffic (
             id BIGSERIAL PRIMARY KEY, camera_id TEXT, vehicle_type TEXT, speed FLOAT,
@@ -662,14 +662,14 @@ def run_dag():
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The first block does not chase analytics yet. It establishes the technical perimeter, which is exactly what a stable DAG should do before it attempts any transformation.</p>
 <p>From a platform engineering perspective, this is where the pipeline earns a predictable landing zone. The mart schema becomes the analytical surface, the ETL schema becomes the operational memory, and the uniqueness constraint quietly defines the grain of the downstream dataset. That is a lot of governance packed into a short opening move.</p>
 <h3>The watermark lookup turns extraction into a proper incremental contract</h3>
-<div class="is-dark"><pre class="code-box" style="background:#f6f8fb;border:1px solid #d9e2ec;color:#1f2933;padding:22px;line-height:1.7;border-radius:4px;overflow:auto;">    # Г.1.2: Инкрементальная загрузка из камеры
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">    # Incremental extract from the camera
     cur.execute("SELECT COALESCE(MAX(ts), '2000-01-01') FROM etl.watermark")
     last_run = cur.fetchone()[0]
     df_cam = pd.read_sql("SELECT camera_id, vehicle_type, avg_speed, last_update FROM mart.current_traffic WHERE last_update &gt; %s", conn, params=(last_run,))</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The watermark read and the <code>WHERE last_update &gt; %s</code> predicate convert a plain SQL pull into a state-aware extract phase.</p>
 <p>This matters because incrementalism is not just a performance trick. It is a semantic promise. The DAG is saying that each cycle should process only the delta, preserve the history already materialized, and keep reruns bounded. That is the sort of quiet rigor that makes observability and incident analysis much easier later.</p>
 <h3>The enrichment stub and empty-frame guard keep the first DAG cycles honest</h3>
-<div class="is-dark"><pre class="code-box" style="background:#f6f8fb;border:1px solid #d9e2ec;color:#1f2933;padding:22px;line-height:1.7;border-radius:4px;overflow:auto;">    # Имитация внешнего источника (погода/события)
+<div class="is-dark"><pre class="code-box" style="background:#171117;border:1px solid #6a5361;color:#f0dee6;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(193,141,169,.08);--code-base:#f0dee6;--code-comment:#b694a3;--code-keyword:#dfa8bd;--code-string:#e9bfd0;--code-number:#d6a7bf;--code-function:#efc5d5;--code-class:#f3d0de;--code-builtin:#dba8c1;--code-constant:#eed2de;--code-decorator:#d79bb4;--code-operator:#c7b1bc;--code-identifier:#f0dee6">    # External source simulation (weather/events)
     df_ext = pd.DataFrame({'hour': range(24), 'weather': ['clear']*8 + ['rain']*4 + ['cloudy']*12})
     if df_cam.empty: return</pre></div>
 <p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Even this tiny dataframe is architecturally meaningful because it shows where outside context will join the core traffic facts.</p>
@@ -693,9 +693,9 @@ Keep a DAG Transformation Flow Readable While Quality Checks Accumulate
 </a>
 </li>
 <li class="post-prev">
-<a class="prev-post-link" href="/blogs/close-a-dag-scheduler-loop-with-watermarks-audit-trails-and-sql-checks/" id="Blog1_blog-pager-older-link" rel="previous">
+<a class="prev-post-link" href="/blogs/keep-dag-audit-history-readable-while-sidebar-metrics-refresh-live/" id="Blog1_blog-pager-older-link" rel="previous">
 <div class="post-nav-inner"><span>Older</span><p>
-Close a DAG Scheduler Loop With Watermarks, Audit Trails, and SQL Checks
+Finish a DAG Flow With UPSERT, Watermarks, and Validation Queries
 </p></div>
 </a>
 </li>
