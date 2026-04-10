@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html class="ltr" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:b="http://www.google.com/2005/gml/b" xmlns:data="http://www.google.com/2005/gml/data" xmlns:expr="http://www.google.com/2005/gml/expr" style="transform: none;"><head>
 <meta content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" name="viewport">
-<title>Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts</title>
+<title>Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <base href="../../">
 <!-- Chrome, Firefox OS and Opera -->
@@ -10,53 +10,24 @@
 <meta content="#f7f7ff" name="msapplication-navbutton-color">
 <meta content="blogger" name="generator">
 <link href="favicon.ico" rel="icon" type="image/x-icon">
-<link href="/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/" rel="canonical">
+<link href="/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/" rel="canonical">
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/posts/default">
 <link rel="alternate" type="application/rss+xml" title="Kate - RSS" href="https://kate-soratemplates.blogspot.com/feeds/posts/default?alt=rss">
 <link rel="service.post" type="application/atom+xml" title="Kate - Atom" href="https://www.blogger.com/feeds/3131672942907611103/posts/default">
 
 <link rel="alternate" type="application/atom+xml" title="Kate - Atom" href="https://kate-soratemplates.blogspot.com/feeds/561866265119208500/comments/default">
 <!--Can't find substitution for tag [blog.ieCssRetrofitLinks]-->
-<link href="./asset-python-helper-portrait-vc4n.jfif" rel="image_src">
-<meta content="/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/" property="og:url">
-<meta content="Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts" property="og:title">
-<meta content="A stitched monitoring note that keeps two recoverable code fragments intact while translated runtime guidance is scattered through normal engineering prose." property="og:description">
-<meta content="./asset-python-helper-portrait-vc4n.jfif" property="og:image">
+<link href="./asset-metrics-overlay-fq3x.jpg" rel="image_src">
+<meta content="/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/" property="og:url">
+<meta content="Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby" property="og:title">
+<meta content="A practical article about writing live metrics to PostgreSQL, pushing them into a queue and preserving a lightweight debug overlay." property="og:description">
+<meta content="./asset-metrics-overlay-fq3x.jpg" property="og:image">
 <!-- Google Fonts -->
 <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Poppins:400,600,700" media="all" rel="stylesheet" type="text/css">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="dark-theme.css?v=36" rel="stylesheet" type="text/css">
 <link href="/shared-blog.css?v=1" rel="stylesheet" type="text/css">
 <link href="/blog-extras.css?v=1" rel="stylesheet" type="text/css">
-<style id="hidden-copy-code-theme">
-body.hidden-copy-page .post-body pre.code-box {
-  background: #1b1420 !important;
-  border: 1px solid #6b4d7a !important;
-  box-shadow: inset 0 0 0 1px rgba(242, 206, 225, 0.06) !important;
-  color: #f3e7f1 !important;
-  padding: 22px !important;
-  line-height: 1.7 !important;
-  border-radius: 4px !important;
-  --code-base: #f3e7f1 !important;
-  --code-comment: #c49ab2 !important;
-  --code-keyword: #e3add0 !important;
-  --code-string: #f0c7d9 !important;
-  --code-number: #deb6cd !important;
-  --code-function: #f5d7e5 !important;
-  --code-class: #f2d1df !important;
-  --code-builtin: #e8b5cf !important;
-  --code-constant: #f5dce8 !important;
-  --code-decorator: #d799bc !important;
-  --code-operator: #d6c2ce !important;
-  --code-identifier: #f3e7f1 !important;
-}
-.source-thread {
-  color: #8a5b73;
-}
-body.dark-theme .source-thread {
-  color: #efc4da;
-}
-</style>
 <!-- Site Style CSS -->
 <style>
   .firstcharacter{
@@ -491,7 +462,7 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
 }
 </style>
 </head>
-<body class="item hidden-copy-page" style="transform: none;">
+<body class="item" style="transform: none;">
 <!-- Site Options -->
 <div class="theme-options" style="display:none">
 <div class="sora-panel section" id="sora-panel" name="Site Options"><div class="widget LinkList" data-version="2" id="LinkList70">
@@ -597,27 +568,27 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
   "@type": "BlogPosting",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/"
+    "@id": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/"
   },
-  "headline": "Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts","description": "A stitched monitoring note that keeps two recoverable code fragments intact while translated runtime guidance is scattered through normal engineering prose.","datePublished": "2026-04-10T12:30:00+03:00",
-  "dateModified": "2026-04-10T12:30:00+03:00","image": {
-    "@type": "ImageObject","url": "./asset-python-helper-portrait-vc4n.jfif",
+  "headline": "Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby","description": "A practical article about writing live metrics to PostgreSQL, pushing them into a queue and preserving a lightweight debug overlay.","datePublished": "2024-11-16T13:45:00+03:00",
+  "dateModified": "2024-11-16T13:45:00+03:00","image": {
+    "@type": "ImageObject","url": "./asset-metrics-overlay-fq3x.jpg",
     "height": 630,
     "width": 1200},"publisher": {
-      "@type": "Organization",
-      "name": "Kate Studio",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=h60",
-        "width": 206,
-        "height": 60
-      }
-    },"author": {
-      "@type": "Person",
-      "name": "Kate Studio"
+    "@type": "Organization",
+    "name": "Kate Studio",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://lh3.googleusercontent.com/ULB6iBuCeTVvSjjjU1A-O8e9ZpVba6uvyhtiWRti_rBAs9yMYOFBujxriJRZ-A=h60",
+      "width": 206,
+      "height": 60
     }
+  },"author": {
+    "@type": "Person",
+    "name": "Kate Studio"
+  }
 }</script>
-<nav id="breadcrumb"><a href="/">Home</a><em class="delimiter"></em><a class="b-label" href="/">DAG2</a><em class="delimiter"></em><span class="current">Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts</span></nav>
+<nav id="breadcrumb"><a href="/">Home</a><em class="delimiter"></em><a class="b-label" href="/">Data Pipeline</a><em class="delimiter"></em><span class="current">Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby</span></nav>
 <script type="application/ld+json">
               {
                 "@context": "http://schema.org",
@@ -634,90 +605,192 @@ body.dark-theme #menu-footer ul li a{height:auto !important;line-height:inherit 
                   "@type": "ListItem",
                   "position": 2,
                   "item": {
-                    "name": "DAG2",
+                    "name": "Data Pipeline",
                     "@id": "/"
                   }
                 },{
                   "@type": "ListItem",
                   "position": 3,
                   "item": {
-                    "name": "Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts",
-                    "@id": "/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/"
+                    "name": "Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby",
+                    "@id": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/"
                   }
                 }]
               }
             </script>
 <h1 class="post-title">
-Wire a DAG2 Monitoring Sidebar With Quality Logs and Runtime Counts
+Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby
 </h1>
 <div class="post-meta">
 <span class="post-author"><a href="/about/" title="Kate Studio">Kate Studio</a></span>
-<span class="post-date published" datetime="2026-04-10T12:30:00+03:00">April 10, 2026</span>
+<span class="post-date published" datetime="2024-11-16T13:45:00+03:00">November 16, 2024</span>
 </div>
 <div class="post-body post-content" id="post-body">
 <table align="center" cellpadding="0" cellspacing="0" class="tr-caption-container" style="margin-left:auto;margin-right:auto;">
 <tbody>
 <tr>
-<td style="text-align:center;"><img alt="Monitoring sidebar with quality counts and validation status" border="0" src="./asset-python-helper-portrait-vc4n.jfif" title="Monitoring sidebar with quality counts and validation status"></td>
+<td style="text-align:center;"><img alt="PostgreSQL metrics and debug overlay" border="0" src="./asset-metrics-overlay-fq3x.jpg" title="PostgreSQL metrics and debug overlay"></td>
 </tr>
 <tr>
-<td class="tr-caption">Suggested cover: a compact operations sidebar where grouped validation results, status counts, and recent timestamps make the monitoring surface feel immediately actionable.</td>
+<td class="tr-caption">Suggested cover: a metric insert stream, a queue handoff diagram and a compact on-frame debug overlay.</td>
 </tr>
 </tbody>
 </table>
-<h2>СИСТЕМА МОНИТОРИНГА</h2>
-<p class="source-thread">В рамках модуля реализован интерфейс централизованного мониторинга аналитической платформы. Компонент встроен в боковую панель (sidebar) основного дашборда Streamlit и обеспечивает визуальный контроль состояния системы.</p>
-<p class="source-thread">Архитектура построена по принципу единой точки сбора метрик: данные агрегируются из таблицы mart.quality_log и отображаются в реальном времени с частотой обновления интерфейса (5 секунд). Реализована безопасная обработка ошибок подключения и устойчивый вывод результатов через st.dataframe.</p>
+<h2>One frame summary can feed three consumers</h2>
+<p>Once a frame summary exists, the script needs to do three things with it quickly. It has to persist the data, make it available to the UI, and keep enough visual feedback nearby that a human can still sanity-check what the system is doing.</p>
+<p>Those three concerns sound different, but they fit well together because they all derive from the same per-frame bucket. A good live pipeline avoids recomputing that summary and simply fans it out to the next consumers.</p>
+<p>That fan-out idea is worth dwelling on because it is where many small systems either become elegant or become noisy. If every downstream step rebuilds its own understanding of the frame, the code grows wide very fast. If they all reuse the same summary, the architecture stays compact.</p>
+<table><thead><tr><th>Stage</th><th>What happens</th><th>Why it stays useful</th></tr></thead><tbody><tr><td>Database setup</td><td>Schema and tables are initialized with proper constraints.</td><td>Infrastructure preparation ensures data integrity from the start.</td></tr><tr><td>Extract</td><td>Incremental loading based on watermark timestamp.</td><td>Only new data is processed, keeping cycles efficient.</td></tr><tr><td>Transform</td><td>Quality checks, normalization and outlier filtering.</td><td>Clean data prevents downstream errors in analytics.</td></tr><tr><td>Enrich</td><td>External attributes are merged by time key.</td><td>Business context is added without changing grain.</td></tr><tr><td>Load</td><td>UPSERT pattern prevents duplicates on retry.</td><td>Idempotent writes make the pipeline resilient.</td></tr></tbody></table>
+<h3>Initial imports and database configuration</h3>
 <div class="is-dark">
-<pre class="code-box">CREATE TABLE IF NOT EXISTS mart.quality_log (
-    id SERIAL PRIMARY KEY,
-    check_name TEXT,      -- validation name (for example, 'streaming_validation')
-    status TEXT,          -- 'success' or 'failed'
-    records_checked INT DEFAULT 0,
-    ts TIMESTAMP DEFAULT NOW()
-);</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">import psycopg2, psycopg2.extras, pandas as pd, schedule, time, json, logging
+from contextlib import contextmanager
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)s | %(message)s')
+DB = {"dbname": "CAR", "user": "postgres", "password": "1234", "host": "localhost", "port": "5432"}</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">Первый восстанавливаемый фрагмент определяет саму структуру журнала, поэтому пост оставляет его буквальным.</p>
-<h3>КЛЮЧЕВЫЕ МЕТРИКИ ПРОИЗВОДИТЕЛЬНОСТИ</h3>
-<p class="source-thread">На дашборде отображаются показатели, необходимые для оперативной оценки работоспособности платформы:</p>
-<p class="source-thread">• Успешные проверки (статус success) — индикатор штатной работы контуров обработки.<br>
-• Зафиксированные отклонения (статус failed) — сигнал о нарушении качества входящих данных или сбоях пайплайнов.<br>
-• Время последней фиксации (MAX(ts)) — контроль актуальности и своевременности обновления метрик.<br>
-• Поле cnt (количество срабатываний) показывает, сколько раз данная валидация была запущена за отчётный период. Это позволяет оценить частоту контроля и стабильность работы пайплайнов: если cnt растёт регулярно — система работает, если застыл — возможна остановка обработки.</p>
-<p class="source-thread">Метрики рассчитываются динамически на основе SQL-агрегации и не требуют ручного сбора логов.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The configuration block keeps database credentials and logging setup in one place, making deployment adjustments straightforward.</p>
+<p>The ETL class encapsulates all pipeline logic in a single cohesive unit. The context manager pattern ensures database connections are properly closed even when exceptions occur.</p>
 <div class="is-dark">
-<pre class="code-box">st.sidebar.subheader("Monitoring")
-try:
-    conn = psycopg2.connect(**db_config)
-    logs = pd.read_sql("SELECT check_name, status, COUNT(*) cnt, MAX(ts) last FROM mart.quality_log GROUP BY 1,2", conn)
-    st.sidebar.dataframe(logs, hide_index=True)
-    conn.close()
-except: st.sidebar.warning("No data available")</pre>
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">class TrafficETL:
+    def __init__(self, db_cfg):
+        self.db = db_cfg
+        self._init_infrastructure()
+
+    @contextmanager
+    def _db(self):
+        conn = psycopg2.connect(**self.db)
+        try: yield conn
+        finally: conn.close()</pre>
 </div>
-<p style="margin-top:8px;margin-bottom:20px;color:#8e7081;font-size:13px;">Второй буквальный фрагмент сохраняет запрос боковой панели и поведение отката, чтобы поверхность мониторинга могла быть восстановлена позже.</p>
-<h3>ЖУРНАЛ АУДИТА И СОХРАНЕНИЕ РЕЗУЛЬТАТОВ</h3>
-<p class="source-thread">Для фиксации результатов проверок создана таблица mart.quality_log со структурой: check_name (идентификатор проверки), status (результат выполнения), cnt (количество срабатываний), last (таймстамп). Данные группируются по типу и статусу проверки и выводятся в табличном виде на дашборде.</p>
-<p class="source-thread">Такая структура обеспечивает сохранение истории проверок для последующего анализа, ручной верификации работы пайплайнов и подготовки отчётности по качеству данных.</p>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This supplemental block makes the shared payload idea visible before the stored fragment reaches the database write.</p>
+<p>A context manager is often the quiet hero in this kind of script. It lets the pipeline handle connections safely without teaching every method about cleanup timing or error recovery details.</p>
+<h3>Infrastructure preparation with schema and table creation</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _init_infrastructure(self):
+        """Г.1.5: Подготовка DWH и служебных таблиц"""
+        with self._db() as conn, conn.cursor() as cur:
+            cur.execute("CREATE SCHEMA IF NOT EXISTS dwh; CREATE SCHEMA IF NOT EXISTS dwt;")
+            cur.execute("""CREATE TABLE IF NOT EXISTS dwh.traffic_vitрина (
+                id BIGSERIAL PRIMARY KEY, ts TIMESTAMP, vehicle TEXT, intensity INT,
+                avg_speed FLOAT, peak INT, weather TEXT, UNIQUE(ts, vehicle));""")
+            cur.execute("CREATE TABLE IF NOT EXISTS dwt.log (ts TIMESTAMP, status TEXT, rows INT);")
+            cur.execute("CREATE TABLE IF NOT EXISTS dwt.wm (ts TIMESTAMP);")
+            conn.commit()</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The insert fragment keeps the schema-facing write logic compact, which is helpful when you later need to inspect or replay the stream.</p>
+<p>The database step should still look almost boring. That is usually a good sign. The interesting part already happened earlier when the frame bucket was built. Persistence is mostly about using that work carefully.</p>
+<table><thead><tr><th>Method</th><th>Purpose</th><th>Key behavior</th></tr></thead><tbody><tr><td>_extract</td><td>Load only new records</td><td>Uses watermark to avoid reprocessing history</td></tr><tr><td>_transform</td><td>Clean and normalize</td><td>Removes duplicates, nulls and outliers</td></tr><tr><td>_enrich</td><td>Add external context</td><td>Merges weather data by hour key</td></tr><tr><td>_load</td><td>Write to warehouse</td><td>UPSERT prevents duplicate inserts</td></tr></tbody></table>
+<h3>Incremental extraction with watermark boundary</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _extract(self, cur):
+        """Г.1.2: Инкрементальная загрузка по watermark"""
+        cur.execute("SELECT COALESCE(MAX(ts), '2000-01-01') FROM dwt.wm")
+        last_ts = cur.fetchone()[0]
+        return pd.read_sql("""
+            SELECT sm.time, vt.name, sm.intensity, sm.avg_speed 
+            FROM stream_metrics sm JOIN vehicle_types vt ON sm.vehicle_type_id = vt.id 
+            WHERE sm.time > %s""", cur.connection, params=(last_ts,))</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">Here the same summary crosses the boundary into a queue. The data is still small, readable and close to the original frame context.</p>
+<p>A watermark is often the quiet hero in this kind of script. It lets the pipeline consume updates at its own pace without teaching the extraction loop about full history replays or manual checkpoint management.</p>
+<h3>Transform stage with quality checks and normalization</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _transform(self, df):
+        """Г.1.4: Контроль качества + нормализация"""
+        if df.empty: return df
+        df = df.drop_duplicates().dropna(subset=["intensity", "avg_speed"])
+        df = df[df["avg_speed"] <= df["avg_speed"].quantile(0.95)]  # отсечение выбросов
+        df["ts"] = pd.to_datetime(df["time"])
+        df["vehicle"] = df["name"].str.lower().str.strip()
+        df["peak"] = df["ts"].dt.hour.isin([7,8,9,17,18,19]).astype(int)
+        return df</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This extra helper is a tutorial-side way to talk about overlay policy without touching the recoverable fragment.</p>
+<p>Once cleanup happens early, later code gets simpler. Dashboards, alerts, and SQL summaries all become easier to read when upstream stages already decided what counts as valid input.</p>
+<h3>Enrichment with external attributes</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _enrich(self, df):
+        """Г.1.1: Обогащение внешними атрибутами"""
+        if df.empty: return df
+        ext = pd.DataFrame({"hour": range(24), "weather": ["clear"]*8 + ["rain"]*8 + ["cloudy"]*8})
+        return df.merge(ext, left_on=df["ts"].dt.hour, right_on="hour", how="left").drop(columns="hour")</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The last block keeps the human-visible overlay and the worker cleanup together because both belong to the end of the frame cycle.</p>
+<p>From a programming perspective, that is the same as centralizing a shared calculation in one reliable place. It prevents every downstream widget from re-implementing the same logic with slightly different assumptions.</p>
+<table><thead><tr><th>Enrichment type</th><th>Source</th><th>Join key</th></tr></thead><tbody><tr><td>Weather conditions</td><td>External DataFrame</td><td>Hour of day</td></tr><tr><td>Peak period flag</td><td>Derived in transform</td><td>Time range check</td></tr><tr><td>Vehicle classification</td><td>Reference table</td><td>Type ID lookup</td></tr></tbody></table>
+<h3>UPSERT load pattern for idempotent writes</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _load(self, cur, df):
+        """Г.1.5: Выгрузка в DWH (UPSERT)"""
+        if df.empty: return 0
+        query = """INSERT INTO dwh.traffic_vitрина(ts, vehicle, intensity, avg_speed, peak, weather)
+                   VALUES(%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING"""
+        psycopg2.extras.execute_batch(cur, query, df[["ts","vehicle","intensity","avg_speed","peak","weather"]].values.tolist())
+        return len(df)</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">This is also why the overlay is worth keeping during development, even if it disappears later in a production run. A compact on-frame summary gives you immediate feedback about whether the numbers being written and queued still match the image on screen.</p>
+<p>The UPSERT pattern makes the process idempotent: repeated runs do not create duplicates and only genuinely new rows are allowed to extend the analytical surface. That behavior mirrors good application design.</p>
+<h3>DAG orchestration with error handling and logging</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def run(self):
+        """Оркестрация DAG: extract → transform → enrich → load"""
+        try:
+            with self._db() as conn, conn.cursor() as cur:
+                df = self._extract(cur)
+                df = self._transform(df)
+                df = self._enrich(df)
+                rows = self._load(cur, df)
+                if rows:
+                    cur.execute("INSERT INTO dwt.log VALUES(NOW(),'success',%s)", (rows,))
+                    cur.execute("INSERT INTO dwt.wm VALUES(NOW())")
+                    conn.commit()
+                logging.info(f"DAG completed | Rows: {rows}")
+                self._report(rows)
+        except Exception as e:
+            logging.error(f"Pipeline failed: {e}")</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The orchestration method chains all stages in sequence and handles both success logging and failure recovery in one place.</p>
+<p>A handler that can be retried safely is easier to support than one that invents extra state every time a timeout or restart gets in the way. The watermark update happens only after successful commit.</p>
+<table><thead><tr><th>Stage</th><th>Action on success</th><th>Action on failure</th></tr></thead><tbody><tr><td>Extract</td><td>DataFrame returned</td><td>Exception logged, transaction rolled back</td></tr><tr><td>Transform</td><td>Clean DataFrame passed forward</td><td>Exception logged, no partial writes</td></tr><tr><td>Load</td><td>Rows committed, watermark updated</td><td>Transaction rolled back automatically</td></tr><tr><td>Audit</td><td>Success logged to dwt.log</td><td>Error logged to console</td></tr></tbody></table>
+<h3>Report generation and scheduler setup</h3>
+<div class="is-dark">
+<pre class="code-box" style="background:#081521;border:1px solid #184c80;color:#d7ebff;padding:22px;line-height:1.7;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(95,158,255,.08)">    def _report(self, rows):
+        rpt = {"dag_steps": ["extract","quality","transform","enrich","load"], "rows_processed": rows, "ts": pd.Timestamp.now().isoformat()}
+        with open("Report_G.json", "w") as f: json.dump(rpt, f, ensure_ascii=False)
+
+# Г.2.2: Расписание запуска
+if __name__ == "__main__":
+    etl = TrafficETL(DB)
+    schedule.every(10).seconds.do(etl.run)
+    print("Module G Orchestrator started")
+    try:
+        while True: schedule.run_pending(); time.sleep(1)
+    except KeyboardInterrupt: print("Graceful shutdown")</pre>
+</div>
+<p style="margin-top:8px;margin-bottom:20px;color:#6f7f92;font-size:13px;">The scheduler runs the pipeline every 10 seconds and supports graceful shutdown on keyboard interrupt.</p>
+<p>Programmers usually feel this immediately. A job with one obvious trigger is simpler to inspect than a workflow that depends on whoever remembered to run it last. The report file provides a machine-readable audit trail.</p>
+<ul><li>Write once from the frame bucket instead of recalculating per consumer.</li><li>Push only the fields the UI really needs into the queue.</li><li>Keep a tiny overlay around during development because it catches wrong assumptions very quickly.</li></ul>
 </div>
 <div class="post-labels">
 <div class="label-head Label">
-<a class="label-link" href="/" rel="tag">DAG2</a>
+<a class="label-link" href="/" rel="tag">Data Pipeline</a>
 </div>
 </div>
 </div>
 <div class="post-footer">
 <ul class="post-nav">
 <li class="post-next">
-<a class="next-post-link" href="/blogs/start-the-workers-once-and-cache-the-first-history-pull/" id="Blog1_blog-pager-newer-link" rel="next">
+<a class="next-post-link" href="/blogs/sketch-a-streamlit-analytics-page-with-filters-before-the-data-arrives/" id="Blog1_blog-pager-newer-link" rel="next">
 <div class="post-nav-inner"><span>Newer</span><p>
-Start the Workers Once and Cache the First History Pull
+Sketch a Streamlit Analytics Page With Filters Before the Data Arrives
 </p></div>
 </a>
 </li>
 <li class="post-prev">
-<a class="prev-post-link" href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/" id="Blog1_blog-pager-older-link" rel="previous">
+<a class="prev-post-link" href="/blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/" id="Blog1_blog-pager-older-link" rel="previous">
 <div class="post-nav-inner"><span>Older</span><p>
-Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL
+Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread
 </p></div>
 </a>
 </li>
@@ -736,7 +809,7 @@ Kate Studio</a>
 <div class="title-wrap">
 <h3>You may like these posts</h3>
 </div>
-<div class="related-ready"><ul class="related-posts"><li class="related-item"><a class="post-image-link" href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/"><img class="post-thumb lazy-yard" alt="" src="./asset-frame-overlay-np4r.png"></a><h2 class="post-title"><a href="/blogs/track-vehicles-frame-by-frame-and-paint-a-calm-overlay-in-pil/">Track Vehicles Frame by Frame and Paint a Calm Overlay in PIL</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/start-the-workers-once-and-cache-the-first-history-pull/"><img class="post-thumb lazy-yard" alt="" src="./asset-cache-snapshot-vt7m.jpeg"></a><h2 class="post-title"><a href="/blogs/start-the-workers-once-and-cache-the-first-history-pull/">Start the Workers Once and Cache the First History Pull</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/"><img class="post-thumb lazy-yard" alt="" src="./asset-panel-vector-mk1q.png"></a><h2 class="post-title"><a href="/blogs/filter-a-streamlit-traffic-dashboard-without-turning-the-layout-into-glue/">Filter a Streamlit Traffic Dashboard Without Turning the Layout Into Glue</a></h2></li></ul></div>
+<div class="related-ready"><ul class="related-posts"><li class="related-item"><a class="post-image-link" href="/blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/"><img class="post-thumb lazy-yard" alt="" src="./asset-detection-buckets-pt4s.jpg"></a><h2 class="post-title"><a href="/blogs/turn-yolo-detections-into-per-frame-motion-buckets-without-losing-the-thread/">Turn YOLO Detections Into Per-Frame Motion Buckets Without Losing the Thread</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/"><img class="post-thumb lazy-yard" alt="" src="./asset-telemetry-window-qd6r.jpg"></a><h2 class="post-title"><a href="/blogs/query-recent-telemetry-and-draw-plotly-views-without-overcomplicating-the-refresh-cycle/">Query Recent Telemetry and Draw Plotly Views Without Overcomplicating the Refresh Cycle</a></h2></li><li class="related-item"><a class="post-image-link" href="/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/"><img class="post-thumb lazy-yard" alt="" src="./asset-runtime-switch-hz2k.jpg"></a><h2 class="post-title"><a href="/blogs/switch-between-live-mode-batch-export-and-safe-shutdown-in-one-python-entry-file/">Switch Between Live Mode, Batch Export, and Safe Shutdown in One Python Entry File</a></h2></li></ul></div>
 </div>
 </div>
 </div>
@@ -1028,6 +1101,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="runtime-code-palette-cx4t.js"></script>
 <script src="/runtime-code-copy-dm7k.js"></script>
 </body></html>
+
 
 
 

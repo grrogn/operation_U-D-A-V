@@ -52,6 +52,9 @@
     dag2: [
       '/blogs/wire-a-dag2-monitoring-sidebar-with-quality-logs-and-runtime-counts/'
     ],
+    streamlit: [
+      '/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby-copy/'
+    ],
     sqlite: [
       '/blogs/shape-a-streamlit-filter-bar-before-the-refresh-loop-starts-rushing/',
       '/blogs/cache-a-small-analytics-window-without-letting-fresh-state-go-missing/',
@@ -97,6 +100,11 @@
         "title": "Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby",
         "url": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/",
         "meta": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby/"
+    },
+    {
+        "title": "Ship Live Metrics Into PostgreSQL, Fan Them Out, and Keep a Debug Overlay Nearby",
+        "url": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby-copy/",
+        "meta": "/blogs/ship-live-metrics-into-postgresql-fan-them-out-and-keep-a-debug-overlay-nearby-copy/"
     },
     {
         "title": "Sketch a Streamlit Analytics Page With Filters Before the Data Arrives",
